@@ -270,14 +270,128 @@ INSERT INTO `system_settings` (`setting_key`, `setting_value`, `description`) VA
 ('max_challenge_days', '60', 'Maximum duration allowed for new challenges'),
 ('default_calorie_target', '2200', 'Default daily calorie burn recommendation');
 
--- 9. ACTIVITY LOGS
-INSERT INTO `activity_logs` (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES
-(1, 'SYSTEM_INIT', 'System database initialized with default configurations', '127.0.0.1', NOW() - INTERVAL 30 DAY),
-(2, 'USER_REGISTER', 'User Adam Sterling registered an account', '192.168.1.101', NOW() - INTERVAL 25 DAY),
-(2, 'LOGIN', 'User Adam Sterling logged in', '192.168.1.101', NOW() - INTERVAL 6 DAY),
-(2, 'WORKOUT_CREATED', 'Added Running session: 45 min, 420 kcal', '192.168.1.101', NOW() - INTERVAL 6 DAY),
-(2, 'CHALLENGE_JOINED', 'Joined 30-Day Running Challenge', '192.168.1.101', NOW() - INTERVAL 18 DAY),
-(3, 'CONTENT_SUBMITTED', 'Submitted article: Post-Workout Mobility Flow', '192.168.1.105', NOW() - INTERVAL 7 DAY),
-(1, 'CONTENT_APPROVED', 'Approved article ID 2: Post-Workout Mobility Flow', '127.0.0.1', NOW() - INTERVAL 7 DAY),
-(2, 'GOAL_UPDATED', 'Updated progress on Run 50 KM: 32 / 50 KM (64%)', '192.168.1.101', NOW() - INTERVAL 1 DAY),
-(2, 'LOGIN', 'User Adam Sterling logged in', '192.168.1.101', NOW() - INTERVAL 2 HOUR);
+-- --------------------------------------------------------------------
+-- 10. NUTRITION PROFILES TABLE
+-- --------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `nutrition_profiles` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL UNIQUE,
+    `age` INT NOT NULL,
+    `sex` ENUM('MALE', 'FEMALE') NOT NULL DEFAULT 'MALE',
+    `height_cm` DECIMAL(5,2) NOT NULL,
+    `weight_kg` DECIMAL(5,2) NOT NULL,
+    `activity_level` ENUM('SEDENTARY', 'LIGHTLY_ACTIVE', 'MODERATELY_ACTIVE', 'VERY_ACTIVE', 'EXTREMELY_ACTIVE') NOT NULL DEFAULT 'MODERATELY_ACTIVE',
+    `fitness_goal` ENUM('CUTTING', 'MAINTENANCE', 'BULKING') NOT NULL DEFAULT 'MAINTENANCE',
+    `diet_type` ENUM('VEGETARIAN', 'NON_VEGETARIAN', 'VEGAN', 'EGGETARIAN') NOT NULL DEFAULT 'NON_VEGETARIAN',
+    `meals_per_day` INT NOT NULL DEFAULT 4,
+    `food_exclusions` TEXT DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_np_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 11. NUTRITION TARGETS TABLE
+-- --------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `nutrition_targets` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL UNIQUE,
+    `daily_calories` INT NOT NULL,
+    `protein_grams` INT NOT NULL,
+    `carbs_grams` INT NOT NULL,
+    `fat_grams` INT NOT NULL,
+    `bmr` INT NOT NULL,
+    `tdee` INT NOT NULL,
+    `bmi` DECIMAL(4,1) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_nt_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 12. MEAL PLANS TABLE
+-- --------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `meal_plans` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `plan_date` DATE NOT NULL,
+    `meal_count` INT NOT NULL DEFAULT 4,
+    `daily_calories` INT NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_mp_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+    INDEX `idx_mp_user_date` (`user_id`, `plan_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 13. MEAL PLAN ITEMS TABLE
+-- --------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `meal_plan_items` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `meal_plan_id` INT NOT NULL,
+    `meal_type` ENUM('BREAKFAST', 'MID_MORNING_SNACK', 'LUNCH', 'EVENING_SNACK', 'DINNER', 'POST_WORKOUT') NOT NULL,
+    `meal_name` VARCHAR(150) NOT NULL,
+    `food_items` TEXT NOT NULL,
+    `calories` INT NOT NULL,
+    `protein_grams` INT NOT NULL,
+    `carbs_grams` INT NOT NULL,
+    `fat_grams` INT NOT NULL,
+    CONSTRAINT `fk_mpi_plan` FOREIGN KEY (`meal_plan_id`) REFERENCES `meal_plans`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 14. NUTRITION LOGS TABLE
+-- --------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `nutrition_logs` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `log_date` DATE NOT NULL,
+    `meal_type` ENUM('BREAKFAST', 'MID_MORNING_SNACK', 'LUNCH', 'EVENING_SNACK', 'DINNER', 'POST_WORKOUT', 'OTHER') NOT NULL,
+    `food_name` VARCHAR(150) NOT NULL,
+    `calories` INT NOT NULL,
+    `protein_grams` INT NOT NULL DEFAULT 0,
+    `carbs_grams` INT NOT NULL DEFAULT 0,
+    `fat_grams` INT NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_nl_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+    INDEX `idx_nl_user_date` (`user_id`, `log_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 15. WATER LOGS TABLE
+-- --------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `water_logs` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `log_date` DATE NOT NULL,
+    `amount_liters` DECIMAL(4,2) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_wl_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+    INDEX `idx_wl_user_date` (`user_id`, `log_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 10. SAMPLE NUTRITION SEEDS
+-- --------------------------------------------------------------------
+INSERT INTO `nutrition_profiles` (`user_id`, `age`, `sex`, `height_cm`, `weight_kg`, `activity_level`, `fitness_goal`, `diet_type`, `meals_per_day`, `food_exclusions`) VALUES
+(2, 28, 'MALE', 178.00, 74.00, 'VERY_ACTIVE', 'CUTTING', 'NON_VEGETARIAN', 4, 'No peanuts');
+
+INSERT INTO `nutrition_targets` (`user_id`, `daily_calories`, `protein_grams`, `carbs_grams`, `fat_grams`, `bmr`, `tdee`, `bmi`) VALUES
+(2, 2350, 145, 250, 70, 1720, 2750, 23.4);
+
+INSERT INTO `meal_plans` (`id`, `user_id`, `plan_date`, `meal_count`, `daily_calories`) VALUES
+(1, 2, CURDATE(), 4, 2350);
+
+INSERT INTO `meal_plan_items` (`meal_plan_id`, `meal_type`, `meal_name`, `food_items`, `calories`, `protein_grams`, `carbs_grams`, `fat_grams`) VALUES
+(1, 'BREAKFAST', 'Oatmeal Power Bowl with Berries', 'Rolled oats 80g, Skim milk 250ml, Banana 1 medium, Whey protein scoop, Chia seeds 10g', 520, 35, 75, 10),
+(1, 'LUNCH', 'Grilled Chicken & Quinoa Salad', 'Chicken breast 180g, Quinoa 150g, Mixed greens, Cherry tomatoes, Olive oil dressing', 680, 48, 62, 18),
+(1, 'EVENING_SNACK', 'Greek Yogurt with Almonds & Honey', 'Greek yogurt (0%) 200g, Raw almonds 20g, Honey 1 tsp', 340, 22, 28, 14),
+(1, 'DINNER', 'Baked Salmon with Sweet Potato & Asparagus', 'Wild salmon fillet 170g, Sweet potato 200g, Steamed asparagus, Steamed brown rice', 610, 40, 65, 17);
+
+INSERT INTO `nutrition_logs` (`user_id`, `log_date`, `meal_type`, `food_name`, `calories`, `protein_grams`, `carbs_grams`, `fat_grams`) VALUES
+(2, CURDATE(), 'BREAKFAST', 'Oatmeal Power Bowl with Berries', 520, 35, 75, 10),
+(2, CURDATE(), 'LUNCH', 'Grilled Chicken & Quinoa Salad', 680, 48, 62, 18),
+(2, CURDATE(), 'EVENING_SNACK', 'Protein Shake & Banana', 310, 27, 35, 4);
+
+INSERT INTO `water_logs` (`user_id`, `log_date`, `amount_liters`) VALUES
+(2, CURDATE(), 2.40);
+

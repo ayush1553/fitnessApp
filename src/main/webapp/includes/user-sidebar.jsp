@@ -34,6 +34,11 @@
             <span>Goals</span>
         </a>
 
+        <a href="${pageContext.request.contextPath}/user/nutrition" class="nav-item-link ${activePage == 'nutrition' ? 'active' : ''}">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Nutrition</span>
+        </a>
+
         <a href="${pageContext.request.contextPath}/user/challenges" class="nav-item-link ${activePage == 'challenges' ? 'active' : ''}">
             <i class="fa-solid fa-trophy"></i>
             <span>Challenges</span>
