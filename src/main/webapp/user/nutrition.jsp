@@ -83,11 +83,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label-custom">Height (cm)</label>
-                                                <input type="number" step="0.1" name="heightCm" class="form-control-custom" value="${not empty userProfile.height ? userProfile.height : 175.0}" min="50" max="280" required>
+                                                <input type="number" step="0.1" name="heightCm" class="form-control-custom" value="${not empty userProfile.heightCm ? userProfile.heightCm : 175.0}" min="50" max="280" required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label-custom">Weight (kg)</label>
-                                                <input type="number" step="0.1" name="weightKg" class="form-control-custom" value="${not empty userProfile.weight ? userProfile.weight : 75.0}" min="20" max="400" required>
+                                                <input type="number" step="0.1" name="weightKg" class="form-control-custom" value="${not empty userProfile.weightKg ? userProfile.weightKg : 75.0}" min="20" max="400" required>
                                             </div>
                                         </div>
 

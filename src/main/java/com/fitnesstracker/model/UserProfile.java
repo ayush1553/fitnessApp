@@ -76,11 +76,19 @@ public class UserProfile extends BaseEntity {
         return heightCm;
     }
 
+    public BigDecimal getHeight() {
+        return heightCm;
+    }
+
     public void setHeightCm(BigDecimal heightCm) {
         this.heightCm = heightCm;
     }
 
     public BigDecimal getWeightKg() {
+        return weightKg;
+    }
+
+    public BigDecimal getWeight() {
         return weightKg;
     }
 
