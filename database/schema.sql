@@ -114,6 +114,7 @@ CREATE TABLE `challenges` (
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `status` ENUM('UPCOMING', 'ACTIVE', 'COMPLETED', 'ARCHIVED') NOT NULL DEFAULT 'ACTIVE',
+    `image_url` VARCHAR(500) DEFAULT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX `idx_challenges_status` (`status`),
@@ -239,11 +240,11 @@ INSERT INTO `goals` (`user_id`, `title`, `description`, `target_value`, `current
 (4, 'Bench Press 100kg Target', 'Progressive overload training target', 100.00, 95.00, 'KG', CURDATE() + INTERVAL 30 DAY, 'IN_PROGRESS');
 
 -- 5. CHALLENGES
-INSERT INTO `challenges` (`id`, `title`, `description`, `category`, `target_value`, `unit`, `start_date`, `end_date`, `status`) VALUES
-(1, '30-Day Running Challenge', 'Push your stamina to the limit! Complete 50 kilometers of running in 30 days.', 'Cardio', 50.00, 'KM', CURDATE() - INTERVAL 18 DAY, CURDATE() + INTERVAL 12 DAY, 'ACTIVE'),
-(2, 'Calorie Crusher 15,000', 'Torch 15,000 active calories across any workout category during the month.', 'Endurance', 15000.00, 'kcal', CURDATE() - INTERVAL 10 DAY, CURDATE() + INTERVAL 20 DAY, 'ACTIVE'),
-(3, 'Summer Century Ride', 'Conquer 100 kilometers of cycling outdoors or on stationary bikes.', 'Cycling', 100.00, 'KM', CURDATE() - INTERVAL 5 DAY, CURDATE() + INTERVAL 25 DAY, 'ACTIVE'),
-(4, 'Core & Strength Sprint', 'Log 25 comprehensive strength or gym sessions in 4 weeks.', 'Strength', 25.00, 'Sessions', CURDATE() + INTERVAL 5 DAY, CURDATE() + INTERVAL 35 DAY, 'UPCOMING');
+INSERT INTO `challenges` (`id`, `title`, `description`, `category`, `target_value`, `unit`, `start_date`, `end_date`, `status`, `image_url`) VALUES
+(1, '30-Day Running Challenge', 'Push your stamina to the limit! Complete 50 kilometers of running in 30 days.', 'Cardio', 50.00, 'KM', CURDATE() - INTERVAL 18 DAY, CURDATE() + INTERVAL 12 DAY, 'ACTIVE', 'assets/images/challenges/running.jpg'),
+(2, 'Calorie Crusher 15,000', 'Torch 15,000 active calories across any workout category during the month.', 'Endurance', 15000.00, 'kcal', CURDATE() - INTERVAL 10 DAY, CURDATE() + INTERVAL 20 DAY, 'ACTIVE', 'assets/images/challenges/hiit.jpg'),
+(3, 'Summer Century Ride', 'Conquer 100 kilometers of cycling outdoors or on stationary bikes.', 'Cycling', 100.00, 'KM', CURDATE() - INTERVAL 5 DAY, CURDATE() + INTERVAL 25 DAY, 'ACTIVE', 'assets/images/challenges/cycling.jpg'),
+(4, 'Core & Strength Sprint', 'Log 25 comprehensive strength or gym sessions in 4 weeks.', 'Strength', 25.00, 'Sessions', CURDATE() + INTERVAL 5 DAY, CURDATE() + INTERVAL 35 DAY, 'UPCOMING', 'assets/images/challenges/strength.jpg');
 
 -- 6. CHALLENGE PARTICIPANTS
 INSERT INTO `challenge_participants` (`user_id`, `challenge_id`, `progress`, `status`, `joined_date`, `completed_date`) VALUES

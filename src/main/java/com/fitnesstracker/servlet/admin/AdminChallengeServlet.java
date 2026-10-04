@@ -60,8 +60,9 @@ public class AdminChallengeServlet extends HttpServlet {
                 String unit = req.getParameter("unit");
                 Date startDate = DateUtil.parseSqlDate(req.getParameter("startDate"));
                 Date endDate = DateUtil.parseSqlDate(req.getParameter("endDate"));
+                String imageUrl = req.getParameter("imageUrl");
 
-                challengeService.createChallenge(title, description, category, BigDecimal.valueOf(target), unit, startDate, endDate);
+                challengeService.createChallenge(title, description, category, BigDecimal.valueOf(target), unit, startDate, endDate, imageUrl);
                 activityLogService.logActivity(admin.getId(), "CHALLENGE_CREATED", "Created challenge: " + title, req.getRemoteAddr());
                 session.setAttribute("flashMessage", FlashMessage.success("New challenge published successfully!"));
             } else if ("/admin-actions/challenge/update".equals(path)) {
@@ -74,8 +75,9 @@ public class AdminChallengeServlet extends HttpServlet {
                 Date startDate = DateUtil.parseSqlDate(req.getParameter("startDate"));
                 Date endDate = DateUtil.parseSqlDate(req.getParameter("endDate"));
                 String status = req.getParameter("status");
+                String imageUrl = req.getParameter("imageUrl");
 
-                challengeService.updateChallenge(challengeId, title, description, category, BigDecimal.valueOf(target), unit, startDate, endDate, status);
+                challengeService.updateChallenge(challengeId, title, description, category, BigDecimal.valueOf(target), unit, startDate, endDate, status, imageUrl);
                 activityLogService.logActivity(admin.getId(), "CHALLENGE_UPDATED", "Updated challenge ID: " + challengeId, req.getRemoteAddr());
                 session.setAttribute("flashMessage", FlashMessage.success("Challenge updated successfully!"));
             } else if ("/admin-actions/challenge/status".equals(path)) {

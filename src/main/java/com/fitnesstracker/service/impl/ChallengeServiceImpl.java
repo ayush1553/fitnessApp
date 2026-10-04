@@ -34,6 +34,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     public Challenge createChallenge(String title, String description, String category, BigDecimal targetValue, String unit, Date startDate, Date endDate) {
+        return createChallenge(title, description, category, targetValue, unit, startDate, endDate, null);
+    }
+
+    @Override
+    public Challenge createChallenge(String title, String description, String category, BigDecimal targetValue, String unit, Date startDate, Date endDate, String imageUrl) {
         if (!ValidationUtil.isNotEmpty(title)) {
             throw new AppException("Challenge title is required.");
         }
@@ -56,12 +61,18 @@ public class ChallengeServiceImpl implements ChallengeService {
         c.setStartDate(startDate);
         c.setEndDate(endDate);
         c.setStatus("ACTIVE");
+        c.setImageUrl(ValidationUtil.isNotEmpty(imageUrl) ? imageUrl.trim() : null);
 
         return challengeDAO.save(c);
     }
 
     @Override
     public boolean updateChallenge(Integer challengeId, String title, String description, String category, BigDecimal targetValue, String unit, Date startDate, Date endDate, String status) {
+        return updateChallenge(challengeId, title, description, category, targetValue, unit, startDate, endDate, status, null);
+    }
+
+    @Override
+    public boolean updateChallenge(Integer challengeId, String title, String description, String category, BigDecimal targetValue, String unit, Date startDate, Date endDate, String status, String imageUrl) {
         Optional<Challenge> opt = challengeDAO.findById(challengeId);
         if (opt.isEmpty()) {
             throw new AppException("Challenge not found.");
@@ -76,6 +87,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         if (startDate != null) c.setStartDate(startDate);
         if (endDate != null) c.setEndDate(endDate);
         if (ValidationUtil.isNotEmpty(status)) c.setStatus(status.trim());
+        if (ValidationUtil.isNotEmpty(imageUrl)) c.setImageUrl(imageUrl.trim());
 
         return challengeDAO.update(c);
     }

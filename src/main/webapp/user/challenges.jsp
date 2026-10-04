@@ -35,85 +35,101 @@
                     <c:when test="${not empty challenges}">
                         <c:forEach var="c" items="${challenges}">
                             <div class="col-lg-6">
-                                <div class="fitness-card h-100 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <span class="badge-custom badge-active">${c.category}</span>
-                                            <span class="text-muted" style="font-size: 0.8rem;">
-                                                <i class="fa-solid fa-users me-1"></i> ${c.participantCount} Participants
+                                <div class="challenge-card-rich">
+                                    <!-- Fitness Photograph Header -->
+                                    <div class="challenge-card-image">
+                                        <img src="${pageContext.request.contextPath}/${c.imageUrl}"
+                                             alt="${c.imageAltText}"
+                                             loading="lazy"
+                                             onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/challenges/running.jpg';">
+                                        <div class="challenge-image-overlay">
+                                            <span class="badge-custom badge-active fw-bold" style="font-size: 0.78rem;">
+                                                <i class="fa-solid fa-layer-group me-1"></i> ${c.category}
+                                            </span>
+                                            <span class="badge rounded-pill" style="background: rgba(8, 9, 9, 0.75); backdrop-filter: blur(6px); color: #fff; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.15);">
+                                                <i class="fa-solid fa-users me-1 text-accent"></i> ${c.participantCount} Joined
                                             </span>
                                         </div>
-
-                                        <h4 class="text-white fw-bold mb-2">${c.title}</h4>
-                                        <p class="text-secondary mb-3" style="font-size: 0.85rem;">
-                                            ${c.description}
-                                        </p>
-
-                                        <!-- Target Highlight -->
-                                        <div class="p-3 mb-3 rounded-3 d-flex justify-content-between align-items-center"
-                                             style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
-                                            <div>
-                                                <small class="text-secondary d-block" style="font-size: 0.75rem;">Challenge Target</small>
-                                                <span class="fw-bold text-white fs-5"><fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}</span>
-                                            </div>
-                                            <div class="text-end">
-                                                <small class="text-secondary d-block" style="font-size: 0.75rem;">Timeline</small>
-                                                <span class="fw-semibold text-white" style="font-size: 0.85rem;">
-                                                    <fmt:formatDate value="${c.startDate}" pattern="MMM d"/> – <fmt:formatDate value="${c.endDate}" pattern="MMM d, yyyy"/>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Enrolled User Progress Bar -->
-                                        <c:if test="${c.userJoined}">
-                                            <div class="mb-3">
-                                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                                    <span class="text-white fw-bold" style="font-size: 0.85rem;">
-                                                        Your Progress: <fmt:formatNumber value="${c.userParticipation.progress}" pattern="#,##0.#"/> / <fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}
-                                                    </span>
-                                                    <span class="fw-bold" style="color: var(--accent-primary); font-size: 0.85rem;">
-                                                        ${c.userParticipation.progressPercentage}%
-                                                    </span>
-                                                </div>
-                                                <div class="progress-custom">
-                                                    <div class="progress-bar-custom" style="width: ${c.userParticipation.progressPercentage}%;"></div>
-                                                </div>
-                                            </div>
-                                        </c:if>
                                     </div>
 
-                                    <!-- Bottom Action Bar -->
-                                    <div class="d-flex justify-content-between align-items-center pt-3 border-top" style="border-color: var(--border-color) !important;">
-                                        <span class="text-muted" style="font-size: 0.8rem;">
-                                            <i class="fa-regular fa-clock me-1 text-accent"></i>
-                                            <c:choose>
-                                                <c:when test="${c.expired}">Ended</c:when>
-                                                <c:otherwise>${c.daysRemaining} days remaining</c:otherwise>
-                                            </c:choose>
-                                        </span>
+                                    <!-- Challenge Content Body -->
+                                    <div class="challenge-card-body">
+                                        <div>
+                                            <h4 class="text-white fw-bold mb-2">${c.title}</h4>
+                                            <p class="text-secondary mb-3" style="font-size: 0.88rem; line-height: 1.45;">
+                                                ${c.description}
+                                            </p>
 
-                                        <c:choose>
-                                            <c:when test="${c.userJoined}">
-                                                <div class="d-flex gap-2">
-                                                    <button type="button" class="btn btn-sm btn-accent"
-                                                            onclick="openChallengeProgressModal('${c.userParticipation.id}', '${c.title}', '${c.userParticipation.progress}', '${c.targetValue}', '${c.unit}')">
-                                                        <i class="fa-solid fa-plus"></i> Update Progress
-                                                    </button>
-                                                    <form action="${pageContext.request.contextPath}/challenge/leave" method="POST" onsubmit="return confirm('Leave this challenge? Your current progress will be reset.');">
-                                                        <input type="hidden" name="participantId" value="${c.userParticipation.id}">
-                                                        <button type="submit" class="btn btn-sm btn-danger-custom">Leave</button>
-                                                    </form>
+                                            <!-- Target & Timeline Box -->
+                                            <div class="challenge-target-box">
+                                                <div>
+                                                    <small class="text-secondary d-block" style="font-size: 0.75rem;">Challenge Target</small>
+                                                    <span class="fw-bold fs-5" style="color: var(--accent-primary);">
+                                                        <fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}
+                                                    </span>
                                                 </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <form action="${pageContext.request.contextPath}/challenge/join" method="POST">
-                                                    <input type="hidden" name="challengeId" value="${c.id}">
-                                                    <button type="submit" class="btn-accent" ${c.expired ? 'disabled' : ''}>
-                                                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Join Challenge
-                                                    </button>
-                                                </form>
-                                            </c:otherwise>
-                                        </c:choose>
+                                                <div class="text-end">
+                                                    <small class="text-secondary d-block" style="font-size: 0.75rem;">Timeline</small>
+                                                    <span class="fw-semibold text-white" style="font-size: 0.85rem;">
+                                                        <fmt:formatDate value="${c.startDate}" pattern="MMM d"/> – <fmt:formatDate value="${c.endDate}" pattern="MMM d, yyyy"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Enrolled User Progress Bar -->
+                                            <c:if test="${c.userJoined}">
+                                                <div class="mb-3 p-3 rounded-3" style="background-color: rgba(200, 255, 69, 0.05); border: 1px solid rgba(200, 255, 69, 0.15);">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <span class="text-white fw-bold" style="font-size: 0.85rem;">
+                                                            Your Progress: <fmt:formatNumber value="${c.userParticipation.progress}" pattern="#,##0.#"/> / <fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}
+                                                        </span>
+                                                        <span class="fw-bold" style="color: var(--accent-primary); font-size: 0.9rem;">
+                                                            ${c.userParticipation.progressPercentage}%
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-custom mb-1">
+                                                        <div class="progress-bar-custom" style="width: ${c.userParticipation.progressPercentage}%;"></div>
+                                                    </div>
+                                                    <small class="text-muted" style="font-size: 0.72rem;">
+                                                        <i class="fa-solid fa-bolt text-accent me-1"></i> Keep logging your activities to achieve this milestone.
+                                                    </small>
+                                                </div>
+                                            </c:if>
+                                        </div>
+
+                                        <!-- Bottom Action Bar -->
+                                        <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-2" style="border-color: var(--border-color) !important;">
+                                            <span class="text-muted" style="font-size: 0.8rem;">
+                                                <i class="fa-regular fa-clock me-1 text-accent"></i>
+                                                <c:choose>
+                                                    <c:when test="${c.expired}">Ended</c:when>
+                                                    <c:otherwise>${c.daysRemaining} days remaining</c:otherwise>
+                                                </c:choose>
+                                            </span>
+
+                                            <c:choose>
+                                                <c:when test="${c.userJoined}">
+                                                    <div class="d-flex gap-2">
+                                                        <button type="button" class="btn btn-sm btn-accent"
+                                                                onclick="openChallengeProgressModal('${c.userParticipation.id}', '${c.title}', '${c.userParticipation.progress}', '${c.targetValue}', '${c.unit}')">
+                                                            <i class="fa-solid fa-plus"></i> Update Progress
+                                                        </button>
+                                                        <form action="${pageContext.request.contextPath}/challenge/leave" method="POST" onsubmit="return confirm('Leave this challenge? Your current progress will be reset.');">
+                                                            <input type="hidden" name="participantId" value="${c.userParticipation.id}">
+                                                            <button type="submit" class="btn btn-sm btn-danger-custom">Leave</button>
+                                                        </form>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <form action="${pageContext.request.contextPath}/challenge/join" method="POST">
+                                                        <input type="hidden" name="challengeId" value="${c.id}">
+                                                        <button type="submit" class="btn-accent" ${c.expired ? 'disabled' : ''}>
+                                                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Join Challenge
+                                                        </button>
+                                                    </form>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -13,6 +13,30 @@ import java.util.Optional;
 
 public class ChallengeDAOImpl implements ChallengeDAO {
 
+    static {
+        ensureSchema();
+    }
+
+    private static void ensureSchema() {
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement()) {
+            // Check if column exists, if not add it
+            DatabaseMetaData meta = conn.getMetaData();
+            try (ResultSet rs = meta.getColumns(null, null, "challenges", "image_url")) {
+                if (!rs.next()) {
+                    stmt.executeUpdate("ALTER TABLE challenges ADD COLUMN image_url VARCHAR(500) NULL AFTER status");
+                }
+            }
+            // Seed image URLs for default challenges if null
+            stmt.executeUpdate("UPDATE challenges SET image_url = 'assets/images/challenges/running.jpg' WHERE id = 1 AND (image_url IS NULL OR image_url = '')");
+            stmt.executeUpdate("UPDATE challenges SET image_url = 'assets/images/challenges/hiit.jpg' WHERE id = 2 AND (image_url IS NULL OR image_url = '')");
+            stmt.executeUpdate("UPDATE challenges SET image_url = 'assets/images/challenges/cycling.jpg' WHERE id = 3 AND (image_url IS NULL OR image_url = '')");
+            stmt.executeUpdate("UPDATE challenges SET image_url = 'assets/images/challenges/strength.jpg' WHERE id = 4 AND (image_url IS NULL OR image_url = '')");
+        } catch (Exception ignored) {
+            // Ignored if DB is initializing or permissions differ
+        }
+    }
+
     private Challenge mapRow(ResultSet rs) throws SQLException {
         Challenge c = new Challenge();
         c.setId(rs.getInt("id"));
@@ -24,6 +48,11 @@ public class ChallengeDAOImpl implements ChallengeDAO {
         c.setStartDate(rs.getDate("start_date"));
         c.setEndDate(rs.getDate("end_date"));
         c.setStatus(rs.getString("status"));
+        try {
+            c.setImageUrl(rs.getString("image_url"));
+        } catch (SQLException e) {
+            // Column might not exist in older schema
+        }
         c.setCreatedAt(rs.getTimestamp("created_at"));
         c.setUpdatedAt(rs.getTimestamp("updated_at"));
         return c;
@@ -31,8 +60,8 @@ public class ChallengeDAOImpl implements ChallengeDAO {
 
     @Override
     public Challenge save(Challenge c) {
-        String sql = "INSERT INTO challenges (title, description, category, target_value, unit, start_date, end_date, status) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO challenges (title, description, category, target_value, unit, start_date, end_date, status, image_url) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, c.getTitle());
@@ -43,6 +72,7 @@ public class ChallengeDAOImpl implements ChallengeDAO {
             ps.setDate(6, c.getStartDate());
             ps.setDate(7, c.getEndDate());
             ps.setString(8, c.getStatus() != null ? c.getStatus() : "ACTIVE");
+            ps.setString(9, c.getImageUrl());
 
             int affected = ps.executeUpdate();
             if (affected > 0) {
@@ -59,7 +89,7 @@ public class ChallengeDAOImpl implements ChallengeDAO {
     @Override
     public boolean update(Challenge c) {
         String sql = "UPDATE challenges SET title = ?, description = ?, category = ?, target_value = ?, " +
-                     "unit = ?, start_date = ?, end_date = ?, status = ? WHERE id = ?";
+                     "unit = ?, start_date = ?, end_date = ?, status = ?, image_url = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, c.getTitle());
@@ -70,7 +100,8 @@ public class ChallengeDAOImpl implements ChallengeDAO {
             ps.setDate(6, c.getStartDate());
             ps.setDate(7, c.getEndDate());
             ps.setString(8, c.getStatus());
-            ps.setInt(9, c.getId());
+            ps.setString(9, c.getImageUrl());
+            ps.setInt(10, c.getId());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

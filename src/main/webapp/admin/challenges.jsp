@@ -48,10 +48,18 @@
                             <c:forEach var="c" items="${challenges}">
                                 <tr>
                                     <td>
-                                        <div class="text-white fw-bold">${c.title}</div>
-                                        <small class="text-muted" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
-                                            ${c.description}
-                                        </small>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="${pageContext.request.contextPath}/${c.imageUrl}" 
+                                                 alt="${c.title}" 
+                                                 style="width: 48px; height: 36px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);"
+                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/challenges/running.jpg';">
+                                            <div>
+                                                <div class="text-white fw-bold">${c.title}</div>
+                                                <small class="text-muted" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
+                                                    ${c.description}
+                                                </small>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td><span class="badge-custom badge-active">${c.category}</span></td>
                                     <td class="fw-bold" style="color: var(--accent-primary);"><fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}</td>
@@ -151,6 +159,22 @@
                         <div class="col-md-6">
                             <label class="form-label-custom">End Date</label>
                             <input type="date" name="endDate" class="form-control-custom" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label-custom">Challenge Photograph Preset / Image Path</label>
+                            <select name="imageUrl" class="form-control-custom">
+                                <option value="assets/images/challenges/running.jpg">Running - 30-Day Trail & Track Runner</option>
+                                <option value="assets/images/challenges/hiit.jpg">HIIT / Endurance - Intense Battle Ropes & Calorie Burn</option>
+                                <option value="assets/images/challenges/cycling.jpg">Cycling - Century Scenic Road Ride</option>
+                                <option value="assets/images/challenges/strength.jpg">Strength Training - Weights & Gym</option>
+                                <option value="assets/images/challenges/swimming.jpg">Swimming - Olympic Pool Aquatic Endurance</option>
+                                <option value="assets/images/challenges/yoga.jpg">Yoga & Mindfulness - Studio Flow</option>
+                                <option value="assets/images/challenges/walking.jpg">Walking & Daily Steps - Outdoor Trail</option>
+                                <option value="assets/images/challenges/core.jpg">Core & Abs - Plank & Functional Strength</option>
+                                <option value="assets/images/challenges/flexibility.jpg">Flexibility & Recovery - Stretching</option>
+                                <option value="assets/images/challenges/full-body.jpg">Full Body Conditioning - Kettlebells & Power</option>
+                            </select>
+                            <small class="text-muted" style="font-size: 0.72rem;">Select high-resolution studio photography asset to visually represent this challenge.</small>
                         </div>
                     </div>
                 </div>

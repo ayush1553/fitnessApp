@@ -657,3 +657,86 @@
     font-weight: 600;
 }
 
+/* ====================================================================
+   IMAGE-RICH CHALLENGE CARDS
+   ==================================================================== */
+.challenge-card-rich {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+.challenge-card-rich:hover {
+    transform: translateY(-4px);
+    border-color: rgba(200, 255, 69, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.challenge-card-image {
+    width: 100%;
+    height: 210px;
+    position: relative;
+    overflow: hidden;
+    background-color: #121513;
+}
+@media (max-width: 576px) {
+    .challenge-card-image {
+        height: 175px;
+    }
+}
+.challenge-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.challenge-card-rich:hover .challenge-card-image img {
+    transform: scale(1.06);
+}
+
+.challenge-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(8, 9, 9, 0.2) 0%, rgba(8, 9, 9, 0.1) 40%, rgba(21, 24, 23, 0.95) 100%);
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.challenge-card-body {
+    padding: 1.35rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.challenge-meta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.challenge-target-box {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1.15rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.15rem;
+}
+
+
