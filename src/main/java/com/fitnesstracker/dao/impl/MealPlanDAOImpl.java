@@ -46,10 +46,12 @@ public class MealPlanDAOImpl implements MealPlanDAO {
 
     @Override
     public MealPlan save(MealPlan plan) {
-        String sqlPlan = "INSERT INTO meal_plans (user_id, profile_id, plan_name, total_calories, total_protein_g, " +
-                         "total_carbs_g, total_fat_g, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        String sqlItem = "INSERT INTO meal_plan_items (meal_plan_id, meal_number, meal_name, food_items, calories, " +
-                         "protein_g, carbs_g, fat_g, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlPlan = "INSERT INTO meal_plans (user_id, profile_id, plan_name, total_calories, daily_calories, " +
+                         "total_protein_g, total_carbs_g, total_fat_g, is_active, plan_date) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE)";
+        String sqlItem = "INSERT INTO meal_plan_items (meal_plan_id, meal_number, meal_type, meal_name, food_items, " +
+                         "calories, protein_g, protein_grams, carbs_g, carbs_grams, fat_g, fat_grams, notes) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = null;
         try {
@@ -70,10 +72,11 @@ public class MealPlanDAOImpl implements MealPlanDAO {
                 ps.setInt(2, plan.getProfileId());
                 ps.setString(3, plan.getPlanName());
                 ps.setInt(4, plan.getTotalCalories());
-                ps.setInt(5, plan.getTotalProteinG());
-                ps.setInt(6, plan.getTotalCarbsG());
-                ps.setInt(7, plan.getTotalFatG());
-                ps.setBoolean(8, plan.isActive());
+                ps.setInt(5, plan.getTotalCalories());
+                ps.setInt(6, plan.getTotalProteinG());
+                ps.setInt(7, plan.getTotalCarbsG());
+                ps.setInt(8, plan.getTotalFatG());
+                ps.setBoolean(9, plan.isActive());
 
                 ps.executeUpdate();
                 try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -89,13 +92,17 @@ public class MealPlanDAOImpl implements MealPlanDAO {
                         item.setMealPlanId(plan.getId());
                         psItem.setInt(1, item.getMealPlanId());
                         psItem.setInt(2, item.getMealNumber());
-                        psItem.setString(3, item.getMealName());
-                        psItem.setString(4, item.getFoodItems());
-                        psItem.setInt(5, item.getCalories());
-                        psItem.setInt(6, item.getProteinG());
-                        psItem.setInt(7, item.getCarbsG());
-                        psItem.setInt(8, item.getFatG());
-                        psItem.setString(9, item.getNotes());
+                        psItem.setString(3, item.getMealName().toUpperCase().replace(" ", "_"));
+                        psItem.setString(4, item.getMealName());
+                        psItem.setString(5, item.getFoodItems());
+                        psItem.setInt(6, item.getCalories());
+                        psItem.setInt(7, item.getProteinG());
+                        psItem.setInt(8, item.getProteinG());
+                        psItem.setInt(9, item.getCarbsG());
+                        psItem.setInt(10, item.getCarbsG());
+                        psItem.setInt(11, item.getFatG());
+                        psItem.setInt(12, item.getFatG());
+                        psItem.setString(13, item.getNotes());
                         psItem.addBatch();
                     }
                     psItem.executeBatch();
@@ -108,7 +115,7 @@ public class MealPlanDAOImpl implements MealPlanDAO {
             if (conn != null) {
                 try { conn.rollback(); } catch (SQLException ignored) {}
             }
-            throw new DatabaseException("Error saving meal plan", e);
+            throw new DatabaseException("Error saving meal plan: " + e.getMessage(), e);
         } finally {
             if (conn != null) {
                 try {

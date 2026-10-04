@@ -54,11 +54,11 @@ public class NutritionDAOImpl implements NutritionDAO {
     @Override
     public NutritionProfile saveProfile(NutritionProfile profile) {
         String sql = "INSERT INTO nutrition_profiles (user_id, age, sex, height_cm, weight_kg, activity_level, " +
-                     "fitness_goal, diet_preference, food_exclusions, meals_per_day, bmr, tdee) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                     "fitness_goal, diet_preference, diet_type, food_exclusions, meals_per_day, bmr, tdee) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                      "ON DUPLICATE KEY UPDATE age=VALUES(age), sex=VALUES(sex), height_cm=VALUES(height_cm), " +
                      "weight_kg=VALUES(weight_kg), activity_level=VALUES(activity_level), fitness_goal=VALUES(fitness_goal), " +
-                     "diet_preference=VALUES(diet_preference), food_exclusions=VALUES(food_exclusions), " +
+                     "diet_preference=VALUES(diet_preference), diet_type=VALUES(diet_type), food_exclusions=VALUES(food_exclusions), " +
                      "meals_per_day=VALUES(meals_per_day), bmr=VALUES(bmr), tdee=VALUES(tdee), updated_at=CURRENT_TIMESTAMP";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -70,10 +70,11 @@ public class NutritionDAOImpl implements NutritionDAO {
             ps.setString(6, profile.getActivityLevel());
             ps.setString(7, profile.getFitnessGoal());
             ps.setString(8, profile.getDietPreference());
-            ps.setString(9, profile.getFoodExclusions());
-            ps.setInt(10, profile.getMealsPerDay());
-            ps.setDouble(11, profile.getBmr());
-            ps.setDouble(12, profile.getTdee());
+            ps.setString(9, profile.getDietPreference());
+            ps.setString(10, profile.getFoodExclusions());
+            ps.setInt(11, profile.getMealsPerDay());
+            ps.setDouble(12, profile.getBmr());
+            ps.setDouble(13, profile.getTdee());
 
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -87,14 +88,14 @@ public class NutritionDAOImpl implements NutritionDAO {
             }
             return profile;
         } catch (SQLException e) {
-            throw new DatabaseException("Error saving nutrition profile", e);
+            throw new DatabaseException("Error saving nutrition profile: " + e.getMessage(), e);
         }
     }
 
     @Override
     public boolean updateProfile(NutritionProfile profile) {
         String sql = "UPDATE nutrition_profiles SET age = ?, sex = ?, height_cm = ?, weight_kg = ?, " +
-                     "activity_level = ?, fitness_goal = ?, diet_preference = ?, food_exclusions = ?, " +
+                     "activity_level = ?, fitness_goal = ?, diet_preference = ?, diet_type = ?, food_exclusions = ?, " +
                      "meals_per_day = ?, bmr = ?, tdee = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -105,15 +106,16 @@ public class NutritionDAOImpl implements NutritionDAO {
             ps.setString(5, profile.getActivityLevel());
             ps.setString(6, profile.getFitnessGoal());
             ps.setString(7, profile.getDietPreference());
-            ps.setString(8, profile.getFoodExclusions());
-            ps.setInt(9, profile.getMealsPerDay());
-            ps.setDouble(10, profile.getBmr());
-            ps.setDouble(11, profile.getTdee());
-            ps.setInt(12, profile.getUserId());
+            ps.setString(8, profile.getDietPreference());
+            ps.setString(9, profile.getFoodExclusions());
+            ps.setInt(10, profile.getMealsPerDay());
+            ps.setDouble(11, profile.getBmr());
+            ps.setDouble(12, profile.getTdee());
+            ps.setInt(13, profile.getUserId());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Error updating nutrition profile for user ID: " + profile.getUserId(), e);
+            throw new DatabaseException("Error updating nutrition profile for user ID: " + profile.getUserId() + ": " + e.getMessage(), e);
         }
     }
 
@@ -129,29 +131,33 @@ public class NutritionDAOImpl implements NutritionDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error fetching nutrition profile for user: " + userId, e);
+            throw new DatabaseException("Error fetching nutrition profile for user " + userId + ": " + e.getMessage(), e);
         }
         return Optional.empty();
     }
 
     @Override
     public NutritionTarget saveTarget(NutritionTarget target) {
-        String sql = "INSERT INTO nutrition_targets (user_id, profile_id, target_calories, target_protein_g, " +
-                     "target_carbs_g, target_fat_g, protein_pct, carbs_pct, fat_pct, water_target_l, calculated_at) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO nutrition_targets (user_id, profile_id, target_calories, daily_calories, target_protein_g, " +
+                     "protein_grams, target_carbs_g, carbs_grams, target_fat_g, fat_grams, protein_pct, carbs_pct, fat_pct, water_target_l, calculated_at) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, target.getUserId());
             ps.setInt(2, target.getProfileId());
             ps.setInt(3, target.getTargetCalories());
-            ps.setInt(4, target.getTargetProteinG());
-            ps.setInt(5, target.getTargetCarbsG());
-            ps.setInt(6, target.getTargetFatG());
-            ps.setInt(7, target.getProteinPct());
-            ps.setInt(8, target.getCarbsPct());
-            ps.setInt(9, target.getFatPct());
-            ps.setDouble(10, target.getWaterTargetL());
-            ps.setTimestamp(11, target.getCalculatedAt() != null ? target.getCalculatedAt() : new Timestamp(System.currentTimeMillis()));
+            ps.setInt(4, target.getTargetCalories());
+            ps.setInt(5, target.getTargetProteinG());
+            ps.setInt(6, target.getTargetProteinG());
+            ps.setInt(7, target.getTargetCarbsG());
+            ps.setInt(8, target.getTargetCarbsG());
+            ps.setInt(9, target.getTargetFatG());
+            ps.setInt(10, target.getTargetFatG());
+            ps.setInt(11, target.getProteinPct());
+            ps.setInt(12, target.getCarbsPct());
+            ps.setInt(13, target.getFatPct());
+            ps.setDouble(14, target.getWaterTargetL());
+            ps.setTimestamp(15, target.getCalculatedAt() != null ? target.getCalculatedAt() : new Timestamp(System.currentTimeMillis()));
 
             int affected = ps.executeUpdate();
             if (affected > 0) {
@@ -161,7 +167,7 @@ public class NutritionDAOImpl implements NutritionDAO {
             }
             return target;
         } catch (SQLException e) {
-            throw new DatabaseException("Error saving nutrition target", e);
+            throw new DatabaseException("Error saving nutrition target: " + e.getMessage(), e);
         }
     }
 

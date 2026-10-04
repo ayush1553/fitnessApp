@@ -29,8 +29,8 @@ public class NutritionLogDAOImpl implements NutritionLogDAO {
 
     @Override
     public NutritionLog save(NutritionLog entity) {
-        String sql = "INSERT INTO nutrition_logs (user_id, log_date, meal_type, food_name, portion_size, calories, protein_g, carbs_g, fat_g) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO nutrition_logs (user_id, log_date, meal_type, food_name, portion_size, calories, protein_g, protein_grams, carbs_g, carbs_grams, fat_g, fat_grams) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, entity.getUserId());
@@ -40,8 +40,11 @@ public class NutritionLogDAOImpl implements NutritionLogDAO {
             ps.setString(5, entity.getPortionSize());
             ps.setInt(6, entity.getCalories());
             ps.setInt(7, entity.getProteinG());
-            ps.setInt(8, entity.getCarbsG());
-            ps.setInt(9, entity.getFatG());
+            ps.setInt(8, entity.getProteinG());
+            ps.setInt(9, entity.getCarbsG());
+            ps.setInt(10, entity.getCarbsG());
+            ps.setInt(11, entity.getFatG());
+            ps.setInt(12, entity.getFatG());
 
             int affected = ps.executeUpdate();
             if (affected > 0) {
@@ -51,7 +54,7 @@ public class NutritionLogDAOImpl implements NutritionLogDAO {
             }
             return entity;
         } catch (SQLException e) {
-            throw new DatabaseException("Error creating nutrition log", e);
+            throw new DatabaseException("Error creating nutrition log: " + e.getMessage(), e);
         }
     }
 
