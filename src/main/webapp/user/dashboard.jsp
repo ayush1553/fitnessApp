@@ -45,17 +45,19 @@
             <!-- Dashboard Grid Composition -->
             <div class="dashboard-grid">
                 
-                <!-- SECTION 1: WORKOUT ACTIVITY (Weekly / Monthly Switcher) -->
+                <!-- SECTION 1: WORKOUT ACTIVITY & CAPSULE CHART -->
                 <div class="grid-col-8">
                     <div class="fitness-card h-100 d-flex flex-column">
                         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                             <div>
-                                <span class="badge-custom badge-active mb-1">Analytics</span>
+                                <span class="badge-custom badge-active mb-1">Activity Breakdown</span>
                                 <h5 class="mb-0">Workout Activity</h5>
                             </div>
-                            <div class="btn-group btn-group-sm p-1 rounded-pill" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
-                                <button type="button" id="btnChartWeekly" class="btn btn-sm btn-accent rounded-pill px-3">Weekly</button>
-                                <button type="button" id="btnChartMonthly" class="btn btn-sm btn-outline-custom rounded-pill px-3">Monthly</button>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="btn-group btn-group-sm p-1 rounded-pill" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
+                                    <button type="button" id="btnChartWeekly" class="btn btn-sm btn-accent rounded-pill px-3">Weekly</button>
+                                    <button type="button" id="btnChartMonthly" class="btn btn-sm btn-outline-custom rounded-pill px-3">Monthly</button>
+                                </div>
                             </div>
                         </div>
 
@@ -76,17 +78,17 @@
                             </div>
                         </div>
 
-                        <div class="flex-grow-1" style="min-height: 240px; position: relative;">
+                        <div class="flex-grow-1" style="min-height: 220px; position: relative;">
                             <canvas id="workoutActivityChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- SECTION 2: FITNESS OVERVIEW (Donut / Circular Chart & Stats) -->
+                <!-- SECTION 2: FITNESS OVERVIEW & DONUT CHART -->
                 <div class="grid-col-4">
                     <div class="fitness-card h-100 d-flex flex-column justify-content-between">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="mb-0">Fitness Overview</h5>
+                            <h5 class="mb-0">Overview</h5>
                             <span class="badge-custom badge-accent">${summary.goalCompletionPercentage}% Done</span>
                         </div>
 
@@ -99,130 +101,277 @@
                             </div>
                         </div>
 
-                        <!-- Metric Rows beside chart -->
+                        <!-- Macro / Nutrition / Calorie Rows -->
                         <div class="mt-2">
                             <div class="stat-pill-row">
                                 <span class="stat-pill-label">
-                                    <i class="fa-solid fa-fire text-danger"></i> Calories Burned
+                                    <i class="fa-solid fa-fire text-danger"></i> Calory burn
                                 </span>
-                                <span class="stat-pill-value"><fmt:formatNumber value="${summary.totalCalories}" pattern="#,###"/> kcal</span>
+                                <span class="stat-pill-value text-white">33.5% <small class="text-accent" style="font-size: 0.75rem;">+1.25%</small></span>
                             </div>
                             <div class="stat-pill-row">
                                 <span class="stat-pill-label">
-                                    <i class="fa-solid fa-stopwatch text-info"></i> Workout Duration
+                                    <i class="fa-solid fa-drumstick-bite text-info"></i> Protein
                                 </span>
-                                <span class="stat-pill-value">${summary.durationFormatted}</span>
+                                <span class="stat-pill-value text-white">23.02% <small class="text-accent" style="font-size: 0.75rem;">+3.43%</small></span>
                             </div>
                             <div class="stat-pill-row">
                                 <span class="stat-pill-label">
-                                    <i class="fa-solid fa-dumbbell" style="color: var(--accent-primary);"></i> Workouts Logged
+                                    <i class="fa-solid fa-wheat-awn text-warning"></i> Carbs
                                 </span>
-                                <span class="stat-pill-value">${summary.totalWorkouts}</span>
-                            </div>
-                            <div class="stat-pill-row">
-                                <span class="stat-pill-label">
-                                    <i class="fa-solid fa-bullseye text-warning"></i> Goal Completion
-                                </span>
-                                <span class="stat-pill-value" style="color: var(--accent-primary);">${summary.goalCompletionPercentage}%</span>
+                                <span class="stat-pill-value text-white">11.24% <small class="text-accent" style="font-size: 0.75rem;">+2.12%</small></span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SECTION 3: FITNESS GOALS -->
+                <!-- SECTION 3: IMAGE-RICH FITNESS GOAL CARDS -->
+                <div class="grid-col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="badge-custom badge-accent mb-1">Target Goals</span>
+                            <h5 class="mb-0">Fitness Focus & Daily Goals</h5>
+                        </div>
+                        <a href="${pageContext.request.contextPath}/user/goals" class="text-accent fw-bold" style="font-size: 0.85rem;">
+                            View All Goals <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Goal Card 1: Lime Side Planks -->
+                        <div class="col-md-4">
+                            <div class="goal-photo-card goal-card-lime">
+                                <div class="goal-contour-bg"></div>
+                                <div class="d-flex justify-content-between align-items-start position-relative" style="z-index: 2;">
+                                    <span class="goal-card-badge">Bravo</span>
+                                    <span class="badge bg-dark text-white rounded-pill px-2 py-1" style="font-size: 0.7rem;">Active</span>
+                                </div>
+                                <div class="position-relative" style="z-index: 2; max-width: 65%;">
+                                    <h4 class="fw-bold mb-1" style="color: #0b110a;">Side planks</h4>
+                                    <p class="mb-0 fw-semibold" style="font-size: 0.9rem; color: #1e2b1b;">12 sets/day</p>
+                                </div>
+                                <img src="${pageContext.request.contextPath}/assets/images/goals/side_plank.jpg" 
+                                     alt="Side Plank" 
+                                     class="goal-photo-clip">
+                            </div>
+                        </div>
+
+                        <!-- Goal Card 2: Mint/Cyan Rope Training -->
+                        <div class="col-md-4">
+                            <div class="goal-photo-card goal-card-cyan">
+                                <div class="goal-contour-bg"></div>
+                                <div class="d-flex justify-content-between align-items-start position-relative" style="z-index: 2;">
+                                    <span class="goal-card-badge">Well</span>
+                                    <span class="badge bg-dark text-white rounded-pill px-2 py-1" style="font-size: 0.7rem;">Active</span>
+                                </div>
+                                <div class="position-relative" style="z-index: 2; max-width: 65%;">
+                                    <h4 class="fw-bold mb-1" style="color: #0b110a;">Rope lifting</h4>
+                                    <p class="mb-0 fw-semibold" style="font-size: 0.9rem; color: #152923;">10 sets/day</p>
+                                </div>
+                                <img src="${pageContext.request.contextPath}/assets/images/goals/rope_lifting.jpg" 
+                                     alt="Rope Lifting" 
+                                     class="goal-photo-clip">
+                            </div>
+                        </div>
+
+                        <!-- Goal Card 3: Dark Contour Abs & Strength -->
+                        <div class="col-md-4">
+                            <div class="goal-photo-card goal-card-dark">
+                                <div class="goal-contour-bg"></div>
+                                <div class="d-flex justify-content-between align-items-start position-relative" style="z-index: 2;">
+                                    <span class="goal-card-badge">Great</span>
+                                    <span class="badge bg-secondary text-white rounded-pill px-2 py-1" style="font-size: 0.7rem;">Daily Target</span>
+                                </div>
+                                <div class="position-relative" style="z-index: 2; max-width: 65%;">
+                                    <h4 class="fw-bold mb-1 text-white">ABS & Strength</h4>
+                                    <p class="mb-0 text-secondary" style="font-size: 0.9rem;">10 min/day</p>
+                                </div>
+                                <img src="${pageContext.request.contextPath}/assets/images/goals/abs_strength.jpg" 
+                                     alt="ABS Strength" 
+                                     class="goal-photo-clip">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: TRAINERS & RECOMMENDED ACTIVITY -->
                 <div class="grid-col-6">
-                    <div class="fitness-card h-100">
+                    <div class="fitness-card h-100 d-flex flex-column justify-content-between">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
-                                <span class="badge-custom badge-accent mb-1">Targets</span>
-                                <h5 class="mb-0">Fitness Goals</h5>
+                                <span class="badge-custom badge-accent mb-1">Coaches</span>
+                                <h5 class="mb-0">Trainers</h5>
                             </div>
-                            <a href="${pageContext.request.contextPath}/user/goals" class="text-accent fw-bold" style="font-size: 0.85rem;">
-                                View All <i class="fa-solid fa-arrow-right ms-1"></i>
+                            <a href="javascript:void(0)" class="text-accent fw-bold" style="font-size: 0.85rem;">
+                                View all &gt;
                             </a>
                         </div>
 
-                        <c:choose>
-                            <c:when test="${not empty activeGoals}">
-                                <c:forEach var="goal" items="${activeGoals}">
-                                    <div class="goal-item-card">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="mb-1 text-white fw-bold">${goal.title}</h6>
-                                                <small class="text-secondary">
-                                                    <fmt:formatNumber value="${goal.currentValue}" pattern="#,##0.#"/> / <fmt:formatNumber value="${goal.targetValue}" pattern="#,##0.#"/> ${goal.unit}
-                                                </small>
-                                            </div>
-                                            <span class="badge-custom badge-accent">${goal.progressPercentage}%</span>
-                                        </div>
-
-                                        <div class="progress-custom mb-2">
-                                            <div class="progress-bar-custom" style="width: ${goal.progressPercentage}%;"></div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-between align-items-center" style="font-size: 0.75rem;">
-                                            <span class="text-muted"><i class="fa-regular fa-calendar me-1"></i> Due in ${goal.daysRemaining} days</span>
-                                            <button type="button" class="btn btn-sm btn-link text-accent p-0 text-decoration-none"
-                                                    onclick="openGoalProgressModal('${goal.id}', '${goal.title}', '${goal.currentValue}', '${goal.targetValue}', '${goal.unit}')">
-                                                Update Progress
-                                            </button>
+                        <div class="row g-3">
+                            <!-- Trainer 1: John Arnold -->
+                            <div class="col-6">
+                                <div class="trainer-card lime-glow h-100">
+                                    <div class="trainer-photo-wrap">
+                                        <img src="${pageContext.request.contextPath}/assets/images/trainers/john_arnold.jpg" 
+                                             alt="John Arnold" 
+                                             loading="lazy">
+                                        <div class="trainer-photo-overlay">
+                                            <span class="badge rounded-pill" style="background: rgba(200,255,69,0.9); color: #080909; font-size: 0.7rem; font-weight: 700;">PRO</span>
                                         </div>
                                     </div>
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="text-center py-4 text-muted">
-                                    <i class="fa-solid fa-bullseye fs-2 mb-2"></i>
-                                    <p class="mb-2">No active fitness goals yet.</p>
-                                    <a href="${pageContext.request.contextPath}/user/goals" class="btn btn-sm btn-accent">Create Goal</a>
+                                    <div>
+                                        <h6 class="mb-0 text-white fw-bold">John Arnold</h6>
+                                        <small class="text-secondary">Yoga expert</small>
+                                    </div>
                                 </div>
-                            </c:otherwise>
-                        </c:choose>
+                            </div>
+
+                            <!-- Trainer 2: Adam Smith -->
+                            <div class="col-6">
+                                <div class="trainer-card cyan-glow h-100">
+                                    <div class="trainer-photo-wrap">
+                                        <img src="${pageContext.request.contextPath}/assets/images/trainers/adam_smith.jpg" 
+                                             alt="Adam Smith" 
+                                             loading="lazy">
+                                        <div class="trainer-photo-overlay">
+                                            <span class="badge rounded-pill" style="background: rgba(69,255,202,0.9); color: #080909; font-size: 0.7rem; font-weight: 700;">COACH</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 text-white fw-bold">Adam Smith</h6>
+                                        <small class="text-secondary">Fitness expert</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- SECTION 4: FITNESS RECOMMENDATIONS -->
+                <!-- SECTION 5: RECOMMENDED ACTIVITY -->
                 <div class="grid-col-6">
                     <div class="fitness-card h-100">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
-                                <span class="badge-custom badge-active mb-1">Recommended</span>
-                                <h5 class="mb-0">Workout Recommendations</h5>
+                                <span class="badge-custom badge-active mb-1">Recommended Activity</span>
+                                <h5 class="mb-0">Personalized Routines</h5>
                             </div>
-                            <span class="text-muted" style="font-size: 0.8rem;">Personalized</span>
+                            <span class="text-muted" style="font-size: 0.8rem;">Daily Selection</span>
                         </div>
 
                         <div class="d-flex flex-column gap-2">
-                            <c:forEach var="rec" items="${recommendations}">
-                                <div class="recommendation-card">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="rec-icon-box">
-                                            <i class="fa-solid ${rec.icon}"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-1 text-white fw-bold" style="font-size: 0.9rem;">${rec.title}</h6>
-                                            <div class="d-flex align-items-center gap-2 text-secondary" style="font-size: 0.75rem;">
-                                                <span><i class="fa-solid fa-stopwatch me-1"></i>${rec.duration}</span>
-                                                <span>&bull;</span>
-                                                <span><i class="fa-solid fa-fire me-1 text-danger"></i>${rec.calories}</span>
-                                                <span>&bull;</span>
-                                                <span class="badge-custom badge-accent py-0 px-2">${rec.difficulty}</span>
-                                            </div>
+                            <!-- Activity 1 -->
+                            <div class="activity-item-card">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="${pageContext.request.contextPath}/assets/images/avatars/toren_twin.jpg" 
+                                         alt="Toren Twin" 
+                                         class="activity-avatar-img">
+                                    <div>
+                                        <h6 class="mb-0 text-white fw-bold" style="font-size: 0.9rem;">Upper Body Sculpt</h6>
+                                        <div class="d-flex align-items-center gap-2 text-secondary" style="font-size: 0.75rem;">
+                                            <span><i class="fa-solid fa-user me-1 text-accent"></i>Toren Twin</span>
+                                            <span>&bull;</span>
+                                            <span><i class="fa-solid fa-stopwatch me-1"></i>45 min</span>
+                                            <span>&bull;</span>
+                                            <span class="text-danger"><i class="fa-solid fa-fire me-1"></i>320 kcal</span>
                                         </div>
                                     </div>
-                                    <button class="btn btn-sm btn-outline-custom rounded-pill px-3"
-                                            onclick="openQuickWorkoutPreset('${rec.title}', '${rec.category}', '${rec.duration.replace(' min', '')}', '${rec.calories.replace(' kcal', '')}')">
-                                        Start
-                                    </button>
                                 </div>
-                            </c:forEach>
+                                <button class="btn btn-sm btn-outline-custom rounded-pill px-3"
+                                        onclick="openQuickWorkoutPreset('Upper Body Sculpt', 'Strength', '45', '320')">
+                                    Start
+                                </button>
+                            </div>
+
+                            <!-- Activity 2 -->
+                            <div class="activity-item-card">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="${pageContext.request.contextPath}/assets/images/avatars/ardin_swen.jpg" 
+                                         alt="Ardin Swen" 
+                                         class="activity-avatar-img">
+                                    <div>
+                                        <h6 class="mb-0 text-white fw-bold" style="font-size: 0.9rem;">Core & Plank Power</h6>
+                                        <div class="d-flex align-items-center gap-2 text-secondary" style="font-size: 0.75rem;">
+                                            <span><i class="fa-solid fa-user me-1 text-accent"></i>Ardin Swen</span>
+                                            <span>&bull;</span>
+                                            <span><i class="fa-solid fa-stopwatch me-1"></i>30 min</span>
+                                            <span>&bull;</span>
+                                            <span class="text-danger"><i class="fa-solid fa-fire me-1"></i>210 kcal</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-custom rounded-pill px-3"
+                                        onclick="openQuickWorkoutPreset('Core & Plank Power', 'Cardio', '30', '210')">
+                                    Start
+                                </button>
+                            </div>
+
+                            <!-- Activity 3 -->
+                            <div class="activity-item-card">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="${pageContext.request.contextPath}/assets/images/avatars/smith_adam.jpg" 
+                                         alt="Adam Smith" 
+                                         class="activity-avatar-img">
+                                    <div>
+                                        <h6 class="mb-0 text-white fw-bold" style="font-size: 0.9rem;">HIIT Battle Ropes</h6>
+                                        <div class="d-flex align-items-center gap-2 text-secondary" style="font-size: 0.75rem;">
+                                            <span><i class="fa-solid fa-user me-1 text-accent"></i>Adam Smith</span>
+                                            <span>&bull;</span>
+                                            <span><i class="fa-solid fa-stopwatch me-1"></i>25 min</span>
+                                            <span>&bull;</span>
+                                            <span class="text-danger"><i class="fa-solid fa-fire me-1"></i>290 kcal</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-custom rounded-pill px-3"
+                                        onclick="openQuickWorkoutPreset('HIIT Battle Ropes', 'Cardio', '25', '290')">
+                                    Start
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SECTION 5: PROGRESS STATISTICS (Calories Line Chart) -->
-                <div class="grid-col-12">
-                    <div class="fitness-card">
+                <!-- SECTION 6: METRIC OUTPUT PILLS & CALORIE BURN LINE CHART -->
+                <div class="grid-col-4 d-flex flex-column gap-3 justify-content-between">
+                    <!-- Metric Pill 1: Calory Loss -->
+                    <div class="metric-pill-card lime-pill">
+                        <div>
+                            <span class="text-secondary d-block" style="font-size: 0.78rem; font-weight: 600;">Calory loss</span>
+                            <span class="fw-bold text-white fs-5">540 kcal <small class="text-muted" style="font-size: 0.75rem;">(.123 gm)</small></span>
+                        </div>
+                        <span class="badge rounded-pill" style="background: rgba(200, 255, 69, 0.2); color: var(--accent-primary); font-size: 0.8rem; font-weight: 700; padding: 0.4rem 0.8rem;">
+                            😍 WOW
+                        </span>
+                    </div>
+
+                    <!-- Metric Pill 2: Weight Loss -->
+                    <div class="metric-pill-card cyan-pill">
+                        <div>
+                            <span class="text-secondary d-block" style="font-size: 0.78rem; font-weight: 600;">Weight loss</span>
+                            <span class="fw-bold text-white fs-5">1.23 kg <small class="text-muted" style="font-size: 0.75rem;">(This week)</small></span>
+                        </div>
+                        <span class="badge rounded-pill" style="background: rgba(69, 255, 202, 0.2); color: #45ffca; font-size: 0.8rem; font-weight: 700; padding: 0.4rem 0.8rem;">
+                            🔥 Great
+                        </span>
+                    </div>
+
+                    <!-- Heart Rate Mini Card -->
+                    <div class="fitness-card py-3 px-4 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rec-icon-box" style="width: 42px; height: 42px; background: rgba(255, 92, 92, 0.15); color: #ff5c5c;">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <div>
+                                <small class="text-secondary d-block" style="font-size: 0.75rem;">Heart Rate</small>
+                                <span class="fw-bold text-white fs-6">70 beats/m</span>
+                            </div>
+                        </div>
+                        <span class="badge bg-danger bg-opacity-25 text-danger rounded-pill px-2 py-1" style="font-size: 0.72rem;">Normal</span>
+                    </div>
+                </div>
+
+                <div class="grid-col-8">
+                    <div class="fitness-card h-100">
                         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                             <div>
                                 <span class="badge-custom badge-accent mb-1">Trends</span>
@@ -230,13 +379,102 @@
                             </div>
                             <span class="text-secondary" style="font-size: 0.85rem;"><i class="fa-solid fa-chart-line me-1 text-accent"></i> 7-Day Performance</span>
                         </div>
-                        <div style="height: 220px; position: relative;">
+                        <div style="height: 180px; position: relative;">
                             <canvas id="progressAnalyticsChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- SECTION 6: RECENT WORKOUTS -->
+                <!-- SECTION 7: RECOMMENDED FOOD (DAY PROGRESSION STEPPER) -->
+                <div class="grid-col-12">
+                    <div class="fitness-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="badge-custom badge-accent mb-1">Diet & Nutrition</span>
+                                <h5 class="mb-0">Recommended Food</h5>
+                            </div>
+                            <a href="${pageContext.request.contextPath}/user/nutrition" class="text-accent fw-bold" style="font-size: 0.85rem;">
+                                View Nutrition Plan <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+
+                        <div class="food-card-grid">
+                            <!-- Food Card 1: Veggies and Hummus -->
+                            <div class="food-item-card">
+                                <div>
+                                    <div class="food-img-wrap">
+                                        <span class="food-day-badge">Day 1</span>
+                                        <img src="${pageContext.request.contextPath}/assets/images/food/veggies_hummus.jpg" 
+                                             alt="Veggies and Hummus" 
+                                             loading="lazy">
+                                    </div>
+                                    <h6 class="text-white fw-bold mb-1" style="font-size: 0.95rem;">Veggies and Hummus</h6>
+                                    <p class="text-secondary mb-0" style="font-size: 0.78rem;">7 days only dinner time</p>
+                                </div>
+                                <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center" style="border-color: var(--border-color) !important;">
+                                    <span class="text-muted" style="font-size: 0.75rem;">Est. 240 kcal</span>
+                                    <span class="text-accent fw-bold" style="font-size: 0.75rem;"><i class="fa-solid fa-circle-check"></i> Dinner</span>
+                                </div>
+                            </div>
+
+                            <!-- Food Card 2: A bowl of salad (Active) -->
+                            <div class="food-item-card active-food-card">
+                                <div>
+                                    <div class="food-img-wrap">
+                                        <span class="food-day-badge">Day 2</span>
+                                        <img src="${pageContext.request.contextPath}/assets/images/food/fresh_salad.jpg" 
+                                             alt="A bowl of salad" 
+                                             loading="lazy">
+                                    </div>
+                                    <h6 class="text-white fw-bold mb-1" style="font-size: 0.95rem;">A bowl of salad</h6>
+                                    <p class="text-secondary mb-0" style="font-size: 0.78rem;">12 days only lunch time</p>
+                                </div>
+                                <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center" style="border-color: rgba(69, 255, 202, 0.2) !important;">
+                                    <span class="text-muted" style="font-size: 0.75rem;">Est. 310 kcal</span>
+                                    <span class="fw-bold" style="font-size: 0.75rem; color: #45ffca;"><i class="fa-solid fa-fire"></i> Active Today</span>
+                                </div>
+                            </div>
+
+                            <!-- Food Card 3: Green variety foods -->
+                            <div class="food-item-card">
+                                <div>
+                                    <div class="food-img-wrap">
+                                        <span class="food-day-badge">Day 3</span>
+                                        <img src="${pageContext.request.contextPath}/assets/images/food/green_variety.jpg" 
+                                             alt="Green variety foods" 
+                                             loading="lazy">
+                                    </div>
+                                    <h6 class="text-white fw-bold mb-1" style="font-size: 0.95rem;">Green variety foods</h6>
+                                    <p class="text-secondary mb-0" style="font-size: 0.78rem;">13 days for breakfast</p>
+                                </div>
+                                <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center" style="border-color: var(--border-color) !important;">
+                                    <span class="text-muted" style="font-size: 0.75rem;">Est. 380 kcal</span>
+                                    <span class="text-accent fw-bold" style="font-size: 0.75rem;"><i class="fa-solid fa-sun"></i> Breakfast</span>
+                                </div>
+                            </div>
+
+                            <!-- Food Card 4: A bowl of berries -->
+                            <div class="food-item-card">
+                                <div>
+                                    <div class="food-img-wrap">
+                                        <span class="food-day-badge">Day 4</span>
+                                        <img src="${pageContext.request.contextPath}/assets/images/food/berries_bowl.jpg" 
+                                             alt="A bowl of berries" 
+                                             loading="lazy">
+                                    </div>
+                                    <h6 class="text-white fw-bold mb-1" style="font-size: 0.95rem;">A bowl of berries</h6>
+                                    <p class="text-secondary mb-0" style="font-size: 0.78rem;">9 days for breakfast</p>
+                                </div>
+                                <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center" style="border-color: var(--border-color) !important;">
+                                    <span class="text-muted" style="font-size: 0.75rem;">Est. 180 kcal</span>
+                                    <span class="text-accent fw-bold" style="font-size: 0.75rem;"><i class="fa-solid fa-apple-whole"></i> Snacks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 8: RECENT WORKOUTS -->
                 <div class="grid-col-6">
                     <div class="fitness-card h-100">
                         <div class="d-flex justify-content-between align-items-center mb-3">

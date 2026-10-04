@@ -332,3 +332,328 @@
 .workout-item-row:hover {
     border-color: var(--border-hover);
 }
+
+/* ====================================================================
+   IMAGE ASSET SYSTEM & VISUALLY RICH REFERENCE DASHBOARD CARDS
+   ==================================================================== */
+
+/* Fitness Goal Photo Cards (Lime, Mint/Cyan, Dark Contour) */
+.goal-photo-card {
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 165px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.goal-photo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+.goal-card-lime {
+    background: linear-gradient(145deg, #d4ff54 0%, #b4f028 100%);
+    color: #0b110a;
+}
+.goal-card-lime h5, .goal-card-lime h6, .goal-card-lime span, .goal-card-lime p {
+    color: #0b110a !important;
+}
+
+.goal-card-cyan {
+    background: linear-gradient(145deg, #45ffca 0%, #1de0ad 100%);
+    color: #0b110a;
+}
+.goal-card-cyan h5, .goal-card-cyan h6, .goal-card-cyan span, .goal-card-cyan p {
+    color: #0b110a !important;
+}
+
+.goal-card-dark {
+    background: linear-gradient(145deg, #18201b 0%, #121614 100%);
+    border: 1px solid rgba(200, 255, 69, 0.2);
+    color: #ffffff;
+}
+
+/* Topographic Contour Background Overlay */
+.goal-contour-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.18) 0%, transparent 20%),
+                      radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.08) 0%, transparent 35%);
+    background-size: 100% 100%;
+}
+.goal-card-dark .goal-contour-bg {
+    background-image: radial-gradient(circle at 10% 20%, rgba(200, 255, 69, 0.08) 0%, transparent 30%);
+}
+
+.goal-photo-clip {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 145px;
+    height: 135px;
+    object-fit: cover;
+    border-top-left-radius: 35px;
+    border-bottom-right-radius: var(--radius-lg);
+    box-shadow: -5px -5px 20px rgba(0, 0, 0, 0.28);
+    transition: transform 0.3s ease;
+}
+.goal-photo-card:hover .goal-photo-clip {
+    transform: scale(1.05);
+}
+
+.goal-card-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(6px);
+}
+.goal-card-lime .goal-card-badge {
+    background: rgba(11, 17, 10, 0.15);
+    color: #0b110a;
+}
+.goal-card-cyan .goal-card-badge {
+    background: rgba(11, 17, 10, 0.15);
+    color: #0b110a;
+}
+.goal-card-dark .goal-card-badge {
+    background: rgba(200, 255, 69, 0.15);
+    color: var(--accent-primary) !important;
+}
+
+/* Trainer / Fitness Expert Cards */
+.trainer-card {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem;
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.trainer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+.trainer-card.lime-glow {
+    border-color: rgba(200, 255, 69, 0.35);
+}
+.trainer-card.cyan-glow {
+    border-color: rgba(69, 255, 202, 0.35);
+}
+
+.trainer-photo-wrap {
+    width: 100%;
+    height: 185px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    background-color: #121513;
+}
+.trainer-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.35s ease;
+}
+.trainer-card:hover .trainer-photo-wrap img {
+    transform: scale(1.06);
+}
+.trainer-photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem;
+    background: linear-gradient(to top, rgba(8, 9, 9, 0.85) 0%, transparent 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+/* Recommended Activity Cards with Circular Avatars */
+.activity-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-speed);
+}
+.activity-item-card:hover {
+    border-color: var(--border-hover);
+    background-color: var(--bg-card-hover);
+    transform: translateX(3px);
+}
+.activity-avatar-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(200, 255, 69, 0.3);
+    flex-shrink: 0;
+}
+
+/* Recommended Food Progression Cards */
+.food-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+@media (max-width: 992px) {
+    .food-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 576px) {
+    .food-card-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.food-item-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+.food-item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-color: var(--border-hover);
+}
+.food-item-card.active-food-card {
+    background: linear-gradient(160deg, #182a24 0%, #141c19 100%);
+    border-color: rgba(69, 255, 202, 0.5);
+    box-shadow: 0 0 25px rgba(69, 255, 202, 0.15);
+}
+
+.food-img-wrap {
+    width: 100%;
+    height: 125px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    background-color: #151a17;
+    margin-bottom: 0.85rem;
+}
+.food-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+.food-item-card:hover .food-img-wrap img {
+    transform: scale(1.08);
+}
+.food-day-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(8, 9, 9, 0.75);
+    backdrop-filter: blur(6px);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.65rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.active-food-card .food-day-badge {
+    background: #45ffca;
+    color: #0b110a;
+    font-weight: 800;
+}
+
+/* Metric Output Pills */
+.metric-pill-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    padding: 0.85rem 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all var(--transition-speed);
+}
+.metric-pill-card:hover {
+    border-color: var(--border-hover);
+}
+.metric-pill-card.lime-pill {
+    background: linear-gradient(90deg, rgba(200, 255, 69, 0.1) 0%, var(--bg-card) 100%);
+    border-color: rgba(200, 255, 69, 0.3);
+}
+.metric-pill-card.cyan-pill {
+    background: linear-gradient(90deg, rgba(69, 255, 202, 0.1) 0%, var(--bg-card) 100%);
+    border-color: rgba(69, 255, 202, 0.3);
+}
+
+/* Stylized Activity Capsule Bars (Top Section matching reference) */
+.capsule-bars-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 140px;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+.capsule-bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+}
+.capsule-track {
+    width: 22px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 3px;
+    position: relative;
+    overflow: hidden;
+}
+.capsule-fill {
+    width: 100%;
+    border-radius: 50px;
+    background-color: #373d37;
+    transition: height 0.4s ease;
+}
+.capsule-fill.active-lime {
+    background: linear-gradient(180deg, #d4ff54 0%, #a2df14 100%);
+    box-shadow: 0 0 10px rgba(212, 255, 84, 0.5);
+}
+.capsule-fill.active-white {
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+.capsule-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+

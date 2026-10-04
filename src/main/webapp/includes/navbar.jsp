@@ -20,8 +20,12 @@
 
         <div class="dropdown">
             <div class="user-profile-menu" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="avatar-circle">
-                    ${sessionScope.currentUser.name.substring(0, 1)}
+                <div class="avatar-circle overflow-hidden p-0">
+                    <img src="${pageContext.request.contextPath}/assets/images/avatars/smith_adam.jpg" 
+                         alt="${sessionScope.currentUser.name}" 
+                         class="w-100 h-100" 
+                         style="object-fit: cover;"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='${sessionScope.currentUser.name.substring(0, 1)}';">
                 </div>
                 <div class="user-meta-name">
                     ${sessionScope.currentUser.name}
