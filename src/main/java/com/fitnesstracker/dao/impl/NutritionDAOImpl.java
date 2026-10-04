@@ -163,7 +163,14 @@ public class NutritionDAOImpl implements NutritionDAO {
     public NutritionTarget saveTarget(NutritionTarget target) {
         String sql = "INSERT INTO nutrition_targets (user_id, profile_id, target_calories, daily_calories, target_protein_g, " +
                      "protein_grams, target_carbs_g, carbs_grams, target_fat_g, fat_grams, protein_pct, carbs_pct, fat_pct, water_target_l, calculated_at) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE profile_id=VALUES(profile_id), target_calories=VALUES(target_calories), " +
+                     "daily_calories=VALUES(daily_calories), target_protein_g=VALUES(target_protein_g), " +
+                     "protein_grams=VALUES(protein_grams), target_carbs_g=VALUES(target_carbs_g), " +
+                     "carbs_grams=VALUES(carbs_grams), target_fat_g=VALUES(target_fat_g), " +
+                     "fat_grams=VALUES(fat_grams), protein_pct=VALUES(protein_pct), " +
+                     "carbs_pct=VALUES(carbs_pct), fat_pct=VALUES(fat_pct), " +
+                     "water_target_l=VALUES(water_target_l), calculated_at=VALUES(calculated_at), updated_at=CURRENT_TIMESTAMP";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, target.getUserId());
@@ -182,10 +189,13 @@ public class NutritionDAOImpl implements NutritionDAO {
             ps.setDouble(14, target.getWaterTargetL());
             ps.setTimestamp(15, target.getCalculatedAt() != null ? target.getCalculatedAt() : new Timestamp(System.currentTimeMillis()));
 
-            int affected = ps.executeUpdate();
-            if (affected > 0) {
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) target.setId(rs.getInt(1));
+            ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    target.setId(rs.getInt(1));
+                } else {
+                    Optional<NutritionTarget> existing = findTargetByUserId(target.getUserId());
+                    existing.ifPresent(t -> target.setId(t.getId()));
                 }
             }
             return target;
