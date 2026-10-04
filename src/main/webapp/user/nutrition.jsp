@@ -500,41 +500,52 @@
                                 <div>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-glass-water text-info me-2"></i> Hydration Tracker</h5>
-                                        <span class="badge-custom badge-accent">Target: ${nutritionTarget.waterTargetL} L</span>
+                                        <span class="badge-custom badge-accent">Target: ${nutritionTarget.waterTargetL > 0 ? nutritionTarget.waterTargetL : 2.5} L</span>
                                     </div>
 
                                     <div class="text-center my-3">
-                                        <span class="fs-1 fw-bold text-white">
-                                            <fmt:formatNumber value="${todayWater}" pattern="#0.0#"/>
-                                        </span>
-                                        <span class="text-muted fs-5"> / ${nutritionTarget.waterTargetL} L</span>
-                                        <c:set var="waterPct" value="${nutritionTarget.waterTargetL > 0 ? (todayWater * 100 / nutritionTarget.waterTargetL) : 0}"/>
-                                        <div class="progress-custom mt-2" style="height: 10px;">
+                                        <div class="d-flex align-items-baseline justify-content-center gap-1">
+                                            <span class="fs-1 fw-bold text-white">
+                                                <fmt:formatNumber value="${todayWater}" pattern="#0.0#"/>
+                                            </span>
+                                            <span class="text-muted fs-5"> / ${nutritionTarget.waterTargetL > 0 ? nutritionTarget.waterTargetL : 2.5} L</span>
+                                        </div>
+                                        <c:set var="targetWater" value="${nutritionTarget.waterTargetL > 0 ? nutritionTarget.waterTargetL : 2.5}"/>
+                                        <c:set var="waterPct" value="${targetWater > 0 ? (todayWater * 100 / targetWater) : 0}"/>
+                                        <div class="d-flex justify-content-between text-muted mb-1" style="font-size: 0.75rem;">
+                                            <span>Progress</span>
+                                            <span class="text-info fw-bold"><fmt:formatNumber value="${waterPct}" pattern="#0"/>%</span>
+                                        </div>
+                                        <div class="progress-custom" style="height: 10px;">
                                             <div class="progress-bar" style="width: ${waterPct > 100 ? 100 : waterPct}%; background-color: #38bdf8;"></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <div class="d-flex flex-wrap gap-2 justify-content-center mb-2">
+                                    <div class="d-flex flex-wrap gap-2 justify-content-center mb-3">
                                         <form action="${pageContext.request.contextPath}/user/nutrition/water/add" method="POST" class="d-inline">
                                             <input type="hidden" name="amountLiters" value="0.25">
-                                            <button type="submit" class="btn btn-sm btn-outline-custom">+250 ml</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-custom"><i class="fa-solid fa-plus me-1"></i>250 ml</button>
                                         </form>
                                         <form action="${pageContext.request.contextPath}/user/nutrition/water/add" method="POST" class="d-inline">
                                             <input type="hidden" name="amountLiters" value="0.50">
-                                            <button type="submit" class="btn btn-sm btn-outline-custom">+500 ml</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-custom"><i class="fa-solid fa-plus me-1"></i>500 ml</button>
                                         </form>
                                         <form action="${pageContext.request.contextPath}/user/nutrition/water/add" method="POST" class="d-inline">
                                             <input type="hidden" name="amountLiters" value="0.75">
-                                            <button type="submit" class="btn btn-sm btn-outline-custom">+750 ml</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-custom"><i class="fa-solid fa-plus me-1"></i>750 ml</button>
                                         </form>
-                                        <form action="${pageContext.request.contextPath}/user/nutrition/water/reset" method="POST" class="d-inline" onsubmit="return confirm('Reset today\\'s water count?');">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                                        <form action="${pageContext.request.contextPath}/user/nutrition/water/add" method="POST" class="d-inline">
+                                            <input type="hidden" name="amountLiters" value="1.00">
+                                            <button type="submit" class="btn btn-sm btn-outline-custom"><i class="fa-solid fa-plus me-1"></i>1.0 L</button>
+                                        </form>
+                                        <form action="${pageContext.request.contextPath}/user/nutrition/water/reset" method="POST" class="d-inline" onsubmit="return confirm('Reset today\\'s water intake count to 0 L?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-rotate-left me-1"></i>Reset</button>
                                         </form>
                                     </div>
                                     <p class="text-secondary text-center mb-0" style="font-size: 0.75rem;">
-                                        Optimal hydration improves recovery and metabolic rate.
+                                        <i class="fa-solid fa-droplet text-info me-1"></i> Optimal hydration improves nutrient absorption, muscle recovery, and energy levels.
                                     </p>
                                 </div>
                             </div>

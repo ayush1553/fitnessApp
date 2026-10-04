@@ -19,20 +19,19 @@ public class WaterLogDAOImpl implements WaterLogDAO {
         log.setUserId(rs.getInt("user_id"));
         log.setLogDate(rs.getDate("log_date"));
         log.setAmountLiters(rs.getDouble("amount_liters"));
-        log.setLogTime(rs.getTime("log_time"));
-        log.setCreatedAt(rs.getTimestamp("created_at"));
+        try { log.setLogTime(rs.getTime("log_time")); } catch (Exception ignored) {}
+        try { log.setCreatedAt(rs.getTimestamp("created_at")); } catch (Exception ignored) {}
         return log;
     }
 
     @Override
     public WaterLog save(WaterLog entity) {
-        String sql = "INSERT INTO water_logs (user_id, log_date, amount_liters, log_time) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO water_logs (user_id, log_date, amount_liters) VALUES (?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, entity.getUserId());
             ps.setDate(2, entity.getLogDate());
             ps.setDouble(3, entity.getAmountLiters());
-            ps.setTime(4, entity.getLogTime() != null ? entity.getLogTime() : new Time(System.currentTimeMillis()));
 
             int affected = ps.executeUpdate();
             if (affected > 0) {
@@ -42,19 +41,18 @@ public class WaterLogDAOImpl implements WaterLogDAO {
             }
             return entity;
         } catch (SQLException e) {
-            throw new DatabaseException("Error logging water intake", e);
+            throw new DatabaseException("Error logging water intake: " + e.getMessage(), e);
         }
     }
 
     @Override
     public boolean update(WaterLog entity) {
-        String sql = "UPDATE water_logs SET amount_liters = ?, log_time = ? WHERE id = ? AND user_id = ?";
+        String sql = "UPDATE water_logs SET amount_liters = ? WHERE id = ? AND user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDouble(1, entity.getAmountLiters());
-            ps.setTime(2, entity.getLogTime());
-            ps.setInt(3, entity.getId());
-            ps.setInt(4, entity.getUserId());
+            ps.setInt(2, entity.getId());
+            ps.setInt(3, entity.getUserId());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
