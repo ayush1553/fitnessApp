@@ -195,15 +195,15 @@ CREATE TABLE `activity_logs` (
 -- SAMPLE DATA SEEDING
 -- Passwords are hashed with SHA-256 for "admin123" and "user123"
 -- SHA-256("admin123") = 240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9
--- SHA-256("user123")  = ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f
+-- SHA-256("user123")  = e606e38b0d8c19b24cf0ee3808183162ea7cd63ff7912dbb22b5e803286b4446
 -- ====================================================================
 
 -- 1. USERS
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `status`, `created_at`) VALUES
 (1, 'Admin Officer', 'admin@fitnesstracker.com', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'ADMIN', 'ACTIVE', NOW() - INTERVAL 30 DAY),
-(2, 'Adam Sterling', 'adam.sterling@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'ACTIVE', NOW() - INTERVAL 25 DAY),
-(3, 'Sarah Connor', 'sarah.connor@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'ACTIVE', NOW() - INTERVAL 20 DAY),
-(4, 'Marcus Vance', 'marcus.vance@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'ACTIVE', NOW() - INTERVAL 15 DAY);
+(2, 'Adam Sterling', 'adam.sterling@example.com', 'e606e38b0d8c19b24cf0ee3808183162ea7cd63ff7912dbb22b5e803286b4446', 'USER', 'ACTIVE', NOW() - INTERVAL 25 DAY),
+(3, 'Sarah Connor', 'sarah.connor@example.com', 'e606e38b0d8c19b24cf0ee3808183162ea7cd63ff7912dbb22b5e803286b4446', 'USER', 'ACTIVE', NOW() - INTERVAL 20 DAY),
+(4, 'Marcus Vance', 'marcus.vance@example.com', 'e606e38b0d8c19b24cf0ee3808183162ea7cd63ff7912dbb22b5e803286b4446', 'USER', 'ACTIVE', NOW() - INTERVAL 15 DAY);
 
 -- 2. PROFILES
 INSERT INTO `profiles` (`user_id`, `age`, `height_cm`, `weight_kg`, `fitness_goal`, `activity_level`, `profile_image`) VALUES
