@@ -1,0 +1,106 @@
+/* ====================================================================
+   FITFLOW PRO - RESPONSIVE STYLES
+   Breakpoints: 1200px, 992px, 768px, 576px, 375px, 320px
+   ==================================================================== */
+
+.mobile-nav-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.35rem;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+}
+
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .grid-col-8, .grid-col-4, .grid-col-6 {
+        grid-column: span 12;
+    }
+}
+
+@media (max-width: 992px) {
+    .mobile-nav-toggle {
+        display: block;
+    }
+
+    .app-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .app-sidebar.show {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+
+    .app-main {
+        margin-left: 0;
+    }
+
+    .app-topbar {
+        padding: 0 1.25rem;
+    }
+
+    .page-container {
+        padding: 1.25rem;
+    }
+
+    .search-input-wrapper {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-container {
+        padding: 1rem 0.75rem;
+    }
+
+    .fitness-card {
+        padding: 1.1rem;
+        border-radius: var(--radius-md);
+    }
+
+    .topbar-greeting h2 {
+        font-size: 1.05rem;
+    }
+
+    .user-meta-name {
+        display: none;
+    }
+
+    .user-profile-menu {
+        padding: 0.2rem;
+        border: none;
+        background: transparent;
+    }
+
+    /* Mobile responsive card tables */
+    .table-responsive-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn-accent, .btn-outline-custom {
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,283 @@
+-- ====================================================================
+-- DATABASE SCHEMA: ONLINE FITNESS TRACKING AND PROGRESS MANAGEMENT
+-- Database Engine: MySQL 8.0+
+-- Character Set: utf8mb4 / Collation: utf8mb4_unicode_ci
+-- ====================================================================
+
+CREATE DATABASE IF NOT EXISTS `fitness_tracker_db`
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE `fitness_tracker_db`;
+
+-- Drop tables in reverse dependency order for clean migrations
+DROP TABLE IF EXISTS `activity_logs`;
+DROP TABLE IF EXISTS `system_settings`;
+DROP TABLE IF EXISTS `fitness_content`;
+DROP TABLE IF EXISTS `challenge_participants`;
+DROP TABLE IF EXISTS `challenges`;
+DROP TABLE IF EXISTS `goals`;
+DROP TABLE IF EXISTS `workouts`;
+DROP TABLE IF EXISTS `profiles`;
+DROP TABLE IF EXISTS `users`;
+
+-- --------------------------------------------------------------------
+-- 1. USERS TABLE
+-- Core user entity supporting authentication, status, and role-based access control
+-- --------------------------------------------------------------------
+CREATE TABLE `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(150) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL, -- Stored as SHA-256 hash with salt
+    `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
+    `status` ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED') NOT NULL DEFAULT 'ACTIVE',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_users_email` (`email`),
+    INDEX `idx_users_role` (`role`),
+    INDEX `idx_users_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 2. PROFILES TABLE
+-- 1-to-1 relationship with `users` storing biometric and fitness parameters
+-- --------------------------------------------------------------------
+CREATE TABLE `profiles` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL UNIQUE,
+    `age` INT DEFAULT NULL,
+    `height_cm` DECIMAL(5,2) DEFAULT NULL,
+    `weight_kg` DECIMAL(5,2) DEFAULT NULL,
+    `fitness_goal` VARCHAR(255) DEFAULT 'Stay fit and active',
+    `activity_level` ENUM('SEDENTARY', 'LIGHTLY_ACTIVE', 'MODERATELY_ACTIVE', 'VERY_ACTIVE') DEFAULT 'MODERATELY_ACTIVE',
+    `profile_image` VARCHAR(255) DEFAULT 'default-avatar.png',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_profiles_user` FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 3. WORKOUTS TABLE
+-- Logs individual exercise sessions with polymorphic activity types & metrics
+-- --------------------------------------------------------------------
+CREATE TABLE `workouts` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `workout_type` ENUM('Running', 'Walking', 'Cycling', 'Swimming', 'Gym', 'Yoga', 'Strength Training', 'Other') NOT NULL,
+    `duration_minutes` INT NOT NULL,
+    `intensity` ENUM('Low', 'Medium', 'High') NOT NULL DEFAULT 'Medium',
+    `calories_burned` INT NOT NULL,
+    `workout_date` DATE NOT NULL,
+    `notes` TEXT DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_workouts_user` FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX `idx_workouts_user_date` (`user_id`, `workout_date`),
+    INDEX `idx_workouts_type` (`workout_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 4. GOALS TABLE
+-- Personal user targets (e.g. running 50km, burning 5000 kcal, 20 gym visits)
+-- --------------------------------------------------------------------
+CREATE TABLE `goals` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `title` VARCHAR(150) NOT NULL,
+    `description` TEXT DEFAULT NULL,
+    `target_value` DECIMAL(10,2) NOT NULL,
+    `current_value` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    `unit` VARCHAR(50) NOT NULL DEFAULT 'km',
+    `deadline` DATE NOT NULL,
+    `status` ENUM('IN_PROGRESS', 'COMPLETED', 'EXPIRED', 'CANCELLED') NOT NULL DEFAULT 'IN_PROGRESS',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_goals_user` FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX `idx_goals_user_status` (`user_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 5. CHALLENGES TABLE
+-- Community / Global challenges created by Admin or system
+-- --------------------------------------------------------------------
+CREATE TABLE `challenges` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(150) NOT NULL,
+    `description` TEXT NOT NULL,
+    `category` VARCHAR(50) NOT NULL DEFAULT 'General',
+    `target_value` DECIMAL(10,2) NOT NULL,
+    `unit` VARCHAR(50) NOT NULL DEFAULT 'KM',
+    `start_date` DATE NOT NULL,
+    `end_date` DATE NOT NULL,
+    `status` ENUM('UPCOMING', 'ACTIVE', 'COMPLETED', 'ARCHIVED') NOT NULL DEFAULT 'ACTIVE',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_challenges_status` (`status`),
+    INDEX `idx_challenges_dates` (`start_date`, `end_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 6. CHALLENGE PARTICIPANTS TABLE
+-- Tracks user participation in community challenges (Prevents duplicate joining)
+-- --------------------------------------------------------------------
+CREATE TABLE `challenge_participants` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `challenge_id` INT NOT NULL,
+    `progress` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    `status` ENUM('IN_PROGRESS', 'COMPLETED', 'DROPPED') NOT NULL DEFAULT 'IN_PROGRESS',
+    `joined_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `completed_date` TIMESTAMP NULL DEFAULT NULL,
+    CONSTRAINT `fk_cp_user` FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_cp_challenge` FOREIGN KEY (`challenge_id`) 
+        REFERENCES `challenges` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `uk_user_challenge` UNIQUE (`user_id`, `challenge_id`),
+    INDEX `idx_cp_user_challenge` (`user_id`, `challenge_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 7. FITNESS CONTENT TABLE
+-- Articles, guides, workouts, nutrition tips submitted by users & moderated by Admins
+-- --------------------------------------------------------------------
+CREATE TABLE `fitness_content` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `description` TEXT NOT NULL,
+    `category` ENUM('Workout Routines', 'Nutrition & Diet', 'Cardio & Endurance', 'Recovery & Wellness', 'Motivation') NOT NULL,
+    `image_url` VARCHAR(255) DEFAULT NULL,
+    `status` ENUM('PENDING', 'APPROVED', 'REJECTED') NOT NULL DEFAULT 'PENDING',
+    `rejection_reason` VARCHAR(255) DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_content_user` FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX `idx_content_status` (`status`),
+    INDEX `idx_content_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 8. SYSTEM SETTINGS TABLE
+-- Key-value pair configuration manageable by Admin
+-- --------------------------------------------------------------------
+CREATE TABLE `system_settings` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `setting_key` VARCHAR(100) NOT NULL UNIQUE,
+    `setting_value` TEXT NOT NULL,
+    `description` VARCHAR(255) DEFAULT NULL,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 9. ACTIVITY LOGS TABLE
+-- Comprehensive audit trail for system events
+-- --------------------------------------------------------------------
+CREATE TABLE `activity_logs` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT DEFAULT NULL,
+    `action` VARCHAR(100) NOT NULL,
+    `details` TEXT DEFAULT NULL,
+    `ip_address` VARCHAR(45) DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_logs_user` FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    INDEX `idx_logs_user` (`user_id`),
+    INDEX `idx_logs_action` (`action`),
+    INDEX `idx_logs_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ====================================================================
+-- SAMPLE DATA SEEDING
+-- Passwords are hashed with SHA-256 for "admin123" and "user123"
+-- SHA-256("admin123") = 240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9
+-- SHA-256("user123")  = ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f
+-- ====================================================================
+
+-- 1. USERS
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `status`, `created_at`) VALUES
+(1, 'Admin Officer', 'admin@fitnesstracker.com', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'ADMIN', 'ACTIVE', NOW() - INTERVAL 30 DAY),
+(2, 'Adam Sterling', 'adam.sterling@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'ACTIVE', NOW() - INTERVAL 25 DAY),
+(3, 'Sarah Connor', 'sarah.connor@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'ACTIVE', NOW() - INTERVAL 20 DAY),
+(4, 'Marcus Vance', 'marcus.vance@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'ACTIVE', NOW() - INTERVAL 15 DAY);
+
+-- 2. PROFILES
+INSERT INTO `profiles` (`user_id`, `age`, `height_cm`, `weight_kg`, `fitness_goal`, `activity_level`, `profile_image`) VALUES
+(1, 32, 180.00, 78.50, 'Maintain system operational fitness', 'MODERATELY_ACTIVE', 'default-avatar.png'),
+(2, 28, 178.00, 74.00, 'Build endurance & marathon preparation', 'VERY_ACTIVE', 'default-avatar.png'),
+(3, 26, 168.00, 59.00, 'Toning and functional core strength', 'MODERATELY_ACTIVE', 'default-avatar.png'),
+(4, 34, 182.00, 85.00, 'Muscle hypertrophy & strength training', 'VERY_ACTIVE', 'default-avatar.png');
+
+-- 3. WORKOUTS (Extensive real data across current and past weeks for Adam Sterling user_id=2)
+INSERT INTO `workouts` (`user_id`, `workout_type`, `duration_minutes`, `intensity`, `calories_burned`, `workout_date`, `notes`) VALUES
+(2, 'Running', 45, 'High', 420, CURDATE() - INTERVAL 6 DAY, 'Morning outdoor run at 5:15 pace'),
+(2, 'Gym', 60, 'High', 480, CURDATE() - INTERVAL 5 DAY, 'Push day: Bench press, incline DB, cable flyes'),
+(2, 'Cycling', 40, 'Medium', 310, CURDATE() - INTERVAL 4 DAY, 'Evening trail cycling sprint intervals'),
+(2, 'Swimming', 50, 'High', 450, CURDATE() - INTERVAL 3 DAY, 'Freestyle 1500m laps with recovery kicks'),
+(2, 'Yoga', 30, 'Low', 120, CURDATE() - INTERVAL 2 DAY, 'Vinyasa flow active recovery session'),
+(2, 'Strength Training', 55, 'High', 410, CURDATE() - INTERVAL 1 DAY, 'Pull day: Deadlifts, pull-ups, barbell rows'),
+(2, 'Running', 35, 'High', 330, CURDATE(), 'Interval sprints on track: 8x400m'),
+-- Workouts for user 3
+(3, 'Yoga', 45, 'Low', 150, CURDATE() - INTERVAL 4 DAY, 'Morning power yoga session'),
+(3, 'Running', 30, 'Medium', 240, CURDATE() - INTERVAL 2 DAY, 'Park loop jog'),
+(3, 'Gym', 50, 'Medium', 320, CURDATE() - INTERVAL 1 DAY, 'Legs & core workout'),
+-- Workouts for user 4
+(4, 'Gym', 75, 'High', 550, CURDATE() - INTERVAL 3 DAY, 'Heavy squats 5x5 and leg accessories'),
+(4, 'Strength Training', 60, 'High', 460, CURDATE() - INTERVAL 1 DAY, 'Overhead presses and weighted dips');
+
+-- 4. GOALS (For Adam Sterling user_id=2 and others)
+INSERT INTO `goals` (`user_id`, `title`, `description`, `target_value`, `current_value`, `unit`, `deadline`, `status`) VALUES
+(2, 'Run 50 KM', 'Complete 50 kilometers in outdoor running this month', 50.00, 32.00, 'KM', CURDATE() + INTERVAL 14 DAY, 'IN_PROGRESS'),
+(2, 'Burn 10,000 Calories', 'Burn 10k total active calories through structured workouts', 10000.00, 7420.00, 'kcal', CURDATE() + INTERVAL 20 DAY, 'IN_PROGRESS'),
+(2, 'Complete 20 Gym Sessions', 'Maintain gym consistency by hitting 20 sessions', 20.00, 14.00, 'Sessions', CURDATE() + INTERVAL 18 DAY, 'IN_PROGRESS'),
+(2, '100 KM Cycling Milestone', 'Accumulate century cycling distance', 100.00, 100.00, 'KM', CURDATE() - INTERVAL 2 DAY, 'COMPLETED'),
+(3, 'Morning Yoga 15 Days', 'Consistency streak for mindfulness and flexibility', 15.00, 9.00, 'Days', CURDATE() + INTERVAL 10 DAY, 'IN_PROGRESS'),
+(4, 'Bench Press 100kg Target', 'Progressive overload training target', 100.00, 95.00, 'KG', CURDATE() + INTERVAL 30 DAY, 'IN_PROGRESS');
+
+-- 5. CHALLENGES
+INSERT INTO `challenges` (`id`, `title`, `description`, `category`, `target_value`, `unit`, `start_date`, `end_date`, `status`) VALUES
+(1, '30-Day Running Challenge', 'Push your stamina to the limit! Complete 50 kilometers of running in 30 days.', 'Cardio', 50.00, 'KM', CURDATE() - INTERVAL 18 DAY, CURDATE() + INTERVAL 12 DAY, 'ACTIVE'),
+(2, 'Calorie Crusher 15,000', 'Torch 15,000 active calories across any workout category during the month.', 'Endurance', 15000.00, 'kcal', CURDATE() - INTERVAL 10 DAY, CURDATE() + INTERVAL 20 DAY, 'ACTIVE'),
+(3, 'Summer Century Ride', 'Conquer 100 kilometers of cycling outdoors or on stationary bikes.', 'Cycling', 100.00, 'KM', CURDATE() - INTERVAL 5 DAY, CURDATE() + INTERVAL 25 DAY, 'ACTIVE'),
+(4, 'Core & Strength Sprint', 'Log 25 comprehensive strength or gym sessions in 4 weeks.', 'Strength', 25.00, 'Sessions', CURDATE() + INTERVAL 5 DAY, CURDATE() + INTERVAL 35 DAY, 'UPCOMING');
+
+-- 6. CHALLENGE PARTICIPANTS
+INSERT INTO `challenge_participants` (`user_id`, `challenge_id`, `progress`, `status`, `joined_date`, `completed_date`) VALUES
+(2, 1, 32.00, 'IN_PROGRESS', NOW() - INTERVAL 18 DAY, NULL),
+(2, 2, 8540.00, 'IN_PROGRESS', NOW() - INTERVAL 10 DAY, NULL),
+(3, 1, 44.00, 'IN_PROGRESS', NOW() - INTERVAL 17 DAY, NULL),
+(4, 2, 12200.00, 'IN_PROGRESS', NOW() - INTERVAL 9 DAY, NULL),
+(4, 3, 68.00, 'IN_PROGRESS', NOW() - INTERVAL 4 DAY, NULL);
+
+-- 7. FITNESS CONTENT
+INSERT INTO `fitness_content` (`user_id`, `title`, `description`, `category`, `status`, `created_at`) VALUES
+(2, 'Mastering the 5K: Pacing and Breathing Techniques', 'Learn the rhythm of 2-2 stride breathing and cadence control to shave minutes off your 5K race pace without burning out.', 'Cardio & Endurance', 'APPROVED', NOW() - INTERVAL 10 DAY),
+(3, 'Post-Workout Mobility Flow for Hip and Spine Relief', 'A 10-minute guided mobility sequence to decompress tight hip flexors and lower back after intense running or deadlifts.', 'Recovery & Wellness', 'APPROVED', NOW() - INTERVAL 7 DAY),
+(4, 'High Protein Macro Planning on a Budget', 'Practical strategies for meal prepping lean chicken, eggs, lentils, and Greek yogurt to hit 160g protein daily without overspending.', 'Nutrition & Diet', 'APPROVED', NOW() - INTERVAL 4 DAY),
+(2, 'Advanced HIIT Protocol for Maximum Metabolic Afterburn', 'Utilize the Tabata 20-10 interval ratio with compound bodyweight exercises to boost EPOC (excess post-exercise oxygen consumption).', 'Workout Routines', 'PENDING', NOW() - INTERVAL 1 DAY),
+(3, 'Overcoming Mid-Plateau Mental Fatigue', 'Actionable mindset reframing techniques when strength progression slows down or workout enthusiasm dips.', 'Motivation', 'PENDING', NOW() - INTERVAL 12 HOUR);
+
+-- 8. SYSTEM SETTINGS
+INSERT INTO `system_settings` (`setting_key`, `setting_value`, `description`) VALUES
+('app_name', 'FITFLOW Pro Fitness Tracker', 'Official title of the web application'),
+('allow_registration', 'true', 'Allows new users to create accounts'),
+('challenges_enabled', 'true', 'Enables global challenge system for users'),
+('content_moderation', 'true', 'Requires admin review before fitness content is published'),
+('max_challenge_days', '60', 'Maximum duration allowed for new challenges'),
+('default_calorie_target', '2200', 'Default daily calorie burn recommendation');
+
+-- 9. ACTIVITY LOGS
+INSERT INTO `activity_logs` (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES
+(1, 'SYSTEM_INIT', 'System database initialized with default configurations', '127.0.0.1', NOW() - INTERVAL 30 DAY),
+(2, 'USER_REGISTER', 'User Adam Sterling registered an account', '192.168.1.101', NOW() - INTERVAL 25 DAY),
+(2, 'LOGIN', 'User Adam Sterling logged in', '192.168.1.101', NOW() - INTERVAL 6 DAY),
+(2, 'WORKOUT_CREATED', 'Added Running session: 45 min, 420 kcal', '192.168.1.101', NOW() - INTERVAL 6 DAY),
+(2, 'CHALLENGE_JOINED', 'Joined 30-Day Running Challenge', '192.168.1.101', NOW() - INTERVAL 18 DAY),
+(3, 'CONTENT_SUBMITTED', 'Submitted article: Post-Workout Mobility Flow', '192.168.1.105', NOW() - INTERVAL 7 DAY),
+(1, 'CONTENT_APPROVED', 'Approved article ID 2: Post-Workout Mobility Flow', '127.0.0.1', NOW() - INTERVAL 7 DAY),
+(2, 'GOAL_UPDATED', 'Updated progress on Run 50 KM: 32 / 50 KM (64%)', '192.168.1.101', NOW() - INTERVAL 1 DAY),
+(2, 'LOGIN', 'User Adam Sterling logged in', '192.168.1.101', NOW() - INTERVAL 2 HOUR);
