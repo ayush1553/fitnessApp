@@ -23,13 +23,17 @@ public class NutritionDAOImpl implements NutritionDAO {
         p.setWeightKg(rs.getDouble("weight_kg"));
         p.setActivityLevel(rs.getString("activity_level"));
         p.setFitnessGoal(rs.getString("fitness_goal"));
-        p.setDietPreference(rs.getString("diet_preference"));
-        p.setFoodExclusions(rs.getString("food_exclusions"));
-        p.setMealsPerDay(rs.getInt("meals_per_day"));
-        p.setBmr(rs.getDouble("bmr"));
-        p.setTdee(rs.getDouble("tdee"));
-        p.setCreatedAt(rs.getTimestamp("created_at"));
-        p.setUpdatedAt(rs.getTimestamp("updated_at"));
+        try {
+            String diet = rs.getString("diet_preference");
+            if (diet == null || diet.trim().isEmpty()) diet = rs.getString("diet_type");
+            p.setDietPreference(diet != null ? diet : "Non-Vegetarian");
+        } catch (Exception ignored) {}
+        try { p.setFoodExclusions(rs.getString("food_exclusions")); } catch (Exception ignored) {}
+        try { p.setMealsPerDay(rs.getInt("meals_per_day")); } catch (Exception ignored) {}
+        try { p.setBmr(rs.getDouble("bmr")); } catch (Exception ignored) {}
+        try { p.setTdee(rs.getDouble("tdee")); } catch (Exception ignored) {}
+        try { p.setCreatedAt(rs.getTimestamp("created_at")); } catch (Exception ignored) {}
+        try { p.setUpdatedAt(rs.getTimestamp("updated_at")); } catch (Exception ignored) {}
         return p;
     }
 
@@ -37,17 +41,36 @@ public class NutritionDAOImpl implements NutritionDAO {
         NutritionTarget t = new NutritionTarget();
         t.setId(rs.getInt("id"));
         t.setUserId(rs.getInt("user_id"));
-        t.setProfileId(rs.getInt("profile_id"));
-        t.setTargetCalories(rs.getInt("target_calories"));
-        t.setTargetProteinG(rs.getInt("target_protein_g"));
-        t.setTargetCarbsG(rs.getInt("target_carbs_g"));
-        t.setTargetFatG(rs.getInt("target_fat_g"));
-        t.setProteinPct(rs.getInt("protein_pct"));
-        t.setCarbsPct(rs.getInt("carbs_pct"));
-        t.setFatPct(rs.getInt("fat_pct"));
-        t.setWaterTargetL(rs.getDouble("water_target_l"));
-        t.setCalculatedAt(rs.getTimestamp("calculated_at"));
-        t.setCreatedAt(rs.getTimestamp("created_at"));
+        try { t.setProfileId(rs.getInt("profile_id")); } catch (Exception ignored) {}
+        try {
+            int cal = rs.getInt("target_calories");
+            if (cal <= 0) cal = rs.getInt("daily_calories");
+            t.setTargetCalories(cal);
+        } catch (Exception ignored) {}
+        try {
+            int pro = rs.getInt("target_protein_g");
+            if (pro <= 0) pro = rs.getInt("protein_grams");
+            t.setTargetProteinG(pro);
+        } catch (Exception ignored) {}
+        try {
+            int carb = rs.getInt("target_carbs_g");
+            if (carb <= 0) carb = rs.getInt("carbs_grams");
+            t.setTargetCarbsG(carb);
+        } catch (Exception ignored) {}
+        try {
+            int fat = rs.getInt("target_fat_g");
+            if (fat <= 0) fat = rs.getInt("fat_grams");
+            t.setTargetFatG(fat);
+        } catch (Exception ignored) {}
+        try { t.setProteinPct(rs.getInt("protein_pct")); } catch (Exception ignored) {}
+        try { t.setCarbsPct(rs.getInt("carbs_pct")); } catch (Exception ignored) {}
+        try { t.setFatPct(rs.getInt("fat_pct")); } catch (Exception ignored) {}
+        try {
+            double w = rs.getDouble("water_target_l");
+            t.setWaterTargetL(w > 0 ? w : 2.5);
+        } catch (Exception ignored) {}
+        try { t.setCalculatedAt(rs.getTimestamp("calculated_at")); } catch (Exception ignored) {}
+        try { t.setCreatedAt(rs.getTimestamp("created_at")); } catch (Exception ignored) {}
         return t;
     }
 

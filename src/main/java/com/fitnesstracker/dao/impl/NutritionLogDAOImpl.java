@@ -15,15 +15,27 @@ public class NutritionLogDAOImpl implements NutritionLogDAO {
         NutritionLog log = new NutritionLog();
         log.setId(rs.getInt("id"));
         log.setUserId(rs.getInt("user_id"));
-        log.setLogDate(rs.getDate("log_date"));
-        log.setMealType(rs.getString("meal_type"));
-        log.setFoodName(rs.getString("food_name"));
-        log.setPortionSize(rs.getString("portion_size"));
-        log.setCalories(rs.getInt("calories"));
-        log.setProteinG(rs.getInt("protein_g"));
-        log.setCarbsG(rs.getInt("carbs_g"));
-        log.setFatG(rs.getInt("fat_g"));
-        log.setCreatedAt(rs.getTimestamp("created_at"));
+        try { log.setLogDate(rs.getDate("log_date")); } catch (Exception ignored) {}
+        try { log.setMealType(rs.getString("meal_type")); } catch (Exception ignored) {}
+        try { log.setFoodName(rs.getString("food_name")); } catch (Exception ignored) {}
+        try { log.setPortionSize(rs.getString("portion_size")); } catch (Exception ignored) {}
+        try { log.setCalories(rs.getInt("calories")); } catch (Exception ignored) {}
+        try {
+            int pro = rs.getInt("protein_g");
+            if (pro <= 0) pro = rs.getInt("protein_grams");
+            log.setProteinG(pro);
+        } catch (Exception ignored) {}
+        try {
+            int carb = rs.getInt("carbs_g");
+            if (carb <= 0) carb = rs.getInt("carbs_grams");
+            log.setCarbsG(carb);
+        } catch (Exception ignored) {}
+        try {
+            int fat = rs.getInt("fat_g");
+            if (fat <= 0) fat = rs.getInt("fat_grams");
+            log.setFatG(fat);
+        } catch (Exception ignored) {}
+        try { log.setCreatedAt(rs.getTimestamp("created_at")); } catch (Exception ignored) {}
         return log;
     }
 

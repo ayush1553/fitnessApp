@@ -17,14 +17,18 @@ public class MealPlanDAOImpl implements MealPlanDAO {
         MealPlan p = new MealPlan();
         p.setId(rs.getInt("id"));
         p.setUserId(rs.getInt("user_id"));
-        p.setProfileId(rs.getInt("profile_id"));
-        p.setPlanName(rs.getString("plan_name"));
-        p.setTotalCalories(rs.getInt("total_calories"));
-        p.setTotalProteinG(rs.getInt("total_protein_g"));
-        p.setTotalCarbsG(rs.getInt("total_carbs_g"));
-        p.setTotalFatG(rs.getInt("total_fat_g"));
-        p.setActive(rs.getBoolean("is_active"));
-        p.setCreatedAt(rs.getTimestamp("created_at"));
+        try { p.setProfileId(rs.getInt("profile_id")); } catch (Exception ignored) {}
+        try { p.setPlanName(rs.getString("plan_name")); } catch (Exception ignored) {}
+        try {
+            int cal = rs.getInt("total_calories");
+            if (cal <= 0) cal = rs.getInt("daily_calories");
+            p.setTotalCalories(cal);
+        } catch (Exception ignored) {}
+        try { p.setTotalProteinG(rs.getInt("total_protein_g")); } catch (Exception ignored) {}
+        try { p.setTotalCarbsG(rs.getInt("total_carbs_g")); } catch (Exception ignored) {}
+        try { p.setTotalFatG(rs.getInt("total_fat_g")); } catch (Exception ignored) {}
+        try { p.setActive(rs.getBoolean("is_active")); } catch (Exception ignored) {}
+        try { p.setCreatedAt(rs.getTimestamp("created_at")); } catch (Exception ignored) {}
         return p;
     }
 
@@ -32,15 +36,27 @@ public class MealPlanDAOImpl implements MealPlanDAO {
         MealPlanItem item = new MealPlanItem();
         item.setId(rs.getInt("id"));
         item.setMealPlanId(rs.getInt("meal_plan_id"));
-        item.setMealNumber(rs.getInt("meal_number"));
-        item.setMealName(rs.getString("meal_name"));
-        item.setFoodItems(rs.getString("food_items"));
-        item.setCalories(rs.getInt("calories"));
-        item.setProteinG(rs.getInt("protein_g"));
-        item.setCarbsG(rs.getInt("carbs_g"));
-        item.setFatG(rs.getInt("fat_g"));
-        item.setNotes(rs.getString("notes"));
-        item.setCreatedAt(rs.getTimestamp("created_at"));
+        try { item.setMealNumber(rs.getInt("meal_number")); } catch (Exception ignored) {}
+        try { item.setMealName(rs.getString("meal_name")); } catch (Exception ignored) {}
+        try { item.setFoodItems(rs.getString("food_items")); } catch (Exception ignored) {}
+        try { item.setCalories(rs.getInt("calories")); } catch (Exception ignored) {}
+        try {
+            int pro = rs.getInt("protein_g");
+            if (pro <= 0) pro = rs.getInt("protein_grams");
+            item.setProteinG(pro);
+        } catch (Exception ignored) {}
+        try {
+            int carb = rs.getInt("carbs_g");
+            if (carb <= 0) carb = rs.getInt("carbs_grams");
+            item.setCarbsG(carb);
+        } catch (Exception ignored) {}
+        try {
+            int fat = rs.getInt("fat_g");
+            if (fat <= 0) fat = rs.getInt("fat_grams");
+            item.setFatG(fat);
+        } catch (Exception ignored) {}
+        try { item.setNotes(rs.getString("notes")); } catch (Exception ignored) {}
+        try { item.setCreatedAt(rs.getTimestamp("created_at")); } catch (Exception ignored) {}
         return item;
     }
 
