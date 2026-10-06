@@ -35,6 +35,7 @@
                     <table class="custom-table">
                         <thead>
                             <tr>
+                                <th style="width: 70px;">Cover</th>
                                 <th>Article Title</th>
                                 <th>Author</th>
                                 <th>Category</th>
@@ -46,6 +47,14 @@
                         <tbody>
                             <c:forEach var="c" items="${allContent}">
                                 <tr>
+                                    <td style="width: 70px;">
+                                        <div style="width: 60px; height: 42px; border-radius: 6px; overflow: hidden; background: #121513;">
+                                            <img src="${pageContext.request.contextPath}/${c.imageUrl}" 
+                                                 alt="${c.title}" 
+                                                 style="width: 100%; height: 100%; object-fit: cover;"
+                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/content/strength-training.webp';">
+                                        </div>
+                                    </td>
                                     <td>
                                         <div class="text-white fw-bold mb-1">${c.title}</div>
                                         <small class="text-secondary" style="font-size: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -67,6 +76,10 @@
                                     </td>
                                     <td class="text-end">
                                         <div class="d-inline-flex gap-1">
+                                            <a href="${pageContext.request.contextPath}/user/content/view?id=${c.id}" 
+                                               target="_blank" class="btn btn-sm btn-outline-custom p-1 px-2" title="View Full Article">
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i> View
+                                            </a>
                                             <c:if test="${c.status != 'APPROVED'}">
                                                 <form action="${pageContext.request.contextPath}/admin-actions/content/approve" method="POST" class="d-inline">
                                                     <input type="hidden" name="contentId" value="${c.id}">

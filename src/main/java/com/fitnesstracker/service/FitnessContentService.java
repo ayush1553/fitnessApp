@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface FitnessContentService {
 
+    FitnessContent submitContent(Integer userId, String title, String description, String contentBody, String category, String imageUrl);
+
     FitnessContent submitContent(Integer userId, String title, String description, String category, String imageUrl);
 
     boolean approveContent(Integer contentId);
@@ -20,6 +22,10 @@ public interface FitnessContentService {
     List<FitnessContent> getApprovedContent();
 
     List<FitnessContent> getApprovedContentByCategory(String category);
+
+    List<FitnessContent> getRelatedContent(Integer contentId, String category, int limit);
+
+    List<FitnessContent> searchApprovedContent(String query, String category);
 
     List<FitnessContent> getPendingSubmissions();
 

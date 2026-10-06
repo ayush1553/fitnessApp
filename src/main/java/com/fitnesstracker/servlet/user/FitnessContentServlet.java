@@ -30,12 +30,24 @@ public class FitnessContentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
         User currentUser = (User) session.getAttribute("currentUser");
 
         String category = req.getParameter("category");
+        String searchQuery = req.getParameter("search");
+        if (searchQuery == null) {
+            searchQuery = req.getParameter("q");
+        }
+
         List<FitnessContent> articles;
-        if (category != null && !category.trim().isEmpty() && !"ALL".equalsIgnoreCase(category)) {
-            articles = contentService.getApprovedContentByCategory(category);
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            articles = contentService.searchApprovedContent(searchQuery.trim(), category);
+        } else if (category != null && !category.trim().isEmpty() && !"ALL".equalsIgnoreCase(category)) {
+            articles = contentService.getApprovedContentByCategory(category.trim());
         } else {
             articles = contentService.getApprovedContent();
         }
@@ -45,6 +57,7 @@ public class FitnessContentServlet extends HttpServlet {
         req.setAttribute("articles", articles);
         req.setAttribute("userSubmissions", userSubmissions);
         req.setAttribute("selectedCategory", category);
+        req.setAttribute("searchQuery", searchQuery);
 
         req.getRequestDispatcher("/user/content.jsp").forward(req, resp);
     }
@@ -52,15 +65,25 @@ public class FitnessContentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
         User currentUser = (User) session.getAttribute("currentUser");
 
         try {
             String title = req.getParameter("title");
             String description = req.getParameter("description");
+            String contentBody = req.getParameter("contentBody");
             String category = req.getParameter("category");
             String imageUrl = req.getParameter("imageUrl");
 
-            FitnessContent content = contentService.submitContent(currentUser.getId(), title, description, category, imageUrl);
+            if (contentBody == null || contentBody.trim().isEmpty()) {
+                contentBody = description;
+            }
+
+            FitnessContent content = contentService.submitContent(currentUser.getId(), title, description, contentBody, category, imageUrl);
 
             boolean requiresModeration = settingsService.isContentModerationEnabled();
             if (!requiresModeration) {

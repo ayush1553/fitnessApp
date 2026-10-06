@@ -10,6 +10,10 @@ public interface FitnessContentDAO extends GenericDAO<FitnessContent, Integer> {
 
     List<FitnessContent> findApprovedByCategory(String category);
 
+    List<FitnessContent> findRelatedContent(Integer contentId, String category, int limit);
+
+    List<FitnessContent> searchApprovedContent(String query, String category);
+
     List<FitnessContent> findPendingContent();
 
     List<FitnessContent> findByUserId(Integer userId);

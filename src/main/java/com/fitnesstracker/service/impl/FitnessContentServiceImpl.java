@@ -23,23 +23,29 @@ public class FitnessContentServiceImpl implements FitnessContentService {
     }
 
     @Override
-    public FitnessContent submitContent(Integer userId, String title, String description, String category, String imageUrl) {
+    public FitnessContent submitContent(Integer userId, String title, String description, String contentBody, String category, String imageUrl) {
         if (!ValidationUtil.isNotEmpty(title)) {
             throw new AppException("Content title is required.");
         }
         if (!ValidationUtil.isNotEmpty(description)) {
-            throw new AppException("Content description/body is required.");
+            throw new AppException("Content short description is required.");
         }
 
         FitnessContent content = new FitnessContent();
         content.setUserId(userId);
         content.setTitle(title.trim());
         content.setDescription(description.trim());
+        content.setContentBody(ValidationUtil.isNotEmpty(contentBody) ? contentBody.trim() : description.trim());
         content.setCategory(ValidationUtil.isNotEmpty(category) ? category.trim() : "Workout Routines");
         content.setImageUrl(imageUrl);
         content.setStatus("PENDING");
 
         return contentDAO.save(content);
+    }
+
+    @Override
+    public FitnessContent submitContent(Integer userId, String title, String description, String category, String imageUrl) {
+        return submitContent(userId, title, description, description, category, imageUrl);
     }
 
     @Override
@@ -70,6 +76,16 @@ public class FitnessContentServiceImpl implements FitnessContentService {
     @Override
     public List<FitnessContent> getApprovedContentByCategory(String category) {
         return contentDAO.findApprovedByCategory(category);
+    }
+
+    @Override
+    public List<FitnessContent> getRelatedContent(Integer contentId, String category, int limit) {
+        return contentDAO.findRelatedContent(contentId, category, limit);
+    }
+
+    @Override
+    public List<FitnessContent> searchApprovedContent(String query, String category) {
+        return contentDAO.searchApprovedContent(query, category);
     }
 
     @Override

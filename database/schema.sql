@@ -150,8 +150,9 @@ CREATE TABLE `fitness_content` (
     `user_id` INT NOT NULL,
     `title` VARCHAR(200) NOT NULL,
     `description` TEXT NOT NULL,
+    `content_body` MEDIUMTEXT DEFAULT NULL,
     `category` ENUM('Workout Routines', 'Nutrition & Diet', 'Cardio & Endurance', 'Recovery & Wellness', 'Motivation') NOT NULL,
-    `image_url` VARCHAR(255) DEFAULT NULL,
+    `image_url` VARCHAR(500) DEFAULT NULL,
     `status` ENUM('PENDING', 'APPROVED', 'REJECTED') NOT NULL DEFAULT 'PENDING',
     `rejection_reason` VARCHAR(255) DEFAULT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -255,12 +256,31 @@ INSERT INTO `challenge_participants` (`user_id`, `challenge_id`, `progress`, `st
 (4, 3, 68.00, 'IN_PROGRESS', NOW() - INTERVAL 4 DAY, NULL);
 
 -- 7. FITNESS CONTENT
-INSERT INTO `fitness_content` (`user_id`, `title`, `description`, `category`, `status`, `created_at`) VALUES
-(2, 'Mastering the 5K: Pacing and Breathing Techniques', 'Learn the rhythm of 2-2 stride breathing and cadence control to shave minutes off your 5K race pace without burning out.', 'Cardio & Endurance', 'APPROVED', NOW() - INTERVAL 10 DAY),
-(3, 'Post-Workout Mobility Flow for Hip and Spine Relief', 'A 10-minute guided mobility sequence to decompress tight hip flexors and lower back after intense running or deadlifts.', 'Recovery & Wellness', 'APPROVED', NOW() - INTERVAL 7 DAY),
-(4, 'High Protein Macro Planning on a Budget', 'Practical strategies for meal prepping lean chicken, eggs, lentils, and Greek yogurt to hit 160g protein daily without overspending.', 'Nutrition & Diet', 'APPROVED', NOW() - INTERVAL 4 DAY),
-(2, 'Advanced HIIT Protocol for Maximum Metabolic Afterburn', 'Utilize the Tabata 20-10 interval ratio with compound bodyweight exercises to boost EPOC (excess post-exercise oxygen consumption).', 'Workout Routines', 'PENDING', NOW() - INTERVAL 1 DAY),
-(3, 'Overcoming Mid-Plateau Mental Fatigue', 'Actionable mindset reframing techniques when strength progression slows down or workout enthusiasm dips.', 'Motivation', 'PENDING', NOW() - INTERVAL 12 HOUR);
+INSERT INTO `fitness_content` (`user_id`, `title`, `description`, `content_body`, `category`, `image_url`, `status`, `created_at`) VALUES
+(2, 'Mastering the 5K: Pacing and Breathing Techniques', 
+ 'Learn the rhythm of 2-2 stride breathing and cadence control to shave minutes off your 5K race pace without burning out.',
+ '## The Foundation of 5K Speed & Endurance\n\nThe 5-kilometer distance is a unique athletic balance: it demands high aerobic capacity while pushing close to your lactate threshold. Many runners start too fast in the first kilometer, creating early oxygen debt that leads to severe deceleration.\n\n## 1. Rhythmic 2-2 Stride Breathing Pattern\n\nSynchronizing your respiration with foot strikes stabilizes your diaphragm and maintains efficient oxygenation:\n- Inhale smoothly for 2 footsteps (left, right)\n- Exhale fully for 2 footsteps (left, right)\n- If you enter the final sprint, switch to a rapid 2-1 or 1-1 rhythm to clear carbon dioxide rapidly.\n\n## 2. Cadence Optimization (170-180 SPM)\n\nA cadence between 170 and 180 strides per minute minimizes ground contact time, reducing vertical bounce and joint impact on knees and hips.\n\n## 3. Negative Split Pacing Strategy\n\nDivide your 5K into three distinct phases:\n- **KM 1–2:** Controlled cruise at 5 seconds slower than goal pace.\n- **KM 3–4:** Lock into your exact target race pace.\n- **KM 5:** Accelerate into your maximum sustainable kick.',
+ 'Cardio & Endurance', 'assets/images/content/5k-running.webp', 'APPROVED', NOW() - INTERVAL 10 DAY),
+
+(3, 'Post-Workout Mobility Flow for Hip and Spine Relief', 
+ 'A 10-minute guided mobility sequence to decompress tight hip flexors and lower back after intense running or deadlifts.',
+ '## Why Mobility is Essential After Heavy Sessions\n\nHeavy compound movements like deadlifts, squats, and sustained running compress the spinal column and tighten the psoas muscles. Passive sitting after training locks these shortened muscle lengths in place.\n\n## 1. 90/90 Hip Opener Flow (2 Mins Each Side)\n\nSit on the floor with both knees bent at 90-degree angles. Keep the torso upright and gently hinge forward from the pelvis. This actively targets internal and external hip rotators.\n\n## 2. World\'s Greatest Stretch (5 Reps / Side)\n\nStep into a deep lunge, place both hands inside your front foot, and rotate your thoracic spine toward the ceiling. Breathe deeply into the open ribcage.\n\n## 3. Cat-Cow Thoracic Wave\n\nOn all fours, rhythmically articulate each vertebra from the tailbone to the neck. Synchronize with slow diaphragmatic nasal breathing to signal the parasympathetic nervous system into recovery mode.',
+ 'Recovery & Wellness', 'assets/images/content/mobility.webp', 'APPROVED', NOW() - INTERVAL 7 DAY),
+
+(4, 'High Protein Macro Planning on a Budget', 
+ 'Practical strategies for meal prepping lean chicken, eggs, lentils, and Greek yogurt to hit 160g protein daily without overspending.',
+ '## The Protein Paradox: Quality Without High Costs\n\nBuilding lean muscle tissue or preserving strength during a calorie deficit requires consistent daily protein intake (1.6g to 2.2g per kg of body weight). You don\'t need expensive cuts of meat or exotic supplements to reach your targets.\n\n## Top Cost-Effective Protein Powerhouses\n\n- **Chicken Breast & Thighs:** High biological value, versatile for batch roasting with paprika and garlic.\n- **Whole Eggs & Liquid Egg Whites:** Perfect balance of bioavailable amino acids and healthy micronutrients.\n- **Brown Lentils & Chickpeas:** Inexpensive plant protein loaded with soluble dietary fiber for gut health.\n- **0% Greek Yogurt / Quark:** Fast casein and whey protein source requiring zero cooking time.\n\n## Sample 160g Daily Protein Blueprint\n\n- **Breakfast:** 3 whole eggs + 2 slices whole-grain toast + 150g Greek yogurt (42g protein)\n- **Lunch:** 180g roasted chicken breast + brown rice + steamed greens (48g protein)\n- **Snack:** 1 scoop whey or 200g cottage cheese with berries (25g protein)\n- **Dinner:** Lentil chili with lean ground turkey or tofu (45g protein)',
+ 'Nutrition & Diet', 'assets/images/content/protein-meal-prep.webp', 'APPROVED', NOW() - INTERVAL 4 DAY),
+
+(2, 'Advanced HIIT Protocol for Maximum Metabolic Afterburn', 
+ 'Utilize the Tabata 20-10 interval ratio with compound bodyweight exercises to boost EPOC (excess post-exercise oxygen consumption).',
+ '## Unleashing EPOC (Excess Post-Exercise Oxygen Consumption)\n\nHigh-Intensity Interval Training triggers an elevated metabolic rate that burns additional calories for hours post-workout.\n\n## 4-Round Power Circuit (20s Work / 10s Rest)\n\n- **Station 1:** Explosive Kettlebell Swings (Hips back, full glute lock)\n- **Station 2:** Battle Rope Waves (High speed, athletic quarter squat stance)\n- **Station 3:** Plyometric Box Jumps or Tuck Jumps\n- **Station 4:** Burpee to Overhead Press\n\nRest 90 seconds between full rounds. Repeat for 4 rounds total.',
+ 'Workout Routines', 'assets/images/content/strength-training.webp', 'APPROVED', NOW() - INTERVAL 1 DAY),
+
+(3, 'Overcoming Mid-Plateau Mental Fatigue', 
+ 'Actionable mindset reframing techniques when strength progression slows down or workout enthusiasm dips.',
+ '## The Psychology of the Training Plateau\n\nProgress in physical fitness is non-linear. After the rapid neural adaptations of beginner training, every seasoned athlete hits periods where progress stalls and motivation flags.\n\n## 1. Differentiating Central Nervous System Fatigue from Lack of Drive\n\nWhen grip strength drops, resting heart rate elevates, and sleep quality degrades, your nervous system is signaling systemic fatigue, not mental weakness. Implement a scheduled deload week immediately.\n\n## 2. Shift Focus from Outcome Goals to Process Streaks\n\nInstead of measuring only weight on the bar, track sleep consistency, daily water targets, and training consistency streaks. Small daily wins rebuild momentum.\n\n## 3. Deliberate Deloading Strategy\n\nReduce training volume by 40–50% while maintaining moderate intensity. This allows joint structures and hormonal balances to supercompensate.',
+ 'Motivation', 'assets/images/content/mental-fatigue.webp', 'APPROVED', NOW() - INTERVAL 12 HOUR);
 
 -- 8. SYSTEM SETTINGS
 INSERT INTO `system_settings` (`setting_key`, `setting_value`, `description`) VALUES

@@ -9,6 +9,7 @@ public class FitnessContent extends BaseEntity {
     private Integer userId;
     private String title;
     private String description;
+    private String contentBody;
     private String category; // 'Workout Routines', 'Nutrition & Diet', 'Cardio & Endurance', 'Recovery & Wellness', 'Motivation'
     private String imageUrl;
     private String status; // 'PENDING', 'APPROVED', 'REJECTED'
@@ -24,15 +25,20 @@ public class FitnessContent extends BaseEntity {
         this.category = "Workout Routines";
     }
 
-    public FitnessContent(Integer id, Integer userId, String title, String description, String category, String imageUrl, String status, String rejectionReason) {
+    public FitnessContent(Integer id, Integer userId, String title, String description, String contentBody, String category, String imageUrl, String status, String rejectionReason) {
         super(id);
         this.userId = userId;
         this.title = title;
         this.description = description;
+        this.contentBody = contentBody;
         this.category = category;
         this.imageUrl = imageUrl;
         this.status = status != null ? status : "PENDING";
         this.rejectionReason = rejectionReason;
+    }
+
+    public FitnessContent(Integer id, Integer userId, String title, String description, String category, String imageUrl, String status, String rejectionReason) {
+        this(id, userId, title, description, null, category, imageUrl, status, rejectionReason);
     }
 
     // Getters and Setters
@@ -60,6 +66,14 @@ public class FitnessContent extends BaseEntity {
         this.description = description;
     }
 
+    public String getContentBody() {
+        return (contentBody != null && !contentBody.trim().isEmpty()) ? contentBody : description;
+    }
+
+    public void setContentBody(String contentBody) {
+        this.contentBody = contentBody;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -69,11 +83,31 @@ public class FitnessContent extends BaseEntity {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+            return imageUrl;
+        }
+        return getDefaultImageUrl();
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getDefaultImageUrl() {
+        if (category == null) return "assets/images/content/strength-training.webp";
+        switch (category.trim()) {
+            case "Nutrition & Diet":
+                return "assets/images/content/protein-meal-prep.webp";
+            case "Cardio & Endurance":
+                return "assets/images/content/5k-running.webp";
+            case "Recovery & Wellness":
+                return "assets/images/content/mobility.webp";
+            case "Motivation":
+                return "assets/images/content/mental-fatigue.webp";
+            case "Workout Routines":
+            default:
+                return "assets/images/content/strength-training.webp";
+        }
     }
 
     public String getStatus() {
