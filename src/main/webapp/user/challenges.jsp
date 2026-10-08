@@ -19,7 +19,7 @@
             <!-- Header -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <h3 class="mb-1 text-white">Community Challenges</h3>
+                    <h3 class="mb-1 text-theme-primary">Community Challenges</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Join structured fitness challenges, compete with the community, and earn badges.
                     </p>
@@ -46,7 +46,7 @@
                                             <span class="badge-custom badge-active fw-bold" style="font-size: 0.78rem;">
                                                 <i class="fa-solid fa-layer-group me-1"></i> ${c.category}
                                             </span>
-                                            <span class="badge rounded-pill" style="background: rgba(8, 9, 9, 0.75); backdrop-filter: blur(6px); color: #fff; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.15);">
+                                            <span class="badge rounded-pill" style="background: var(--bg-modal); backdrop-filter: blur(6px); color: var(--text-primary); font-size: 0.75rem; border: 1px solid var(--border-color);">
                                                 <i class="fa-solid fa-users me-1 text-accent"></i> ${c.participantCount} Joined
                                             </span>
                                         </div>
@@ -55,7 +55,7 @@
                                     <!-- Challenge Content Body -->
                                     <div class="challenge-card-body">
                                         <div>
-                                            <h4 class="text-white fw-bold mb-2">${c.title}</h4>
+                                            <h4 class="text-theme-primary fw-bold mb-2">${c.title}</h4>
                                             <p class="text-secondary mb-3" style="font-size: 0.88rem; line-height: 1.45;">
                                                 ${c.description}
                                             </p>
@@ -70,7 +70,7 @@
                                                 </div>
                                                 <div class="text-end">
                                                     <small class="text-secondary d-block" style="font-size: 0.75rem;">Timeline</small>
-                                                    <span class="fw-semibold text-white" style="font-size: 0.85rem;">
+                                                    <span class="fw-semibold text-theme-primary" style="font-size: 0.85rem;">
                                                         <fmt:formatDate value="${c.startDate}" pattern="MMM d"/> – <fmt:formatDate value="${c.endDate}" pattern="MMM d, yyyy"/>
                                                     </span>
                                                 </div>
@@ -80,7 +80,7 @@
                                             <c:if test="${c.userJoined}">
                                                 <div class="mb-3 p-3 rounded-3" style="background-color: rgba(200, 255, 69, 0.05); border: 1px solid rgba(200, 255, 69, 0.15);">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="text-white fw-bold" style="font-size: 0.85rem;">
+                                                        <span class="text-theme-primary fw-bold" style="font-size: 0.85rem;">
                                                             Your Progress: <fmt:formatNumber value="${c.userParticipation.progress}" pattern="#,##0.#"/> / <fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}
                                                         </span>
                                                         <span class="fw-bold" style="color: var(--accent-primary); font-size: 0.9rem;">
@@ -138,7 +138,7 @@
                     <c:otherwise>
                         <div class="col-12 text-center py-5 text-muted">
                             <i class="fa-solid fa-trophy fs-1 mb-3"></i>
-                            <h5 class="text-white">No active challenges available</h5>
+                            <h5 class="text-theme-primary">No active challenges available</h5>
                             <p>Check back soon for new community fitness challenges.</p>
                         </div>
                     </c:otherwise>
@@ -153,13 +153,13 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h6 class="modal-title text-white">Update Challenge Progress</h6>
+                <h6 class="modal-title text-theme-primary">Update Challenge Progress</h6>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/challenge/progress" method="POST">
                 <input type="hidden" name="participantId" id="modalParticipantId">
                 <div class="modal-body p-3">
-                    <p class="mb-1 text-white fw-bold" id="modalChallengeTitle"></p>
+                    <p class="mb-1 text-theme-primary fw-bold" id="modalChallengeTitle"></p>
                     <p class="text-secondary mb-3" style="font-size: 0.8rem;">Target: <span id="modalChallengeTarget" class="text-accent fw-bold"></span></p>
 
                     <label class="form-label-custom">New Accumulated Progress (<span id="modalProgressUnit"></span>)</label>

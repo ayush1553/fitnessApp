@@ -1,6 +1,9 @@
 package com.fitnesstracker.filter;
 
 import com.fitnesstracker.model.User;
+import com.fitnesstracker.model.UserPreferences;
+import com.fitnesstracker.service.UserPreferencesService;
+import com.fitnesstracker.service.impl.UserPreferencesServiceImpl;
 import com.fitnesstracker.util.FlashMessage;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -11,10 +14,12 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Authentication filter protecting user-facing routes and actions.
+ * Authentication filter protecting user-facing routes, actions, and ensuring theme preferences are loaded.
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/user/*", "/workout/*", "/goal/*", "/challenge/*", "/content/*", "/profile/*"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/user/*", "/workout/*", "/goal/*", "/challenge/*", "/content/*", "/profile/*", "/customize/*"})
 public class AuthFilter implements Filter {
+
+    private final UserPreferencesService preferencesService = new UserPreferencesServiceImpl();
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -39,6 +44,12 @@ public class AuthFilter implements Filter {
             newSession.setAttribute("flashMessage", FlashMessage.error("Your account has been deactivated. Please contact support."));
             res.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
+        }
+
+        // Ensure user preferences are loaded into session
+        if (session != null && session.getAttribute("userPreferences") == null) {
+            UserPreferences prefs = preferencesService.getByUserId(currentUser.getId());
+            session.setAttribute("userPreferences", prefs);
         }
 
         chain.doFilter(request, response);

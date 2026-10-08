@@ -13,10 +13,13 @@ USE `fitness_tracker_db`;
 -- Drop tables in reverse dependency order for clean migrations
 DROP TABLE IF EXISTS `activity_logs`;
 DROP TABLE IF EXISTS `system_settings`;
+DROP TABLE IF EXISTS `exercises`;
 DROP TABLE IF EXISTS `fitness_content`;
 DROP TABLE IF EXISTS `challenge_participants`;
 DROP TABLE IF EXISTS `challenges`;
 DROP TABLE IF EXISTS `goals`;
+DROP TABLE IF EXISTS `password_reset_tokens`;
+DROP TABLE IF EXISTS `email_verification_tokens`;
 DROP TABLE IF EXISTS `workouts`;
 DROP TABLE IF EXISTS `profiles`;
 DROP TABLE IF EXISTS `users`;
@@ -32,11 +35,44 @@ CREATE TABLE `users` (
     `password` VARCHAR(255) NOT NULL, -- Stored as SHA-256 hash with salt
     `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
     `status` ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED') NOT NULL DEFAULT 'ACTIVE',
+    `email_verified` BOOLEAN NOT NULL DEFAULT FALSE,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX `idx_users_email` (`email`),
     INDEX `idx_users_role` (`role`),
     INDEX `idx_users_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 1.1 EMAIL VERIFICATION TOKENS TABLE
+-- Cryptographic tokens for email verification flow
+-- --------------------------------------------------------------------
+CREATE TABLE `email_verification_tokens` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `token_hash` VARCHAR(64) NOT NULL,
+    `expires_at` TIMESTAMP NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `used_at` TIMESTAMP NULL DEFAULT NULL,
+    INDEX `idx_evt_token_hash` (`token_hash`),
+    INDEX `idx_evt_user_id` (`user_id`),
+    CONSTRAINT `fk_evt_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 1.2 PASSWORD RESET TOKENS TABLE
+-- Cryptographic tokens for secure password recovery
+-- --------------------------------------------------------------------
+CREATE TABLE `password_reset_tokens` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `token_hash` VARCHAR(64) NOT NULL,
+    `expires_at` TIMESTAMP NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `used_at` TIMESTAMP NULL DEFAULT NULL,
+    INDEX `idx_prt_token_hash` (`token_hash`),
+    INDEX `idx_prt_user_id` (`user_id`),
+    CONSTRAINT `fk_prt_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------------------
@@ -152,6 +188,9 @@ CREATE TABLE `fitness_content` (
     `description` TEXT NOT NULL,
     `content_body` MEDIUMTEXT DEFAULT NULL,
     `category` ENUM('Workout Routines', 'Nutrition & Diet', 'Cardio & Endurance', 'Recovery & Wellness', 'Motivation') NOT NULL,
+    `subcategory` VARCHAR(100) DEFAULT 'General',
+    `read_time_minutes` INT DEFAULT 4,
+    `level` VARCHAR(50) DEFAULT 'All Levels',
     `image_url` VARCHAR(500) DEFAULT NULL,
     `status` ENUM('PENDING', 'APPROVED', 'REJECTED') NOT NULL DEFAULT 'PENDING',
     `rejection_reason` VARCHAR(255) DEFAULT NULL,
@@ -161,6 +200,36 @@ CREATE TABLE `fitness_content` (
         REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     INDEX `idx_content_status` (`status`),
     INDEX `idx_content_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------------------
+-- 7.1 EXERCISES TABLE
+-- Movement library with video guides, instructions, difficulty, equipment, muscles
+-- --------------------------------------------------------------------
+CREATE TABLE `exercises` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(150) NOT NULL,
+    `slug` VARCHAR(150) NOT NULL UNIQUE,
+    `category` ENUM('Chest', 'Back', 'Shoulders', 'Arms', 'Legs', 'Core', 'Full Body', 'Mobility') NOT NULL,
+    `difficulty` ENUM('Beginner', 'Intermediate', 'Advanced') NOT NULL DEFAULT 'Beginner',
+    `equipment` VARCHAR(100) NOT NULL DEFAULT 'Bodyweight',
+    `target_muscles` VARCHAR(255) NOT NULL,
+    `secondary_muscles` VARCHAR(255) DEFAULT NULL,
+    `description` TEXT NOT NULL,
+    `instructions` MEDIUMTEXT NOT NULL,
+    `common_mistakes` MEDIUMTEXT DEFAULT NULL,
+    `form_tips` MEDIUMTEXT DEFAULT NULL,
+    `default_sets` INT DEFAULT 3,
+    `default_reps` VARCHAR(50) DEFAULT '10-12 reps',
+    `default_duration_seconds` INT DEFAULT 45,
+    `video_url` VARCHAR(500) DEFAULT NULL,
+    `thumbnail_url` VARCHAR(500) DEFAULT NULL,
+    `status` ENUM('ACTIVE', 'INACTIVE') NOT NULL DEFAULT 'ACTIVE',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_exercise_category` (`category`),
+    INDEX `idx_exercise_difficulty` (`difficulty`),
+    INDEX `idx_exercise_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------------------

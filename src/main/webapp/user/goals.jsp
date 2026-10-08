@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Fitness Goals - FitFlow Pro" scope="request"/>
@@ -19,7 +19,7 @@
             <!-- Header Toolbar -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <h3 class="mb-1 text-white">Fitness Goals & Milestones</h3>
+                    <h3 class="mb-1 text-theme-primary">Fitness Goals & Milestones</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Set actionable targets, monitor milestone completion, and stay consistent.
                     </p>
@@ -38,7 +38,7 @@
                         </div>
                         <div>
                             <small class="text-secondary d-block">In Progress</small>
-                            <span class="fs-4 fw-bold text-white">${activeCount} Active</span>
+                            <span class="fs-4 fw-bold text-theme-primary">${activeCount} Active</span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         </div>
                         <div>
                             <small class="text-secondary d-block">Completed</small>
-                            <span class="fs-4 fw-bold text-white">${completedCount} Goals</span>
+                            <span class="fs-4 fw-bold text-theme-primary">${completedCount} Goals</span>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                                 <button class="btn btn-sm text-secondary p-0" data-bs-toggle="dropdown">
                                                     <i class="fa-solid fa-ellipsis-vertical"></i>
                                                 </button>
-                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" style="background-color: var(--bg-card); border-color: var(--border-color);">
+                                                <ul class="dropdown-menu dropdown-menu-end " style="background-color: var(--bg-card); border-color: var(--border-color);">
                                                     <li>
                                                         <button class="dropdown-item" onclick="openEditGoalModal('${g.id}', '${g.title}', '${g.targetValue}', '${g.currentValue}', '${g.unit}', '${g.deadline}', '${g.status}', '${g.description}')">
                                                             <i class="fa-solid fa-pen-to-square me-2"></i> Edit
@@ -111,14 +111,14 @@
                                             </div>
                                         </div>
 
-                                        <h5 class="text-white fw-bold mb-2">${g.title}</h5>
+                                        <h5 class="text-theme-primary fw-bold mb-2">${g.title}</h5>
                                         <p class="text-secondary mb-3" style="font-size: 0.85rem; min-height: 38px;">
                                             ${empty g.description ? 'No description provided.' : g.description}
                                         </p>
 
                                         <!-- Progress Bar -->
                                         <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <span class="text-white fw-bold" style="font-size: 0.85rem;">
+                                            <span class="text-theme-primary fw-bold" style="font-size: 0.85rem;">
                                                 <fmt:formatNumber value="${g.currentValue}" pattern="#,##0.#"/> / <fmt:formatNumber value="${g.targetValue}" pattern="#,##0.#"/> ${g.unit}
                                             </span>
                                             <span class="fw-bold" style="color: var(--accent-primary); font-size: 0.85rem;">${g.progressPercentage}%</span>
@@ -144,7 +144,7 @@
                     <c:otherwise>
                         <div class="col-12 text-center py-5 text-muted">
                             <i class="fa-solid fa-bullseye fs-1 mb-3"></i>
-                            <h5 class="text-white">No fitness goals yet</h5>
+                            <h5 class="text-theme-primary">No fitness goals yet</h5>
                             <p class="mb-3">Set your first fitness goal to start tracking progress towards your milestones.</p>
                             <button class="btn-accent" data-bs-toggle="modal" data-bs-target="#addGoalModal">
                                 <i class="fa-solid fa-plus"></i> Create Goal
@@ -162,7 +162,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-bullseye text-accent me-2"></i> Create Fitness Goal</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-bullseye text-accent me-2"></i> Create Fitness Goal</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/goal/add" method="POST" class="needs-validation" novalidate>
@@ -208,7 +208,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-pen-to-square text-accent me-2"></i> Edit Goal</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-pen-to-square text-accent me-2"></i> Edit Goal</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/goal/update" method="POST" class="needs-validation" novalidate>
@@ -264,13 +264,13 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h6 class="modal-title text-white">Update Progress</h6>
+                <h6 class="modal-title text-theme-primary">Update Progress</h6>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/goal/progress" method="POST">
                 <input type="hidden" name="id" id="progressGoalId">
                 <div class="modal-body p-3">
-                    <p class="mb-1 text-white fw-bold" id="progressGoalTitle"></p>
+                    <p class="mb-1 text-theme-primary fw-bold" id="progressGoalTitle"></p>
                     <p class="text-secondary mb-3" style="font-size: 0.8rem;">Target: <span id="progressGoalTarget" class="text-accent fw-bold"></span></p>
 
                     <label class="form-label-custom">New Current Value (<span id="progressUnitLabel"></span>)</label>

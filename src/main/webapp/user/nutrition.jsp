@@ -20,7 +20,7 @@
             <div class="alert alert-dark d-flex align-items-center gap-3 mb-4 py-2 px-3" style="background: rgba(200, 255, 69, 0.05); border: 1px solid rgba(200, 255, 69, 0.2); border-radius: 12px;">
                 <i class="fa-solid fa-circle-info fs-5" style="color: var(--accent-primary);"></i>
                 <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                    <strong class="text-white">Estimated Targets:</strong> Calorie and macronutrient values are mathematical estimates based on the Mifflin-St Jeor formula and standard nutritional models. They are not intended as medical prescriptions.
+                    <strong class="text-theme-primary">Estimated Targets:</strong> Calorie and macronutrient values are mathematical estimates based on the Mifflin-St Jeor formula and standard nutritional models. They are not intended as medical prescriptions.
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
                             <div class="fitness-card p-4 p-md-5">
                                 <div class="text-center mb-4">
                                     <span class="badge-custom badge-accent mb-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Guided Setup</span>
-                                    <h2 class="text-white fw-bold mb-2">Personalized Nutrition Setup</h2>
+                                    <h2 class="text-theme-primary fw-bold mb-2">Personalized Nutrition Setup</h2>
                                     <p class="text-secondary" style="font-size: 0.95rem;">
                                         Answer a few quick questions to generate your science-backed daily calorie, macro, and meal recommendations.
                                     </p>
@@ -66,7 +66,7 @@
                                     
                                     <!-- STEP 1: Personal Info -->
                                     <div class="wizard-step" id="wizard-step-1">
-                                        <h4 class="text-white mb-3"><i class="fa-solid fa-user-check text-accent me-2"></i> Step 1: Personal Information</h4>
+                                        <h4 class="text-theme-primary mb-3"><i class="fa-solid fa-user-check text-accent me-2"></i> Step 1: Personal Information</h4>
                                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">Auto-populated from your profile. Update if needed.</p>
 
                                         <div class="row g-4">
@@ -100,7 +100,7 @@
 
                                     <!-- STEP 2: Activity Level -->
                                     <div class="wizard-step d-none" id="wizard-step-2">
-                                        <h4 class="text-white mb-2"><i class="fa-solid fa-person-running text-accent me-2"></i> Step 2: Activity Level</h4>
+                                        <h4 class="text-theme-primary mb-2"><i class="fa-solid fa-person-running text-accent me-2"></i> Step 2: Activity Level</h4>
                                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">What is your usual physical activity frequency?</p>
 
                                         <input type="hidden" name="activityLevel" id="inputActivityLevel" value="Moderately Active">
@@ -109,7 +109,7 @@
                                             <div class="col-md-6">
                                                 <div class="selectable-card" onclick="selectOption('activityLevel', 'Sedentary', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="card-title text-white fw-bold">Sedentary</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Sedentary</span>
                                                         <i class="fa-solid fa-couch text-secondary"></i>
                                                     </div>
                                                     <small class="text-secondary">Little or no regular exercise, desk job.</small>
@@ -118,7 +118,7 @@
                                             <div class="col-md-6">
                                                 <div class="selectable-card" onclick="selectOption('activityLevel', 'Lightly Active', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="card-title text-white fw-bold">Lightly Active</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Lightly Active</span>
                                                         <i class="fa-solid fa-person-walking text-secondary"></i>
                                                     </div>
                                                     <small class="text-secondary">Light exercise / sports 1–3 days/week.</small>
@@ -127,7 +127,7 @@
                                             <div class="col-md-6">
                                                 <div class="selectable-card selected" onclick="selectOption('activityLevel', 'Moderately Active', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="card-title text-white fw-bold">Moderately Active</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Moderately Active</span>
                                                         <i class="fa-solid fa-person-running text-secondary"></i>
                                                     </div>
                                                     <small class="text-secondary">Moderate exercise / sports 3–5 days/week.</small>
@@ -136,7 +136,7 @@
                                             <div class="col-md-6">
                                                 <div class="selectable-card" onclick="selectOption('activityLevel', 'Very Active', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="card-title text-white fw-bold">Very Active</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Very Active</span>
                                                         <i class="fa-solid fa-dumbbell text-secondary"></i>
                                                     </div>
                                                     <small class="text-secondary">Hard exercise / sports 6–7 days/week.</small>
@@ -145,7 +145,7 @@
                                             <div class="col-12">
                                                 <div class="selectable-card" onclick="selectOption('activityLevel', 'Extremely Active', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="card-title text-white fw-bold">Extremely Active</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Extremely Active</span>
                                                         <i class="fa-solid fa-fire-flame-curved text-secondary"></i>
                                                     </div>
                                                     <small class="text-secondary">Heavy physical job or 2x intense training sessions per day.</small>
@@ -165,7 +165,7 @@
 
                                     <!-- STEP 3: Fitness Goal -->
                                     <div class="wizard-step d-none" id="wizard-step-3">
-                                        <h4 class="text-white mb-2"><i class="fa-solid fa-bullseye text-accent me-2"></i> Step 3: Primary Fitness Goal</h4>
+                                        <h4 class="text-theme-primary mb-2"><i class="fa-solid fa-bullseye text-accent me-2"></i> Step 3: Primary Fitness Goal</h4>
                                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">What is your primary weight or body composition objective?</p>
 
                                         <input type="hidden" name="fitnessGoal" id="inputFitnessGoal" value="Maintenance">
@@ -174,7 +174,7 @@
                                             <div class="col-md-4">
                                                 <div class="selectable-card" onclick="selectOption('fitnessGoal', 'Cutting / Weight Loss', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="card-title text-white fw-bold">Cutting</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Cutting</span>
                                                         <i class="fa-solid fa-weight-scale text-danger"></i>
                                                     </div>
                                                     <p class="text-secondary mb-0" style="font-size: 0.85rem;">
@@ -185,7 +185,7 @@
                                             <div class="col-md-4">
                                                 <div class="selectable-card selected" onclick="selectOption('fitnessGoal', 'Maintenance', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="card-title text-white fw-bold">Maintenance</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Maintenance</span>
                                                         <i class="fa-solid fa-scale-balanced" style="color: var(--accent-primary);"></i>
                                                     </div>
                                                     <p class="text-secondary mb-0" style="font-size: 0.85rem;">
@@ -196,7 +196,7 @@
                                             <div class="col-md-4">
                                                 <div class="selectable-card" onclick="selectOption('fitnessGoal', 'Bulking / Weight Gain', this)">
                                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="card-title text-white fw-bold">Bulking</span>
+                                                        <span class="card-title text-theme-primary fw-bold">Bulking</span>
                                                         <i class="fa-solid fa-chart-line text-warning"></i>
                                                     </div>
                                                     <p class="text-secondary mb-0" style="font-size: 0.85rem;">
@@ -218,7 +218,7 @@
 
                                     <!-- STEP 4: Diet Preference & Exclusions -->
                                     <div class="wizard-step d-none" id="wizard-step-4">
-                                        <h4 class="text-white mb-2"><i class="fa-solid fa-utensils text-accent me-2"></i> Step 4: Diet Preference & Exclusions</h4>
+                                        <h4 class="text-theme-primary mb-2"><i class="fa-solid fa-utensils text-accent me-2"></i> Step 4: Diet Preference & Exclusions</h4>
                                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">Select your dietary lifestyle and specify any ingredient exclusions.</p>
 
                                         <input type="hidden" name="dietPreference" id="inputDietPreference" value="Non-Vegetarian">
@@ -226,25 +226,25 @@
                                         <div class="row g-3 mb-4">
                                             <div class="col-sm-6 col-md-3">
                                                 <div class="selectable-card selected" onclick="selectOption('dietPreference', 'Non-Vegetarian', this)">
-                                                    <span class="card-title text-white fw-bold d-block mb-1">Non-Veg</span>
+                                                    <span class="card-title text-theme-primary fw-bold d-block mb-1">Non-Veg</span>
                                                     <small class="text-secondary">Poultry, Meat, Fish, Dairy, Plant foods</small>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-3">
                                                 <div class="selectable-card" onclick="selectOption('dietPreference', 'Vegetarian', this)">
-                                                    <span class="card-title text-white fw-bold d-block mb-1">Vegetarian</span>
+                                                    <span class="card-title text-theme-primary fw-bold d-block mb-1">Vegetarian</span>
                                                     <small class="text-secondary">Plant-based foods + Dairy (No meat/fish)</small>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-3">
                                                 <div class="selectable-card" onclick="selectOption('dietPreference', 'Eggetarian', this)">
-                                                    <span class="card-title text-white fw-bold d-block mb-1">Eggetarian</span>
+                                                    <span class="card-title text-theme-primary fw-bold d-block mb-1">Eggetarian</span>
                                                     <small class="text-secondary">Vegetarian + Whole & White Eggs</small>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-3">
                                                 <div class="selectable-card" onclick="selectOption('dietPreference', 'Vegan', this)">
-                                                    <span class="card-title text-white fw-bold d-block mb-1">Vegan</span>
+                                                    <span class="card-title text-theme-primary fw-bold d-block mb-1">Vegan</span>
                                                     <small class="text-secondary">100% Plant-based (No dairy, eggs, meat)</small>
                                                 </div>
                                             </div>
@@ -268,7 +268,7 @@
 
                                     <!-- STEP 5: Meal Preferences & Finalize -->
                                     <div class="wizard-step d-none" id="wizard-step-5">
-                                        <h4 class="text-white mb-2"><i class="fa-solid fa-clock text-accent me-2"></i> Step 5: Meal Frequency</h4>
+                                        <h4 class="text-theme-primary mb-2"><i class="fa-solid fa-clock text-accent me-2"></i> Step 5: Meal Frequency</h4>
                                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">How many meals and snacks do you prefer per day?</p>
 
                                         <input type="hidden" name="mealsPerDay" id="inputMealsPerDay" value="4">
@@ -276,25 +276,25 @@
                                         <div class="row g-3 mb-4">
                                             <div class="col-6 col-md-3">
                                                 <div class="selectable-card" onclick="selectOption('mealsPerDay', '3', this)">
-                                                    <span class="fs-4 fw-bold text-white d-block mb-1">3 Meals</span>
+                                                    <span class="fs-4 fw-bold text-theme-primary d-block mb-1">3 Meals</span>
                                                     <small class="text-secondary">Breakfast, Lunch, Dinner</small>
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-3">
                                                 <div class="selectable-card selected" onclick="selectOption('mealsPerDay', '4', this)">
-                                                    <span class="fs-4 fw-bold text-white d-block mb-1">4 Meals</span>
+                                                    <span class="fs-4 fw-bold text-theme-primary d-block mb-1">4 Meals</span>
                                                     <small class="text-secondary">3 Meals + 1 Snack</small>
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-3">
                                                 <div class="selectable-card" onclick="selectOption('mealsPerDay', '5', this)">
-                                                    <span class="fs-4 fw-bold text-white d-block mb-1">5 Meals</span>
+                                                    <span class="fs-4 fw-bold text-theme-primary d-block mb-1">5 Meals</span>
                                                     <small class="text-secondary">3 Meals + 2 Snacks</small>
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-3">
                                                 <div class="selectable-card" onclick="selectOption('mealsPerDay', '6', this)">
-                                                    <span class="fs-4 fw-bold text-white d-block mb-1">6 Meals</span>
+                                                    <span class="fs-4 fw-bold text-theme-primary d-block mb-1">6 Meals</span>
                                                     <small class="text-secondary">Frequent micro-feedings</small>
                                                 </div>
                                             </div>
@@ -304,7 +304,7 @@
                                             <div class="d-flex align-items-center gap-3">
                                                 <i class="fa-solid fa-calculator fs-4" style="color: var(--accent-primary);"></i>
                                                 <div>
-                                                    <span class="text-white fw-bold d-block" style="font-size: 0.9rem;">Instant Calculation</span>
+                                                    <span class="text-theme-primary fw-bold d-block" style="font-size: 0.9rem;">Instant Calculation</span>
                                                     <small class="text-secondary">FitFlow will compute your Mifflin-St Jeor BMR, activity multiplier TDEE, optimal macro split, and a customized multi-meal plan.</small>
                                                 </div>
                                             </div>
@@ -331,9 +331,9 @@
                     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-1">
-                                <h3 class="mb-0 text-white">Nutrition & Diet Planner</h3>
+                                <h3 class="mb-0 text-theme-primary">Nutrition & Diet Planner</h3>
                                 <span class="badge-custom badge-accent">${nutritionProfile.fitnessGoal}</span>
-                                <span class="badge-custom" style="background: rgba(255,255,255,0.08); color: #fff;">${nutritionProfile.dietPreference}</span>
+                                <span class="badge-custom">${nutritionProfile.dietPreference}</span>
                             </div>
                             <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                                 Personalized targets, daily macro tracking, meal breakdown, and hydration.
@@ -361,7 +361,7 @@
                                 </div>
                                 <div>
                                     <small class="text-secondary d-block">BMI Status</small>
-                                    <span class="fs-4 fw-bold text-white">
+                                    <span class="fs-4 fw-bold text-theme-primary">
                                         <fmt:formatNumber value="${nutritionProfile.bmi}" pattern="#0.0"/>
                                     </span>
                                     <small class="text-muted ms-1">
@@ -383,7 +383,7 @@
                                 </div>
                                 <div>
                                     <small class="text-secondary d-block">Current Weight</small>
-                                    <span class="fs-4 fw-bold text-white">${nutritionProfile.weightKg} kg</span>
+                                    <span class="fs-4 fw-bold text-theme-primary">${nutritionProfile.weightKg} kg</span>
                                     <small class="text-muted ms-1">/ ${nutritionProfile.heightCm} cm</small>
                                 </div>
                             </div>
@@ -411,7 +411,7 @@
                                 </div>
                                 <div>
                                     <small class="text-secondary d-block">Protein Target</small>
-                                    <span class="fs-4 fw-bold text-white">${nutritionTarget.targetProteinG}g</span>
+                                    <span class="fs-4 fw-bold text-theme-primary">${nutritionTarget.targetProteinG}g</span>
                                     <small class="text-muted"> (${nutritionTarget.proteinPct}%)</small>
                                 </div>
                             </div>
@@ -424,7 +424,7 @@
                         <div class="col-lg-7">
                             <div class="fitness-card h-100">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-chart-pie text-accent me-2"></i> Today's Calorie & Macro Budget</h5>
+                                    <h5 class="text-theme-primary fw-bold mb-0"><i class="fa-solid fa-chart-pie text-accent me-2"></i> Today's Calorie & Macro Budget</h5>
                                     <span class="text-muted" style="font-size: 0.8rem;">
                                         <i class="fa-regular fa-calendar me-1"></i> Today
                                     </span>
@@ -435,7 +435,7 @@
                                         <div style="position: relative; height: 180px; width: 180px; margin: 0 auto;">
                                             <canvas id="macroDonutChart"></canvas>
                                             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                                <div class="fs-5 fw-bold text-white mb-0">${consumedCalories}</div>
+                                                <div class="fs-5 fw-bold text-theme-primary mb-0">${consumedCalories}</div>
                                                 <div class="text-muted" style="font-size: 0.75rem;">/ ${nutritionTarget.targetCalories} kcal</div>
                                             </div>
                                         </div>
@@ -445,11 +445,11 @@
                                         <!-- Protein -->
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                                <span class="text-white fw-semibold" style="font-size: 0.85rem;">
+                                                <span class="text-theme-primary fw-semibold" style="font-size: 0.85rem;">
                                                     <i class="fa-solid fa-square me-1" style="color: #60a5fa;"></i> Protein
                                                 </span>
                                                 <span class="text-secondary" style="font-size: 0.85rem;">
-                                                    <strong class="text-white">${consumedProtein}g</strong> / ${nutritionTarget.targetProteinG}g
+                                                    <strong class="text-theme-primary">${consumedProtein}g</strong> / ${nutritionTarget.targetProteinG}g
                                                 </span>
                                             </div>
                                             <c:set var="proPct" value="${nutritionTarget.targetProteinG > 0 ? (consumedProtein * 100 / nutritionTarget.targetProteinG) : 0}"/>
@@ -461,11 +461,11 @@
                                         <!-- Carbs -->
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                                <span class="text-white fw-semibold" style="font-size: 0.85rem;">
+                                                <span class="text-theme-primary fw-semibold" style="font-size: 0.85rem;">
                                                     <i class="fa-solid fa-square me-1" style="color: var(--accent-primary);"></i> Carbohydrates
                                                 </span>
                                                 <span class="text-secondary" style="font-size: 0.85rem;">
-                                                    <strong class="text-white">${consumedCarbs}g</strong> / ${nutritionTarget.targetCarbsG}g
+                                                    <strong class="text-theme-primary">${consumedCarbs}g</strong> / ${nutritionTarget.targetCarbsG}g
                                                 </span>
                                             </div>
                                             <c:set var="carbPct" value="${nutritionTarget.targetCarbsG > 0 ? (consumedCarbs * 100 / nutritionTarget.targetCarbsG) : 0}"/>
@@ -477,11 +477,11 @@
                                         <!-- Fats -->
                                         <div class="mb-1">
                                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                                <span class="text-white fw-semibold" style="font-size: 0.85rem;">
+                                                <span class="text-theme-primary fw-semibold" style="font-size: 0.85rem;">
                                                     <i class="fa-solid fa-square me-1" style="color: #f59e0b;"></i> Fats
                                                 </span>
                                                 <span class="text-secondary" style="font-size: 0.85rem;">
-                                                    <strong class="text-white">${consumedFat}g</strong> / ${nutritionTarget.targetFatG}g
+                                                    <strong class="text-theme-primary">${consumedFat}g</strong> / ${nutritionTarget.targetFatG}g
                                                 </span>
                                             </div>
                                             <c:set var="fatPct" value="${nutritionTarget.targetFatG > 0 ? (consumedFat * 100 / nutritionTarget.targetFatG) : 0}"/>
@@ -499,13 +499,13 @@
                             <div class="fitness-card h-100 d-flex flex-column justify-content-between">
                                 <div>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-glass-water text-info me-2"></i> Hydration Tracker</h5>
+                                        <h5 class="text-theme-primary fw-bold mb-0"><i class="fa-solid fa-glass-water text-info me-2"></i> Hydration Tracker</h5>
                                         <span class="badge-custom badge-accent">Target: ${nutritionTarget.waterTargetL > 0 ? nutritionTarget.waterTargetL : 2.5} L</span>
                                     </div>
 
                                     <div class="text-center my-3">
                                         <div class="d-flex align-items-baseline justify-content-center gap-1">
-                                            <span class="fs-1 fw-bold text-white">
+                                            <span class="fs-1 fw-bold text-theme-primary">
                                                 <fmt:formatNumber value="${todayWater}" pattern="#0.0#"/>
                                             </span>
                                             <span class="text-muted fs-5"> / ${nutritionTarget.waterTargetL > 0 ? nutritionTarget.waterTargetL : 2.5} L</span>
@@ -556,7 +556,7 @@
                     <div class="fitness-card mb-4">
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                             <div>
-                                <h4 class="text-white fw-bold mb-1"><i class="fa-solid fa-plate-wheat text-accent me-2"></i> ${mealPlan.planName}</h4>
+                                <h4 class="text-theme-primary fw-bold mb-1"><i class="fa-solid fa-plate-wheat text-accent me-2"></i> ${mealPlan.planName}</h4>
                                 <span class="text-secondary" style="font-size: 0.85rem;">
                                     Target Total: ~${mealPlan.totalCalories} kcal | ${mealPlan.totalProteinG}g Protein | ${mealPlan.totalCarbsG}g Carbs | ${mealPlan.totalFatG}g Fat
                                 </span>
@@ -566,26 +566,37 @@
 
                         <div class="row g-3">
                             <c:forEach var="item" items="${mealPlan.items}">
+                                <c:choose>
+                                    <c:when test="${item.mealNumber == 1}"><c:set var="mealImg" value="berries_bowl.jpg"/></c:when>
+                                    <c:when test="${item.mealNumber == 2}"><c:set var="mealImg" value="fresh_salad.jpg"/></c:when>
+                                    <c:when test="${item.mealNumber == 3}"><c:set var="mealImg" value="green_variety.jpg"/></c:when>
+                                    <c:otherwise><c:set var="mealImg" value="veggies_hummus.jpg"/></c:otherwise>
+                                </c:choose>
                                 <div class="col-lg-6">
-                                    <div class="p-3 rounded" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color);">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <span class="badge-custom badge-accent mb-1">Meal ${item.mealNumber}</span>
-                                                <h5 class="text-white fw-bold mb-0">${item.mealName}</h5>
+                                    <div class="p-3 d-flex flex-column justify-content-between h-100" style="background: var(--surface-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
+                                        <div>
+                                            <div class="d-flex gap-3 align-items-center mb-3">
+                                                <img src="${pageContext.request.contextPath}/assets/images/food/${mealImg}" 
+                                                     alt="${item.mealName}" 
+                                                     style="width: 72px; height: 72px; object-fit: cover; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <span class="badge-custom badge-accent mb-1">Meal ${item.mealNumber}</span>
+                                                        <span class="text-theme-primary fw-bold" style="font-size: 1rem;">${item.calories} <small class="text-muted">kcal</small></span>
+                                                    </div>
+                                                    <h5 class="text-theme-primary fw-bold mb-0">${item.mealName}</h5>
+                                                    <div class="text-secondary" style="font-size: 0.78rem;">P: ${item.proteinG}g &bull; C: ${item.carbsG}g &bull; F: ${item.fatG}g</div>
+                                                </div>
                                             </div>
-                                            <div class="text-end">
-                                                <span class="text-white fw-bold" style="font-size: 0.95rem;">${item.calories} kcal</span>
-                                                <div class="text-muted" style="font-size: 0.75rem;">P: ${item.proteinG}g | C: ${item.carbsG}g | F: ${item.fatG}g</div>
-                                            </div>
+                                            <p class="text-secondary mb-3" style="font-size: 0.86rem; line-height: 1.45;">
+                                                ${item.foodItems}
+                                            </p>
                                         </div>
-                                        <p class="text-secondary mb-2" style="font-size: 0.85rem; line-height: 1.4;">
-                                            ${item.foodItems}
-                                        </p>
                                         <div class="d-flex justify-content-between align-items-center pt-2 border-top" style="border-color: var(--border-color) !important;">
-                                            <small class="text-muted">${item.notes}</small>
-                                            <button class="btn btn-sm btn-outline-custom p-1 px-2" style="font-size: 0.75rem;" 
+                                            <small class="text-muted"><i class="fa-solid fa-lightbulb me-1 text-accent"></i> ${item.notes}</small>
+                                            <button class="btn btn-sm btn-outline-custom p-1 px-3" style="font-size: 0.78rem;" 
                                                     onclick="quickLogMeal('${item.mealName}', '${item.calories}', '${item.proteinG}', '${item.carbsG}', '${item.fatG}')">
-                                                <i class="fa-solid fa-check-double me-1"></i> Log This Meal
+                                                <i class="fa-solid fa-check-double me-1"></i> Log Meal
                                             </button>
                                         </div>
                                     </div>
@@ -597,7 +608,7 @@
                     <!-- Today's Logged Foods List -->
                     <div class="fitness-card mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-clipboard-list text-accent me-2"></i> Today's Food Logs</h5>
+                            <h5 class="text-theme-primary fw-bold mb-0"><i class="fa-solid fa-clipboard-list text-accent me-2"></i> Today's Food Logs</h5>
                             <button class="btn-accent btn-sm" data-bs-toggle="modal" data-bs-target="#logFoodModal">
                                 <i class="fa-solid fa-plus me-1"></i> Add Food Item
                             </button>
@@ -623,9 +634,9 @@
                                             <c:forEach var="log" items="${todayLogs}">
                                                 <tr style="border-bottom: 1px solid var(--border-color); vertical-align: middle; font-size: 0.9rem;">
                                                     <td><span class="badge-custom badge-accent">${log.mealType}</span></td>
-                                                    <td class="text-white fw-bold">${log.foodName}</td>
+                                                    <td class="text-theme-primary fw-bold">${log.foodName}</td>
                                                     <td class="text-secondary">${log.portionSize}</td>
-                                                    <td class="text-white fw-bold">${log.calories} kcal</td>
+                                                    <td class="text-theme-primary fw-bold">${log.calories} kcal</td>
                                                     <td class="text-info">${log.proteinG}g</td>
                                                     <td style="color: var(--accent-primary);">${log.carbsG}g</td>
                                                     <td class="text-warning">${log.fatG}g</td>
@@ -652,7 +663,7 @@
 
                     <!-- 7-Day Trend Chart -->
                     <div class="fitness-card mb-4">
-                        <h5 class="text-white fw-bold mb-3"><i class="fa-solid fa-chart-line text-accent me-2"></i> 7-Day Caloric Intake History</h5>
+                        <h5 class="text-theme-primary fw-bold mb-3"><i class="fa-solid fa-chart-line text-accent me-2"></i> 7-Day Caloric Intake History</h5>
                         <div style="height: 240px; position: relative;">
                             <canvas id="nutritionTrendsChart"></canvas>
                         </div>
@@ -668,7 +679,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-utensils text-accent me-2"></i> Log Food Item</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-utensils text-accent me-2"></i> Log Food Item</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/user/nutrition/log/add" method="POST" class="needs-validation" novalidate>
@@ -728,7 +739,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-arrows-rotate text-accent me-2"></i> Regenerate Meal Plan</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-arrows-rotate text-accent me-2"></i> Regenerate Meal Plan</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/user/nutrition/generate-plan" method="POST">
@@ -780,7 +791,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-sliders text-accent me-2"></i> Edit Nutrition Profile</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-sliders text-accent me-2"></i> Edit Nutrition Profile</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/user/nutrition/setup" method="POST">
@@ -886,11 +897,11 @@
 .step-indicator.active .step-circle {
     background: var(--accent-primary);
     border-color: var(--accent-primary);
-    color: #000;
-    box-shadow: 0 0 15px rgba(200, 255, 69, 0.4);
+    color: var(--text-on-accent);
+    box-shadow: 0 0 15px var(--accent-glow);
 }
 .step-indicator.active .step-label {
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 700;
 }
 .selectable-card {

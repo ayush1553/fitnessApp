@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Admin Dashboard - FitFlow Pro" scope="request"/>
@@ -20,7 +20,7 @@
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
                     <span class="badge-custom badge-warning mb-2"><i class="fa-solid fa-shield-halved"></i> Operational Command</span>
-                    <h3 class="mb-1 text-white">Platform Health & Overview</h3>
+                    <h3 class="mb-1 text-theme-primary">Platform Health & Overview</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Real-time metrics, user growth, pending moderations, and system audit trail.
                     </p>
@@ -35,7 +35,7 @@
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="fitness-card fitness-card-sm">
                         <small class="text-secondary d-block mb-1">Total Users</small>
-                        <h3 class="mb-0 text-white">${summary.totalUsers}</h3>
+                        <h3 class="mb-0 text-theme-primary">${summary.totalUsers}</h3>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
@@ -77,7 +77,7 @@
                 <div class="col-lg-7">
                     <div class="fitness-card h-100">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0 text-white">Monthly User Registrations</h5>
+                            <h5 class="mb-0 text-theme-primary">Monthly User Registrations</h5>
                             <span class="badge-custom badge-active">Growth Trend</span>
                         </div>
                         <div style="height: 240px; position: relative;">
@@ -90,7 +90,7 @@
                 <div class="col-lg-5">
                     <div class="fitness-card h-100 d-flex flex-column justify-content-between">
                         <div class="mb-3">
-                            <h5 class="mb-0 text-white">Global Activity Breakdown</h5>
+                            <h5 class="mb-0 text-theme-primary">Global Activity Breakdown</h5>
                         </div>
                         <div style="height: 220px; position: relative;">
                             <canvas id="workoutTypeChart"></canvas>
@@ -102,7 +102,7 @@
                 <div class="col-12">
                     <div class="fitness-card">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0 text-white"><i class="fa-solid fa-clock-rotate-left text-accent me-2"></i> Recent System Audit Logs</h5>
+                            <h5 class="mb-0 text-theme-primary"><i class="fa-solid fa-clock-rotate-left text-accent me-2"></i> Recent System Audit Logs</h5>
                             <a href="${pageContext.request.contextPath}/admin/activity" class="text-accent fw-semibold" style="font-size: 0.85rem;">
                                 View Full Log Archive <i class="fa-solid fa-arrow-right ms-1"></i>
                             </a>
@@ -123,7 +123,7 @@
                                         <tr>
                                             <td style="font-size: 0.8rem; color: var(--text-muted);"><fmt:formatDate value="${log.createdAt}" pattern="MMM dd, yyyy HH:mm:ss"/></td>
                                             <td><span class="badge-custom badge-active">${log.action}</span></td>
-                                            <td class="text-white">${log.details}</td>
+                                            <td class="text-theme-primary">${log.details}</td>
                                             <td>${empty log.userName ? 'System' : log.userName}</td>
                                             <td><code>${log.ipAddress}</code></td>
                                         </tr>

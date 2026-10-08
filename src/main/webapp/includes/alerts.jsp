@@ -24,3 +24,17 @@
         <div>${requestScope.successMessage}</div>
     </div>
 </c:if>
+
+<c:if test="${not empty requestScope.infoMessage}">
+    <div class="alert-custom alert-custom-info">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>${requestScope.infoMessage}</div>
+    </div>
+</c:if>
+
+<c:if test="${not empty requestScope.warningMessage}">
+    <div class="alert-custom alert-custom-warning">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>${requestScope.warningMessage}</div>
+    </div>
+</c:if>

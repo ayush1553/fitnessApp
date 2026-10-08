@@ -37,6 +37,7 @@ public class UserDAOImpl implements UserDAO {
         user.setPassword(rs.getString("password"));
         user.setRole(role);
         user.setStatus(rs.getString("status"));
+        user.setEmailVerified(rs.getBoolean("email_verified"));
         user.setCreatedAt(rs.getTimestamp("created_at"));
         user.setUpdatedAt(rs.getTimestamp("updated_at"));
         return user;
@@ -44,7 +45,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User save(User user) {
-        String sql = "INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, role, status, email_verified) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
@@ -53,6 +54,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getRole() != null ? user.getRole() : "USER");
             ps.setString(5, user.getStatus() != null ? user.getStatus() : "ACTIVE");
+            ps.setBoolean(6, user.isEmailVerified());
 
             int affected = ps.executeUpdate();
             if (affected > 0) {
@@ -70,7 +72,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User user) {
-        String sql = "UPDATE users SET name = ?, email = ?, role = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, email = ?, role = ?, status = ?, email_verified = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
@@ -78,7 +80,8 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getRole());
             ps.setString(4, user.getStatus());
-            ps.setInt(5, user.getId());
+            ps.setBoolean(5, user.isEmailVerified());
+            ps.setInt(6, user.getId());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -198,6 +201,19 @@ public class UserDAOImpl implements UserDAO {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DatabaseException("Error updating role for user ID: " + userId, e);
+        }
+    }
+
+    @Override
+    public boolean updateEmailVerified(Integer userId, boolean emailVerified) {
+        String sql = "UPDATE users SET email_verified = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBoolean(1, emailVerified);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating email_verified status for user ID: " + userId, e);
         }
     }
 

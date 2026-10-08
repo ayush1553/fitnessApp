@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" value="FitFlow Pro - Elite Fitness Analytics Platform" scope="request"/>
 <jsp:include page="includes/header.jsp"/>
 
-<div class="min-vh-100 d-flex flex-column justify-content-between" style="background: radial-gradient(circle at top right, #161b17 0%, #080909 60%);">
+<div class="min-vh-100 d-flex flex-column justify-content-between position-relative" style="z-index: 1;">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg px-4 py-3 border-bottom" style="border-color: var(--border-color) !important; background: rgba(8,9,9,0.85); backdrop-filter: blur(10px);">
+    <nav class="navbar navbar-expand-lg px-4 py-3 border-bottom" style="border-color: var(--border) !important; background: rgba(5,7,9,0.55); backdrop-filter: blur(20px);">
         <div class="container-fluid max-w-7xl">
             <a class="navbar-brand d-flex align-items-center gap-2" href="${pageContext.request.contextPath}/">
                 <div class="brand-logo-icon">
@@ -41,7 +41,7 @@
                 <div class="badge-custom badge-accent mb-3">
                     <i class="fa-solid fa-circle-check"></i> Enterprise Java Web Application
                 </div>
-                <h1 class="display-4 fw-extrabold text-white mb-4" style="line-height: 1.15;">
+                <h1 class="display-4 fw-extrabold text-theme-primary mb-4" style="line-height: 1.15;">
                     Track Workouts. <br>
                     Crush Goals. <br>
                     <span style="color: var(--accent-primary);">Master Your Fitness.</span>
@@ -61,15 +61,15 @@
 
                 <div class="row g-3 pt-3 border-top" style="border-color: var(--border-color) !important;">
                     <div class="col-4">
-                        <div class="h3 fw-bold text-white mb-0">100%</div>
+                        <div class="h3 fw-bold text-theme-primary mb-0">100%</div>
                         <small class="text-secondary">Pure Java + JDBC</small>
                     </div>
                     <div class="col-4">
-                        <div class="h3 fw-bold text-white mb-0" style="color: var(--accent-primary) !important;">Real-Time</div>
+                        <div class="h3 fw-bold text-theme-primary mb-0" style="color: var(--accent-primary) !important;">Real-Time</div>
                         <small class="text-secondary">Dynamic Charts</small>
                     </div>
                     <div class="col-4">
-                        <div class="h3 fw-bold text-white mb-0">RBAC</div>
+                        <div class="h3 fw-bold text-theme-primary mb-0">RBAC</div>
                         <small class="text-secondary">Admin & User Roles</small>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     <!-- Quick Sample Credentials Box -->
                     <div class="p-3 rounded-3" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-white fw-bold" style="font-size: 0.85rem;"><i class="fa-solid fa-key me-1 text-accent"></i> Development Credentials:</span>
+                            <span class="text-theme-primary fw-bold" style="font-size: 0.85rem;"><i class="fa-solid fa-key me-1 text-accent"></i> Development Credentials:</span>
                             <span class="badge-custom badge-warning">Demo Ready</span>
                         </div>
                         <div class="d-flex flex-wrap gap-2 text-secondary" style="font-size: 0.8rem;">

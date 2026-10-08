@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Progress & Analytics - FitFlow Pro" scope="request"/>
@@ -18,7 +18,7 @@
 
             <!-- Header -->
             <div class="mb-4">
-                <h3 class="mb-1 text-white">Fitness Progress Analytics</h3>
+                <h3 class="mb-1 text-theme-primary">Fitness Progress Analytics</h3>
                 <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                     In-depth performance metrics generated in real-time from your logged activities.
                 </p>
@@ -29,25 +29,25 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="fitness-card fitness-card-sm">
                         <small class="text-secondary d-block mb-1"><i class="fa-solid fa-fire text-danger me-1"></i> Lifetime Calories</small>
-                        <h4 class="mb-0 text-white" style="color: var(--accent-primary) !important;"><fmt:formatNumber value="${analytics.totalCalories}" pattern="#,###"/> kcal</h4>
+                        <h4 class="mb-0 text-theme-primary" style="color: var(--accent-primary) !important;"><fmt:formatNumber value="${analytics.totalCalories}" pattern="#,###"/> kcal</h4>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="fitness-card fitness-card-sm">
                         <small class="text-secondary d-block mb-1"><i class="fa-solid fa-stopwatch text-info me-1"></i> Total Time Trained</small>
-                        <h4 class="mb-0 text-white">${analytics.totalDurationMinutes} min</h4>
+                        <h4 class="mb-0 text-theme-primary">${analytics.totalDurationMinutes} min</h4>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="fitness-card fitness-card-sm">
                         <small class="text-secondary d-block mb-1"><i class="fa-solid fa-bullseye text-warning me-1"></i> Goals Completed</small>
-                        <h4 class="mb-0 text-white">${analytics.completedGoals}</h4>
+                        <h4 class="mb-0 text-theme-primary">${analytics.completedGoals}</h4>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="fitness-card fitness-card-sm">
                         <small class="text-secondary d-block mb-1"><i class="fa-solid fa-trophy text-accent me-1"></i> Challenges Won</small>
-                        <h4 class="mb-0 text-white">${analytics.completedChallenges}</h4>
+                        <h4 class="mb-0 text-theme-primary">${analytics.completedChallenges}</h4>
                     </div>
                 </div>
             </div>

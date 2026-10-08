@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Activity Logs - Admin FitFlow Pro" scope="request"/>
@@ -18,7 +18,7 @@
 
             <!-- Header -->
             <div class="mb-4">
-                <h3 class="mb-1 text-white">System Audit & Security Logs</h3>
+                <h3 class="mb-1 text-theme-primary">System Audit & Security Logs</h3>
                 <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                     Chronological audit trail tracking all crucial platform operations, logins, and moderation actions.
                 </p>
@@ -57,9 +57,9 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
-                                    <td class="text-white">${log.details}</td>
+                                    <td class="text-theme-primary">${log.details}</td>
                                     <td>
-                                        <div class="text-white">${empty log.userName ? 'System Daemon' : log.userName}</div>
+                                        <div class="text-theme-primary">${empty log.userName ? 'System Daemon' : log.userName}</div>
                                         <c:if test="${not empty log.userEmail}">
                                             <small class="text-muted">${log.userEmail}</small>
                                         </c:if>

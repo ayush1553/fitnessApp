@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="sidebar-overlay"></div>
+<div class="sidebar-edge-trigger" id="sidebarEdgeTrigger" aria-hidden="true"></div>
 
 <aside class="app-sidebar">
     <div class="sidebar-header">
@@ -50,6 +51,11 @@
         </a>
 
         <div class="nav-section-title mt-3">Portal Switch</div>
+
+        <a href="${pageContext.request.contextPath}/user/customize" class="nav-item-link ${activePage == 'customize' ? 'active' : ''}">
+            <i class="fa-solid fa-palette"></i>
+            <span>Customize</span>
+        </a>
 
         <a href="${pageContext.request.contextPath}/user/dashboard" class="nav-item-link">
             <i class="fa-solid fa-arrow-left"></i>

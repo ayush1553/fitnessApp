@@ -3,7 +3,7 @@
 <c:set var="pageTitle" value="Create Account - FitFlow Pro" scope="request"/>
 <jsp:include page="includes/header.jsp"/>
 
-<div class="min-vh-100 d-flex align-items-center justify-content-center p-3" style="background: radial-gradient(circle at center, #151817 0%, #080909 70%);">
+<div class="min-vh-100 d-flex align-items-center justify-content-center p-3 position-relative" style="z-index: 1;">
     <div class="w-100" style="max-width: 480px;">
         
         <!-- Logo -->

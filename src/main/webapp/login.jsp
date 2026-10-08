@@ -3,7 +3,7 @@
 <c:set var="pageTitle" value="Sign In - FitFlow Pro" scope="request"/>
 <jsp:include page="includes/header.jsp"/>
 
-<div class="min-vh-100 d-flex align-items-center justify-content-center p-3" style="background: radial-gradient(circle at center, #151817 0%, #080909 70%);">
+<div class="min-vh-100 d-flex align-items-center justify-content-center p-3 position-relative" style="z-index: 1;">
     <div class="w-100" style="max-width: 440px;">
         
         <!-- Logo -->
@@ -20,6 +20,20 @@
         <!-- Alert Notifications -->
         <jsp:include page="includes/alerts.jsp"/>
 
+        <c:if test="${not empty unverifiedEmail}">
+            <div class="p-3 mb-3 rounded-3" style="background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3);">
+                <div class="d-flex align-items-center gap-2 text-warning fw-semibold mb-1" style="font-size: 0.85rem;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Verification Required
+                </div>
+                <p class="text-secondary mb-2" style="font-size: 0.8rem; line-height: 1.4;">
+                    Your email <strong>${unverifiedEmail}</strong> is not verified yet.
+                </p>
+                <a href="${pageContext.request.contextPath}/resend-verification?email=${unverifiedEmail}" class="btn btn-sm btn-warning w-100 fw-bold">
+                    <i class="fa-solid fa-paper-plane me-1"></i> Resend Verification Email
+                </a>
+            </div>
+        </c:if>
+
         <!-- Login Card -->
         <div class="fitness-card">
             <form action="${pageContext.request.contextPath}/auth/login" method="POST" class="needs-validation" novalidate>
@@ -35,6 +49,9 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <label class="form-label-custom mb-0" for="loginPassword">Password</label>
+                        <a href="${pageContext.request.contextPath}/forgot-password" class="text-accent text-decoration-none fw-medium" style="font-size: 0.8rem;">
+                            Forgot Password?
+                        </a>
                     </div>
                     <input type="password" id="loginPassword" name="password" class="form-control-custom" 
                            placeholder="Enter your password" required autocomplete="current-password">
@@ -56,10 +73,10 @@
         <div class="p-3 mt-3 rounded-3" style="background-color: var(--bg-card); border: 1px dashed var(--border-color);">
             <div class="text-muted fw-semibold mb-2" style="font-size: 0.75rem; text-transform: uppercase;">Quick Demo Sign-In</div>
             <div class="d-flex gap-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary w-100 text-white" onclick="fillCredentials('adam.sterling@example.com', 'user123')">
+                <button type="button" class="btn btn-sm btn-outline-secondary w-100 text-theme-primary" onclick="fillCredentials('adam.sterling@example.com', 'User@123')">
                     <i class="fa-solid fa-user me-1 text-accent"></i> User Demo
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary w-100 text-white" onclick="fillCredentials('admin@fitnesstracker.com', 'admin123')">
+                <button type="button" class="btn btn-sm btn-outline-secondary w-100 text-theme-primary" onclick="fillCredentials('admin@fitnesstracker.com', 'admin123')">
                     <i class="fa-solid fa-shield-halved me-1 text-warning"></i> Admin Demo
                 </button>
             </div>

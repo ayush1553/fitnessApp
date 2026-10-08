@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" value="Error Occurred - FitFlow Pro" scope="request"/>
 <jsp:include page="includes/header.jsp"/>
@@ -8,7 +8,7 @@
         <div class="mb-3 text-danger" style="font-size: 3rem;">
             <i class="fa-solid fa-triangle-exclamation"></i>
         </div>
-        <h3 class="mb-2 text-white">Oops! Something went wrong</h3>
+        <h3 class="mb-2 text-theme-primary">Oops! Something went wrong</h3>
         <p class="text-secondary mb-4">
             An unexpected error occurred while processing your request. Our system logged this event.
         </p>

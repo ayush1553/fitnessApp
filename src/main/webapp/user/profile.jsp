@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="User Profile - FitFlow Pro" scope="request"/>
@@ -23,7 +23,7 @@
                         <div class="avatar-circle mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
                             ${sessionScope.currentUser.name.substring(0, 1)}
                         </div>
-                        <h4 class="text-white fw-bold mb-1">${sessionScope.currentUser.name}</h4>
+                        <h4 class="text-theme-primary fw-bold mb-1">${sessionScope.currentUser.name}</h4>
                         <p class="text-secondary mb-3" style="font-size: 0.85rem;">${sessionScope.currentUser.email}</p>
                         <span class="badge-custom badge-accent mb-4">
                             <i class="fa-solid fa-shield me-1"></i> ${sessionScope.currentUser.roleName}
@@ -49,7 +49,7 @@
                 <!-- Profile Editing Form -->
                 <div class="col-lg-8">
                     <div class="fitness-card mb-4">
-                        <h5 class="text-white fw-bold mb-3"><i class="fa-solid fa-user-gear text-accent me-2"></i> Biometric & Fitness Profile</h5>
+                        <h5 class="text-theme-primary fw-bold mb-3"><i class="fa-solid fa-user-gear text-accent me-2"></i> Biometric & Fitness Profile</h5>
                         <form action="${pageContext.request.contextPath}/profile/update" method="POST" class="needs-validation" novalidate>
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -96,7 +96,7 @@
 
                     <!-- Change Password Card -->
                     <div class="fitness-card">
-                        <h5 class="text-white fw-bold mb-3"><i class="fa-solid fa-lock text-accent me-2"></i> Update Password</h5>
+                        <h5 class="text-theme-primary fw-bold mb-3"><i class="fa-solid fa-lock text-accent me-2"></i> Update Password</h5>
                         <form action="${pageContext.request.contextPath}/profile/password" method="POST" class="needs-validation" novalidate>
                             <div class="row g-3">
                                 <div class="col-md-4">

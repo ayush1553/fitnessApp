@@ -19,7 +19,7 @@
             <!-- Header and Action Toolbar -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <h3 class="mb-1 text-white">Workout Sessions</h3>
+                    <h3 class="mb-1 text-theme-primary">Workout Sessions</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Log, analyze, and manage your daily fitness sessions.
                     </p>
@@ -38,7 +38,7 @@
                         </div>
                         <div>
                             <small class="text-secondary d-block">Total Workouts</small>
-                            <span class="fs-4 fw-bold text-white">${totalCount}</span>
+                            <span class="fs-4 fw-bold text-theme-primary">${totalCount}</span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         </div>
                         <div>
                             <small class="text-secondary d-block">Total Duration</small>
-                            <span class="fs-4 fw-bold text-white">${totalMinutes} min</span>
+                            <span class="fs-4 fw-bold text-theme-primary">${totalMinutes} min</span>
                         </div>
                     </div>
                 </div>
@@ -61,6 +61,71 @@
                         <div>
                             <small class="text-secondary d-block">Calories Burned</small>
                             <span class="fs-4 fw-bold" style="color: var(--accent-primary);"><fmt:formatNumber value="${totalCalories}" pattern="#,###"/> kcal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURED STREAMING WORKOUTS RAIL -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <span class="badge-custom badge-accent mb-1">Featured Streams</span>
+                        <h4 class="mb-0 text-theme-primary fw-bold">Cinematic Workout Programs</h4>
+                    </div>
+                    <span class="text-secondary" style="font-size: 0.85rem;"><i class="fa-solid fa-tv me-1 text-accent"></i> 4K Studio Quality</span>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="stream-workout-card" onclick="openAddWorkoutPreset('Gym', '35', '380', 'HIIT Interval Rush')">
+                            <img src="${pageContext.request.contextPath}/assets/images/challenges/hiit.jpg" alt="HIIT Rush" loading="lazy">
+                            <div class="stream-workout-overlay">
+                                <div class="stream-badge-row">
+                                    <span class="stream-badge stream-badge-accent">HIIT</span>
+                                    <span class="stream-badge"><i class="fa-solid fa-stopwatch me-1"></i>35 min</span>
+                                </div>
+                                <div class="stream-workout-title">HIIT Interval Rush</div>
+                                <div class="stream-workout-meta">
+                                    <span><i class="fa-solid fa-fire me-1 text-danger"></i>380 kcal</span>
+                                    <span>&bull;</span>
+                                    <span>Coach Adam</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="stream-workout-card" onclick="openAddWorkoutPreset('Strength Training', '50', '420', 'Power Strength & Core')">
+                            <img src="${pageContext.request.contextPath}/assets/images/content/strength-training.jpg" alt="Strength" loading="lazy">
+                            <div class="stream-workout-overlay">
+                                <div class="stream-badge-row">
+                                    <span class="stream-badge stream-badge-accent">Strength</span>
+                                    <span class="stream-badge"><i class="fa-solid fa-stopwatch me-1"></i>50 min</span>
+                                </div>
+                                <div class="stream-workout-title">Power Strength & Core</div>
+                                <div class="stream-workout-meta">
+                                    <span><i class="fa-solid fa-fire me-1 text-danger"></i>420 kcal</span>
+                                    <span>&bull;</span>
+                                    <span>Coach John</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="stream-workout-card" onclick="openAddWorkoutPreset('Running', '30', '310', 'Sunrise Outdoor 5K Run')">
+                            <img src="${pageContext.request.contextPath}/assets/images/content/5k-running.jpg" alt="5K Running" loading="lazy">
+                            <div class="stream-workout-overlay">
+                                <div class="stream-badge-row">
+                                    <span class="stream-badge stream-badge-accent">Endurance</span>
+                                    <span class="stream-badge"><i class="fa-solid fa-stopwatch me-1"></i>30 min</span>
+                                </div>
+                                <div class="stream-workout-title">Sunrise Outdoor 5K Run</div>
+                                <div class="stream-workout-meta">
+                                    <span><i class="fa-solid fa-fire me-1 text-danger"></i>310 kcal</span>
+                                    <span>&bull;</span>
+                                    <span>Audio Guided</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,7 +221,7 @@
                                                 </div>
                                             </td>
                                             <td><fmt:formatDate value="${w.workoutDate}" pattern="MMM dd, yyyy"/></td>
-                                            <td class="fw-bold text-white">${w.durationMinutes} min</td>
+                                            <td class="fw-bold text-theme-primary">${w.durationMinutes} min</td>
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${w.intensity == 'High'}"><span class="badge-custom badge-danger">High</span></c:when>
@@ -195,7 +260,7 @@
                     <c:otherwise>
                         <div class="text-center py-5 text-muted">
                             <i class="fa-solid fa-dumbbell fs-1 mb-3"></i>
-                            <h5 class="text-white">No workouts found</h5>
+                            <h5 class="text-theme-primary">No workouts found</h5>
                             <p class="mb-3">Try adjusting your filters or log your first workout session.</p>
                             <button class="btn-accent" data-bs-toggle="modal" data-bs-target="#addWorkoutModal">
                                 <i class="fa-solid fa-plus"></i> Add Workout
@@ -213,7 +278,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-plus text-accent me-2"></i> Log New Workout</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-plus text-accent me-2"></i> Log New Workout</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="addWorkoutForm" action="${pageContext.request.contextPath}/workout/add" method="POST" class="needs-validation" novalidate>
@@ -272,7 +337,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-pen-to-square text-accent me-2"></i> Edit Workout</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-pen-to-square text-accent me-2"></i> Edit Workout</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="editWorkoutForm" action="${pageContext.request.contextPath}/workout/update" method="POST" class="needs-validation" novalidate>
@@ -333,6 +398,20 @@
         autoCalculateCalories('addWorkoutForm', userWeight);
         autoCalculateCalories('editWorkoutForm', userWeight);
     });
+
+    function openAddWorkoutPreset(type, duration, calories, notes) {
+        const modalEl = document.getElementById('addWorkoutModal');
+        if (!modalEl) return;
+        const modal = new bootstrap.Modal(modalEl);
+        const form = modalEl.querySelector('form');
+        if (form) {
+            if (form.querySelector('[name="workoutType"]')) form.querySelector('[name="workoutType"]').value = type;
+            if (form.querySelector('[name="durationMinutes"]')) form.querySelector('[name="durationMinutes"]').value = duration;
+            if (form.querySelector('[name="caloriesBurned"]')) form.querySelector('[name="caloriesBurned"]').value = calories;
+            if (form.querySelector('[name="notes"]')) form.querySelector('[name="notes"]').value = 'Featured Session: ' + notes;
+        }
+        modal.show();
+    }
 </script>
 
 <jsp:include page="../includes/footer.jsp"/>
