@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="User Management - Admin FitFlow Pro" scope="request"/>
@@ -19,7 +19,7 @@
             <!-- Header -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <h3 class="mb-1 text-white">Platform Users</h3>
+                    <h3 class="mb-1 text-theme-primary">Platform Users</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Inspect, modify account privileges, activate/deactivate, and audit registered members.
                     </p>
@@ -79,7 +79,7 @@
                                                 ${u.name.substring(0, 1)}
                                             </div>
                                             <div>
-                                                <div class="text-white fw-bold">${u.name}</div>
+                                                <div class="text-theme-primary fw-bold">${u.name}</div>
                                                 <small class="text-muted">${u.email}</small>
                                             </div>
                                         </div>

@@ -25,6 +25,7 @@ public class RegisterServlet extends HttpServlet {
     private final UserService userService = new UserServiceImpl();
     private final SystemSettingsService settingsService = new SystemSettingsServiceImpl();
     private final ActivityLogService activityLogService = new ActivityLogServiceImpl();
+    private final com.fitnesstracker.service.EmailVerificationService verificationService = new com.fitnesstracker.service.impl.EmailVerificationServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,10 +58,14 @@ public class RegisterServlet extends HttpServlet {
             User newUser = userService.register(name, email, password);
             activityLogService.logActivity(newUser.getId(), "USER_REGISTER", "New account registered: " + email, ip);
 
-            HttpSession session = req.getSession(true);
-            session.setAttribute("currentUser", newUser);
-            session.setAttribute("flashMessage", FlashMessage.success("Registration successful! Welcome to your Fitness Tracker."));
-            resp.sendRedirect(req.getContextPath() + "/user/dashboard");
+            // Dispatch SMTP Email Verification
+            String baseUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath();
+            verificationService.sendVerificationEmail(newUser, baseUrl);
+
+            req.setAttribute("email", email);
+            req.setAttribute("userName", name);
+            req.setAttribute("successMessage", "Account created successfully! We've sent a verification email to " + email + ". Please check your inbox to activate your account.");
+            req.getRequestDispatcher("/auth/register-success.jsp").forward(req, resp);
         } catch (DuplicateResourceException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.setAttribute("name", name);

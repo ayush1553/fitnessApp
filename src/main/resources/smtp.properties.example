@@ -1,0 +1,10 @@
+# FitFlow SMTP Configuration Example
+# You can configure SMTP either via System Environment Variables or via this file.
+# NOTE: Never commit real credentials to GitHub or version control.
+
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+mail.smtp.username=your-email@gmail.com
+mail.smtp.password=your-16-character-google-app-password
+mail.smtp.from.email=your-email@gmail.com
+mail.smtp.from.name=FitFlow

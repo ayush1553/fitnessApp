@@ -10,3 +10,7 @@ target/
 .DS_Store
 Thumbs.db
 *.log
+.env
+*.env
+smtp.properties
+credentials.json

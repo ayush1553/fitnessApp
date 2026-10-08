@@ -37,6 +37,18 @@ public class FitnessContentDAOImpl implements FitnessContentDAO {
             fc.setAuthorEmail(rs.getString("author_email"));
         } catch (SQLException ignored) {
         }
+        try {
+            fc.setSubcategory(rs.getString("subcategory"));
+        } catch (SQLException ignored) {
+        }
+        try {
+            fc.setReadTimeMinutes(rs.getInt("read_time_minutes"));
+        } catch (SQLException ignored) {
+        }
+        try {
+            fc.setLevel(rs.getString("level"));
+        } catch (SQLException ignored) {
+        }
         return fc;
     }
 

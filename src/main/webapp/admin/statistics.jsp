@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Platform Analytics - Admin FitFlow Pro" scope="request"/>
@@ -18,7 +18,7 @@
 
             <!-- Header -->
             <div class="mb-4">
-                <h3 class="mb-1 text-white">Global Fitness Analytics</h3>
+                <h3 class="mb-1 text-theme-primary">Global Fitness Analytics</h3>
                 <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                     Aggregated platform usage, user activity distribution, and platform growth metrics.
                 </p>
@@ -29,7 +29,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="fitness-card fitness-card-sm">
                         <small class="text-secondary d-block mb-1">Total Users</small>
-                        <h3 class="mb-0 text-white">${summary.totalUsers}</h3>
+                        <h3 class="mb-0 text-theme-primary">${summary.totalUsers}</h3>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -57,7 +57,7 @@
                 <div class="col-lg-8">
                     <div class="fitness-card h-100">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0 text-white">User Growth (6 Months)</h5>
+                            <h5 class="mb-0 text-theme-primary">User Growth (6 Months)</h5>
                             <span class="badge-custom badge-active">Registrations</span>
                         </div>
                         <div style="height: 280px; position: relative;">
@@ -69,7 +69,7 @@
                 <div class="col-lg-4">
                     <div class="fitness-card h-100 d-flex flex-column justify-content-between">
                         <div class="mb-3">
-                            <h5 class="mb-0 text-white">Activity Types Popularity</h5>
+                            <h5 class="mb-0 text-theme-primary">Activity Types Popularity</h5>
                         </div>
                         <div style="height: 240px; position: relative;">
                             <canvas id="workoutTypeChart"></canvas>

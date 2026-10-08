@@ -18,6 +18,8 @@ public interface UserDAO extends GenericDAO<User, Integer> {
 
     boolean updateRole(Integer userId, String role);
 
+    boolean updateEmailVerified(Integer userId, boolean emailVerified);
+
     int countTotalUsers();
 
     int countActiveUsers();

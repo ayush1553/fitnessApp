@@ -11,6 +11,9 @@ public class FitnessContent extends BaseEntity {
     private String description;
     private String contentBody;
     private String category; // 'Workout Routines', 'Nutrition & Diet', 'Cardio & Endurance', 'Recovery & Wellness', 'Motivation'
+    private String subcategory;
+    private Integer readTimeMinutes;
+    private String level;
     private String imageUrl;
     private String status; // 'PENDING', 'APPROVED', 'REJECTED'
     private String rejectionReason;
@@ -23,6 +26,9 @@ public class FitnessContent extends BaseEntity {
         super();
         this.status = "PENDING";
         this.category = "Workout Routines";
+        this.subcategory = "General";
+        this.readTimeMinutes = 4;
+        this.level = "All Levels";
     }
 
     public FitnessContent(Integer id, Integer userId, String title, String description, String contentBody, String category, String imageUrl, String status, String rejectionReason) {
@@ -80,6 +86,30 @@ public class FitnessContent extends BaseEntity {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getSubcategory() {
+        return subcategory != null ? subcategory : "General";
+    }
+
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
+    }
+
+    public Integer getReadTimeMinutes() {
+        return readTimeMinutes != null ? readTimeMinutes : 4;
+    }
+
+    public void setReadTimeMinutes(Integer readTimeMinutes) {
+        this.readTimeMinutes = readTimeMinutes;
+    }
+
+    public String getLevel() {
+        return level != null ? level : "All Levels";
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getImageUrl() {

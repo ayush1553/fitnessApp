@@ -15,6 +15,8 @@ public interface UserService {
 
     Optional<User> getUserById(Integer userId);
 
+    Optional<User> getUserByEmail(String email);
+
     Optional<UserProfile> getUserProfile(Integer userId);
 
     boolean updateProfile(Integer userId, String name, Integer age, Double heightCm, Double weightKg, String fitnessGoal, String activityLevel, String profileImage);

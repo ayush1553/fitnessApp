@@ -21,8 +21,8 @@
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb mb-0" style="background: transparent; padding: 0;">
                     <li class="breadcrumb-item">
-                        <a href="${pageContext.request.contextPath}/user/content" class="text-secondary">
-                            <i class="fa-solid fa-arrow-left me-1"></i> Fitness Community
+                        <a href="${pageContext.request.contextPath}/user/content?tab=articles" class="text-secondary">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Fitness Learning Hub
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted" aria-current="page">${content.category}</li>
@@ -53,7 +53,7 @@
                         </span>
                     </div>
 
-                    <h1 class="display-6 fw-bold text-white mb-3" style="letter-spacing: -0.02em; line-height: 1.25;">
+                    <h1 class="display-6 fw-bold text-theme-primary mb-3" style="letter-spacing: -0.02em; line-height: 1.25;">
                         ${content.title}
                     </h1>
 
@@ -64,7 +64,7 @@
                                 ${empty content.authorName ? 'A' : content.authorName.substring(0, 1)}
                             </div>
                             <div>
-                                <div class="text-white fw-bold d-flex align-items-center gap-2">
+                                <div class="text-theme-primary fw-bold d-flex align-items-center gap-2">
                                     <span>${empty content.authorName ? 'FitFlow Specialist' : content.authorName}</span>
                                     <span class="badge-custom badge-completed" style="font-size: 0.7rem;">
                                         <i class="fa-solid fa-circle-check text-accent"></i> Verified
@@ -87,7 +87,7 @@
                     <div class="d-flex align-items-center gap-2 mb-2 text-accent fw-bold" style="font-size: 0.9rem;">
                         <i class="fa-solid fa-bolt"></i> Key Overview
                     </div>
-                    <p class="mb-0 text-white" style="font-size: 1.05rem; line-height: 1.6;">
+                    <p class="mb-0 text-theme-primary" style="font-size: 1.05rem; line-height: 1.6;">
                         ${content.description}
                     </p>
                 </div>
@@ -102,10 +102,10 @@
                                 <c:if test="${not empty fn:trim(paragraph)}">
                                     <c:choose>
                                         <c:when test="${fn:startsWith(fn:trim(paragraph), '## ')}">
-                                            <h3 class="text-white fw-bold mt-4 mb-3">${fn:substring(fn:trim(paragraph), 3, -1)}</h3>
+                                            <h3 class="text-theme-primary fw-bold mt-4 mb-3">${fn:substring(fn:trim(paragraph), 3, -1)}</h3>
                                         </c:when>
                                         <c:when test="${fn:startsWith(fn:trim(paragraph), '# ')}">
-                                            <h2 class="text-white fw-bold mt-4 mb-3">${fn:substring(fn:trim(paragraph), 2, -1)}</h2>
+                                            <h2 class="text-theme-primary fw-bold mt-4 mb-3">${fn:substring(fn:trim(paragraph), 2, -1)}</h2>
                                         </c:when>
                                         <c:when test="${fn:startsWith(fn:trim(paragraph), '- ') || fn:startsWith(fn:trim(paragraph), '* ')}">
                                             <div class="d-flex align-items-start gap-2 mb-2 text-light">
@@ -128,8 +128,8 @@
 
                 <!-- Bottom Navigation / Actions -->
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3 pb-5 border-bottom mb-5" style="border-color: var(--border-color) !important;">
-                    <a href="${pageContext.request.contextPath}/user/content" class="btn btn-outline-custom">
-                        <i class="fa-solid fa-arrow-left me-2"></i> Back to Fitness Community
+                    <a href="${pageContext.request.contextPath}/user/content?tab=articles" class="btn btn-outline-custom">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Back to Learning Hub
                     </a>
                     <a href="#top" class="btn btn-outline-custom btn-sm">
                         <i class="fa-solid fa-arrow-up me-1"></i> Back to Top
@@ -141,7 +141,7 @@
                     <div class="mb-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
-                                <h4 class="text-white fw-bold mb-1">Related Articles in ${content.category}</h4>
+                                <h4 class="text-theme-primary fw-bold mb-1">Related Articles in ${content.category}</h4>
                                 <p class="text-secondary mb-0 small">Keep learning with more community-approved routines and nutrition guides.</p>
                             </div>
                             <a href="${pageContext.request.contextPath}/user/content?category=${content.category}" class="text-accent small fw-bold">

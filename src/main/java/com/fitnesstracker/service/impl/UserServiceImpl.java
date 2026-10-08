@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(email.toLowerCase().trim());
         newUser.setPassword(hashedPassword);
         newUser.setStatus("ACTIVE");
+        newUser.setEmailVerified(false);
 
         User savedUser = userDAO.save(newUser);
 
@@ -89,6 +90,10 @@ public class UserServiceImpl implements UserService {
             throw new UnauthorizedException("Invalid email or password.");
         }
 
+        if (!user.isEmailVerified()) {
+            throw new com.fitnesstracker.exception.UnverifiedEmailException(user.getEmail());
+        }
+
         // Attach profile
         userProfileDAO.findByUserId(user.getId()).ifPresent(user::setProfile);
         return user;
@@ -97,6 +102,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserById(Integer userId) {
         Optional<User> userOpt = userDAO.findById(userId);
+        userOpt.ifPresent(u -> userProfileDAO.findByUserId(u.getId()).ifPresent(u::setProfile));
+        return userOpt;
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        if (!ValidationUtil.isValidEmail(email)) {
+            return Optional.empty();
+        }
+        Optional<User> userOpt = userDAO.findByEmail(email.toLowerCase().trim());
         userOpt.ifPresent(u -> userProfileDAO.findByUserId(u.getId()).ifPresent(u::setProfile));
         return userOpt;
     }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Content Moderation - Admin FitFlow Pro" scope="request"/>
@@ -19,7 +19,7 @@
             <!-- Header -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <h3 class="mb-1 text-white">Fitness Content Moderation Queue</h3>
+                    <h3 class="mb-1 text-theme-primary">Fitness Content Moderation Queue</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Review community submissions, approve quality fitness routines, or provide rejection feedback.
                     </p>
@@ -56,13 +56,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="text-white fw-bold mb-1">${c.title}</div>
+                                        <div class="text-theme-primary fw-bold mb-1">${c.title}</div>
                                         <small class="text-secondary" style="font-size: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                             ${c.description}
                                         </small>
                                     </td>
                                     <td>
-                                        <div class="text-white">${c.authorName}</div>
+                                        <div class="text-theme-primary">${c.authorName}</div>
                                         <small class="text-muted">${c.authorEmail}</small>
                                     </td>
                                     <td><span class="badge-custom badge-active">${c.category}</span></td>
@@ -121,13 +121,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i> Reject Content Submission</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i> Reject Content Submission</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/admin-actions/content/reject" method="POST">
                 <input type="hidden" name="contentId" id="rejectContentId">
                 <div class="modal-body p-4">
-                    <p class="text-white mb-2" id="rejectArticleTitle"></p>
+                    <p class="text-theme-primary mb-2" id="rejectArticleTitle"></p>
                     <label class="form-label-custom">Reason for Rejection (Visible to user)</label>
                     <textarea name="reason" class="form-control-custom" rows="3" placeholder="e.g. Needs more detailed instructions or formatting adjustments..." required></textarea>
                 </div>

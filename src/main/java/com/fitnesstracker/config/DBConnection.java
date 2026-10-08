@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class DBConnection {
     private static final Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
 
-    private static String dbUrl = "jdbc:mysql://localhost:3306/fitness_tracker_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
+    private static String dbUrl = "jdbc:mysql://localhost:3306/fitness_tracker_db?useSSL=false&serverTimezone=Asia/Kolkata&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
     private static String dbUser = "root";
     private static String dbPassword = "";
     private static String dbDriver = "com.mysql.cj.jdbc.Driver";

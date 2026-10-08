@@ -20,6 +20,29 @@
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
+    <!-- Servlets for Fitness Learning Hub -->
+    <servlet>
+        <servlet-name>FitnessContentServlet</servlet-name>
+        <servlet-class>com.fitnesstracker.servlet.user.FitnessContentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FitnessContentServlet</servlet-name>
+        <url-pattern>/user/content</url-pattern>
+        <url-pattern>/content/submit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExerciseDetailsServlet</servlet-name>
+        <servlet-class>com.fitnesstracker.servlet.user.ExerciseDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExerciseDetailsServlet</servlet-name>
+        <url-pattern>/user/exercise-details</url-pattern>
+        <url-pattern>/user/exercise</url-pattern>
+        <url-pattern>/user/content/exercise</url-pattern>
+        <url-pattern>/exercise/view</url-pattern>
+    </servlet-mapping>
+
     <!-- Global Error Pages -->
     <error-page>
         <error-code>404</error-code>

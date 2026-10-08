@@ -1,21 +1,59 @@
 /**
- * FitFlow Pro - Chart.js Engine
- * Renders modern dark-themed visualizations using real database datasets.
+ * FitFlow Pro - Dynamic Theme-Aware Chart.js Engine
+ * Derives colors, grid lines, tooltips, and fonts dynamically from CSS variables.
  */
 
-// Global Chart.js Defaults for Dark SaaS Look
-if (typeof Chart !== 'undefined') {
-    Chart.defaults.color = '#929792';
+// Helper to extract computed CSS theme variables
+function getThemeColors() {
+    const styles = getComputedStyle(document.documentElement);
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light' ||
+                    (document.documentElement.getAttribute('data-theme') === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches);
+
+    return {
+        textPrimary: styles.getPropertyValue('--text-primary').trim() || (isLight ? '#101512' : '#F5F7F6'),
+        textSecondary: styles.getPropertyValue('--text-secondary').trim() || (isLight ? '#4F5B54' : '#A4ADA7'),
+        textMuted: styles.getPropertyValue('--text-muted').trim() || (isLight ? '#707B74' : '#737D77'),
+        textOnAccent: styles.getPropertyValue('--text-on-accent').trim() || '#050709',
+        accentPrimary: styles.getPropertyValue('--accent-primary').trim() || '#C8FF45',
+        accentSecondary: styles.getPropertyValue('--accent-secondary').trim() || '#42F5C5',
+        accentGlow: styles.getPropertyValue('--accent-glow').trim() || 'rgba(200, 255, 69, 0.18)',
+        borderColor: styles.getPropertyValue('--border-color').trim() || (isLight ? 'rgba(15, 25, 20, 0.10)' : 'rgba(255, 255, 255, 0.10)'),
+        surfaceSecondary: styles.getPropertyValue('--surface-secondary').trim() || (isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)'),
+        gridColor: isLight ? 'rgba(15, 25, 20, 0.08)' : 'rgba(255, 255, 255, 0.06)',
+        tooltipBg: isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(8, 12, 11, 0.94)',
+        tooltipTitle: styles.getPropertyValue('--text-primary').trim() || (isLight ? '#101512' : '#F5F7F6'),
+        tooltipBody: styles.getPropertyValue('--accent-primary').trim() || '#C8FF45',
+        tooltipBorder: styles.getPropertyValue('--border-color').trim() || (isLight ? 'rgba(15, 25, 20, 0.15)' : 'rgba(255, 255, 255, 0.15)'),
+        isLight: isLight
+    };
+}
+
+// Apply global Chart.js defaults
+function applyChartDefaults() {
+    if (typeof Chart === 'undefined') return;
+    const tc = getThemeColors();
+    Chart.defaults.color = tc.textSecondary;
     Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
     Chart.defaults.font.size = 12;
-    Chart.defaults.plugins.tooltip.backgroundColor = '#151817';
-    Chart.defaults.plugins.tooltip.titleColor = '#FFFFFF';
-    Chart.defaults.plugins.tooltip.bodyColor = '#C8FF45';
-    Chart.defaults.plugins.tooltip.borderColor = '#252925';
+    Chart.defaults.plugins.tooltip.backgroundColor = tc.tooltipBg;
+    Chart.defaults.plugins.tooltip.titleColor = tc.tooltipTitle;
+    Chart.defaults.plugins.tooltip.bodyColor = tc.tooltipBody;
+    Chart.defaults.plugins.tooltip.borderColor = tc.tooltipBorder;
     Chart.defaults.plugins.tooltip.borderWidth = 1;
-    Chart.defaults.plugins.tooltip.padding = 10;
-    Chart.defaults.plugins.tooltip.cornerRadius = 8;
+    Chart.defaults.plugins.tooltip.padding = 12;
+    Chart.defaults.plugins.tooltip.cornerRadius = 10;
+    Chart.defaults.plugins.tooltip.boxPadding = 6;
+    Chart.defaults.animation = {
+        duration: 850,
+        easing: 'easeOutQuart'
+    };
 }
+
+// Initialize defaults immediately
+applyChartDefaults();
+
+// Registry of active charts for dynamic re-theming
+const activeChartInstances = [];
 
 let workoutActivityChartInstance = null;
 
@@ -26,9 +64,9 @@ function initWorkoutActivityChart(weeklyData, monthlyData) {
     const ctx = document.getElementById('workoutActivityChart');
     if (!ctx) return;
 
+    const tc = getThemeColors();
     const weeklyLabels = Object.keys(weeklyData || {});
     const weeklyValues = Object.values(weeklyData || {});
-
     const monthlyLabels = Object.keys(monthlyData || {});
     const monthlyValues = Object.values(monthlyData || {});
 
@@ -39,7 +77,8 @@ function initWorkoutActivityChart(weeklyData, monthlyData) {
             datasets: [{
                 label: 'Duration (Minutes)',
                 data: weeklyValues.length > 0 ? weeklyValues : [0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: '#C8FF45',
+                backgroundColor: tc.accentPrimary,
+                hoverBackgroundColor: tc.accentSecondary,
                 borderRadius: 8,
                 borderSkipped: false,
                 barPercentage: 0.45,
@@ -49,18 +88,22 @@ function initWorkoutActivityChart(weeklyData, monthlyData) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 900,
+                easing: 'easeOutQuart'
+            },
             plugins: {
                 legend: { display: false }
             },
             scales: {
                 x: {
                     grid: { display: false, drawBorder: false },
-                    ticks: { color: '#929792', font: { weight: '600' } }
+                    ticks: { color: tc.textSecondary, font: { weight: '600' } }
                 },
                 y: {
-                    grid: { color: 'rgba(37, 41, 37, 0.5)', drawBorder: false },
+                    grid: { color: tc.gridColor, drawBorder: false },
                     ticks: {
-                        color: '#929792',
+                        color: tc.textSecondary,
                         callback: function(value) { return value + 'm'; }
                     },
                     beginAtZero: true
@@ -70,6 +113,7 @@ function initWorkoutActivityChart(weeklyData, monthlyData) {
     };
 
     workoutActivityChartInstance = new Chart(ctx, chartConfig);
+    activeChartInstances.push(workoutActivityChartInstance);
 
     // Switch buttons handler
     const btnWeekly = document.getElementById('btnChartWeekly');
@@ -84,7 +128,10 @@ function initWorkoutActivityChart(weeklyData, monthlyData) {
 
             workoutActivityChartInstance.data.labels = weeklyLabels;
             workoutActivityChartInstance.data.datasets[0].data = weeklyValues;
-            workoutActivityChartInstance.update();
+            workoutActivityChartInstance.update({
+                duration: 750,
+                easing: 'easeOutQuart'
+            });
         });
 
         btnMonthly.addEventListener('click', () => {
@@ -95,7 +142,10 @@ function initWorkoutActivityChart(weeklyData, monthlyData) {
 
             workoutActivityChartInstance.data.labels = monthlyLabels;
             workoutActivityChartInstance.data.datasets[0].data = monthlyValues;
-            workoutActivityChartInstance.update();
+            workoutActivityChartInstance.update({
+                duration: 750,
+                easing: 'easeOutQuart'
+            });
         });
     }
 }
@@ -107,23 +157,29 @@ function initFitnessDonutChart(goalPct) {
     const ctx = document.getElementById('fitnessDonutChart');
     if (!ctx) return;
 
+    const tc = getThemeColors();
     const completed = Math.min(100, Math.max(0, goalPct || 0));
     const remaining = 100 - completed;
 
-    new Chart(ctx, {
+    const donutChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             datasets: [{
                 data: [completed, remaining],
-                backgroundColor: ['#C8FF45', '#1e2321'],
+                backgroundColor: [tc.accentPrimary, tc.surfaceSecondary],
                 borderWidth: 0,
-                hoverOffset: 2
+                hoverOffset: 3
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             cutout: '80%',
+            animation: {
+                animateRotate: true,
+                duration: 1000,
+                easing: 'easeOutQuart'
+            },
             plugins: {
                 legend: { display: false },
                 tooltip: {
@@ -136,6 +192,7 @@ function initFitnessDonutChart(goalPct) {
             }
         }
     });
+    activeChartInstances.push(donutChart);
 }
 
 /**
@@ -145,22 +202,24 @@ function initProgressAnalyticsChart(weeklyCaloriesData) {
     const ctx = document.getElementById('progressAnalyticsChart');
     if (!ctx) return;
 
+    const tc = getThemeColors();
     const labels = Object.keys(weeklyCaloriesData || {});
     const values = Object.values(weeklyCaloriesData || {});
 
-    new Chart(ctx, {
+    const progressChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
                 label: 'Calories Burned (kcal)',
                 data: values,
-                borderColor: '#C8FF45',
-                backgroundColor: 'rgba(200, 255, 69, 0.08)',
+                borderColor: tc.accentPrimary,
+                backgroundColor: tc.accentGlow,
                 fill: true,
                 tension: 0.4,
-                pointBackgroundColor: '#C8FF45',
-                pointBorderColor: '#080909',
+                borderWidth: 3,
+                pointBackgroundColor: tc.accentPrimary,
+                pointBorderColor: tc.isLight ? '#FFFFFF' : '#050709',
                 pointBorderWidth: 2,
                 pointRadius: 5,
                 pointHoverRadius: 7
@@ -169,18 +228,22 @@ function initProgressAnalyticsChart(weeklyCaloriesData) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 950,
+                easing: 'easeOutQuart'
+            },
             plugins: {
                 legend: { display: false }
             },
             scales: {
                 x: {
                     grid: { display: false },
-                    ticks: { color: '#929792' }
+                    ticks: { color: tc.textSecondary }
                 },
                 y: {
-                    grid: { color: 'rgba(37, 41, 37, 0.5)' },
+                    grid: { color: tc.gridColor },
                     ticks: {
-                        color: '#929792',
+                        color: tc.textSecondary,
                         callback: function(val) { return val + ' kcal'; }
                     },
                     beginAtZero: true
@@ -188,42 +251,51 @@ function initProgressAnalyticsChart(weeklyCaloriesData) {
             }
         }
     });
+    activeChartInstances.push(progressChart);
 }
 
 /**
- * Initializes Workout Type Distribution Pie / Polar Chart
+ * Initializes Workout Type Distribution Pie / Donut Chart
  */
 function initWorkoutTypeChart(typeMap) {
     const ctx = document.getElementById('workoutTypeChart');
     if (!ctx) return;
 
+    const tc = getThemeColors();
     const labels = Object.keys(typeMap || {});
     const values = Object.values(typeMap || {});
 
-    const colors = ['#C8FF45', '#00D2FF', '#FFB800', '#FF5C5C', '#9D4EDD', '#06D6A0', '#F72585'];
+    const colors = [tc.accentPrimary, tc.accentSecondary, '#45D9FF', '#FFB800', '#FF5C5C', '#A78BFA', '#06D6A0'];
 
-    new Chart(ctx, {
+    const typeChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: labels.length > 0 ? labels : ['No Workouts Logged'],
             datasets: [{
                 data: values.length > 0 ? values : [1],
-                backgroundColor: values.length > 0 ? colors.slice(0, labels.length) : ['#252925'],
+                backgroundColor: values.length > 0 ? colors.slice(0, labels.length) : [tc.surfaceSecondary],
                 borderWidth: 2,
-                borderColor: '#151817'
+                borderColor: tc.isLight ? 'rgba(255, 255, 255, 0.8)' : 'rgba(8, 12, 11, 0.9)'
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '70%',
+            animation: {
+                animateRotate: true,
+                duration: 900,
+                easing: 'easeOutQuart'
+            },
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#FFFFFF', padding: 12, boxWidth: 12 }
+                    labels: { color: tc.textPrimary, padding: 14, boxWidth: 12 }
                 }
             }
         }
     });
+    activeChartInstances.push(typeChart);
 }
 
 /**
@@ -233,28 +305,67 @@ function initAdminRegistrationChart(registrationMap) {
     const ctx = document.getElementById('adminRegistrationChart');
     if (!ctx) return;
 
+    const tc = getThemeColors();
     const labels = Object.keys(registrationMap || {});
     const values = Object.values(registrationMap || {});
 
-    new Chart(ctx, {
+    const adminChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
                 label: 'New Users',
                 data: values,
-                backgroundColor: '#00D2FF',
+                backgroundColor: tc.accentSecondary,
+                hoverBackgroundColor: tc.accentPrimary,
                 borderRadius: 6
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 850,
+                easing: 'easeOutQuart'
+            },
             plugins: { legend: { display: false } },
             scales: {
-                x: { grid: { display: false }, ticks: { color: '#929792' } },
-                y: { grid: { color: 'rgba(37, 41, 37, 0.5)' }, ticks: { color: '#929792', precision: 0 }, beginAtZero: true }
+                x: { grid: { display: false }, ticks: { color: tc.textSecondary } },
+                y: { grid: { color: tc.gridColor }, ticks: { color: tc.textSecondary, precision: 0 }, beginAtZero: true }
             }
         }
+    });
+    activeChartInstances.push(adminChart);
+}
+
+// Listen for Theme Attribute Changes and Update Charts Live
+if (typeof MutationObserver !== 'undefined') {
+    const themeObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && (mutation.attributeName === 'data-theme' || mutation.attributeName === 'data-accent')) {
+                applyChartDefaults();
+                const tc = getThemeColors();
+                activeChartInstances.forEach((chart) => {
+                    if (chart && chart.options) {
+                        if (chart.options.scales && chart.options.scales.x) {
+                            if (chart.options.scales.x.ticks) chart.options.scales.x.ticks.color = tc.textSecondary;
+                        }
+                        if (chart.options.scales && chart.options.scales.y) {
+                            if (chart.options.scales.y.ticks) chart.options.scales.y.ticks.color = tc.textSecondary;
+                            if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = tc.gridColor;
+                        }
+                        if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                            chart.options.plugins.legend.labels.color = tc.textPrimary;
+                        }
+                        chart.update();
+                    }
+                });
+            }
+        });
+    });
+
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme', 'data-accent', 'data-glass']
     });
 }

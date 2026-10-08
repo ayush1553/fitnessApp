@@ -5,10 +5,10 @@
     <!-- Chart.js 4.x -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 
-    <!-- Custom App JS -->
-    <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
-    <script src="${pageContext.request.contextPath}/js/charts.js"></script>
-    <script src="${pageContext.request.contextPath}/js/workouts.js"></script>
-    <script src="${pageContext.request.contextPath}/js/validation.js"></script>
+    <!-- Custom App JS (Aurora Glass Theme - Cache Busted) -->
+    <script src="${pageContext.request.contextPath}/js/dashboard.js?v=aurora_6.0"></script>
+    <script src="${pageContext.request.contextPath}/js/charts.js?v=aurora_6.0"></script>
+    <script src="${pageContext.request.contextPath}/js/workouts.js?v=aurora_6.0"></script>
+    <script src="${pageContext.request.contextPath}/js/validation.js?v=aurora_6.0"></script>
 </body>
 </html>

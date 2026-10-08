@@ -1,16 +1,25 @@
 /* ====================================================================
-   FITFLOW PRO - RESPONSIVE STYLES
+   FITFLOW PRO - RESPONSIVE STYLES (AURORA GLASS THEME)
    Breakpoints: 1200px, 992px, 768px, 576px, 375px, 320px
    ==================================================================== */
 
 .mobile-nav-toggle {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     cursor: pointer;
-    padding: 0.25rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+}
+.mobile-nav-toggle:hover {
+    color: var(--accent-primary);
+    background-color: var(--surface-primary);
+    transform: scale(1.05);
 }
 
 .sidebar-overlay {
@@ -20,9 +29,17 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.show {
+    display: block;
+    opacity: 1;
 }
 
 @media (max-width: 1200px) {
@@ -41,14 +58,13 @@
 
     .app-sidebar {
         transform: translateX(-100%);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(18px) saturate(130%);
+        -webkit-backdrop-filter: blur(18px) saturate(130%);
     }
 
     .app-sidebar.show {
         transform: translateX(0);
-    }
-
-    .sidebar-overlay.show {
-        display: block;
     }
 
     .app-main {
@@ -57,6 +73,8 @@
 
     .app-topbar {
         padding: 0 1.25rem;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
     }
 
     .page-container {
@@ -66,6 +84,22 @@
     .search-input-wrapper {
         display: none;
     }
+
+    .glass-card,
+    .fitness-card {
+        backdrop-filter: blur(18px) saturate(125%);
+        -webkit-backdrop-filter: blur(18px) saturate(125%);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 1rem;
+    }
+    
+    .dashboard-grid {
+        gap: 1rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -73,13 +107,16 @@
         padding: 1rem 0.75rem;
     }
 
-    .fitness-card {
-        padding: 1.1rem;
+    .fitness-card,
+    .glass-card {
+        padding: 1.15rem;
         border-radius: var(--radius-md);
+        backdrop-filter: blur(12px) saturate(120%);
+        -webkit-backdrop-filter: blur(12px) saturate(120%);
     }
 
-    .topbar-greeting h2 {
-        font-size: 1.05rem;
+    .topbar-title-text {
+        font-size: 1.35rem;
     }
 
     .user-meta-name {
@@ -92,15 +129,20 @@
         background: transparent;
     }
 
-    /* Mobile responsive card tables */
-    .table-responsive-cards {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
     .btn-accent, .btn-outline-custom {
         padding: 0.55rem 1rem;
         font-size: 0.85rem;
+    }
+
+    body::before {
+        width: 350px;
+        height: 350px;
+        filter: blur(60px);
+    }
+
+    body::after {
+        width: 300px;
+        height: 300px;
+        filter: blur(60px);
     }
 }

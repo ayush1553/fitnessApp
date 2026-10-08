@@ -13,6 +13,7 @@ public abstract class User extends BaseEntity {
     protected String password;
     protected String role;
     protected String status;
+    protected boolean emailVerified;
     protected UserProfile profile;
 
     public User() {
@@ -20,12 +21,17 @@ public abstract class User extends BaseEntity {
     }
 
     public User(Integer id, String name, String email, String password, String role, String status) {
+        this(id, name, email, password, role, status, false);
+    }
+
+    public User(Integer id, String name, String email, String password, String role, String status, boolean emailVerified) {
         super(id);
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.status = status;
+        this.emailVerified = emailVerified;
     }
 
     // Abstract polymorphic methods to be customized by subclasses
@@ -83,6 +89,18 @@ public abstract class User extends BaseEntity {
         this.profile = profile;
     }
 
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public boolean getEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
     public boolean isActive() {
         return "ACTIVE".equalsIgnoreCase(this.status);
     }
@@ -95,6 +113,7 @@ public abstract class User extends BaseEntity {
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 ", status='" + status + '\'' +
+                ", emailVerified=" + emailVerified +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" value="System Settings - Admin FitFlow Pro" scope="request"/>
 <c:set var="activePage" value="admin-settings" scope="request"/>
@@ -17,7 +17,7 @@
 
             <!-- Header -->
             <div class="mb-4">
-                <h3 class="mb-1 text-white">System Settings & Dynamic Parameters</h3>
+                <h3 class="mb-1 text-theme-primary">System Settings & Dynamic Parameters</h3>
                 <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                     Configure application parameters stored directly in MySQL without recompiling or redeploying code.
                 </p>
@@ -36,12 +36,12 @@
                         <div class="col-12"><hr style="border-color: var(--border-color);"></div>
 
                         <div class="col-12">
-                            <h6 class="text-white fw-bold mb-3">Feature Toggles & Governance</h6>
+                            <h6 class="text-theme-primary fw-bold mb-3">Feature Toggles & Governance</h6>
                             
                             <!-- Allow Registration Toggle -->
                             <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-3" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
                                 <div>
-                                    <div class="text-white fw-bold">Public User Registration</div>
+                                    <div class="text-theme-primary fw-bold">Public User Registration</div>
                                     <small class="text-secondary">Allow new members to register accounts freely.</small>
                                 </div>
                                 <div class="form-check form-switch fs-4 mb-0">
@@ -52,7 +52,7 @@
                             <!-- Challenges Toggle -->
                             <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-3" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
                                 <div>
-                                    <div class="text-white fw-bold">Enable Community Challenges</div>
+                                    <div class="text-theme-primary fw-bold">Enable Community Challenges</div>
                                     <small class="text-secondary">Permit users to join global fitness competitions and log challenge milestones.</small>
                                 </div>
                                 <div class="form-check form-switch fs-4 mb-0">
@@ -63,7 +63,7 @@
                             <!-- Content Moderation Toggle -->
                             <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-3" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
                                 <div>
-                                    <div class="text-white fw-bold">Require Content Moderation</div>
+                                    <div class="text-theme-primary fw-bold">Require Content Moderation</div>
                                     <small class="text-secondary">Articles submitted by users require manual administrator approval before publication.</small>
                                 </div>
                                 <div class="form-check form-switch fs-4 mb-0">

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Challenge Management - Admin FitFlow Pro" scope="request"/>
@@ -19,7 +19,7 @@
             <!-- Header Toolbar -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <h3 class="mb-1 text-white">Community Challenges Management</h3>
+                    <h3 class="mb-1 text-theme-primary">Community Challenges Management</h3>
                     <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
                         Create community fitness events, adjust targets, and manage active competitions.
                     </p>
@@ -54,7 +54,7 @@
                                                  style="width: 48px; height: 36px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);"
                                                  onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/challenges/running.jpg';">
                                             <div>
-                                                <div class="text-white fw-bold">${c.title}</div>
+                                                <div class="text-theme-primary fw-bold">${c.title}</div>
                                                 <small class="text-muted" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
                                                     ${c.description}
                                                 </small>
@@ -64,7 +64,7 @@
                                     <td><span class="badge-custom badge-active">${c.category}</span></td>
                                     <td class="fw-bold" style="color: var(--accent-primary);"><fmt:formatNumber value="${c.targetValue}" pattern="#,##0.#"/> ${c.unit}</td>
                                     <td>
-                                        <small class="text-white d-block"><fmt:formatDate value="${c.startDate}" pattern="MMM d"/> – <fmt:formatDate value="${c.endDate}" pattern="MMM d, yyyy"/></small>
+                                        <small class="text-theme-primary d-block"><fmt:formatDate value="${c.startDate}" pattern="MMM d"/> – <fmt:formatDate value="${c.endDate}" pattern="MMM d, yyyy"/></small>
                                         <small class="text-muted">${c.daysRemaining} days left</small>
                                     </td>
                                     <td>
@@ -126,7 +126,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title text-white"><i class="fa-solid fa-trophy text-accent me-2"></i> Create Global Challenge</h5>
+                <h5 class="modal-title text-theme-primary"><i class="fa-solid fa-trophy text-accent me-2"></i> Create Global Challenge</h5>
                 <button type="button" class="btn-close-custom" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form action="${pageContext.request.contextPath}/admin-actions/challenge/create" method="POST" class="needs-validation" novalidate>
